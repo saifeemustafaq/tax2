@@ -1,0 +1,12 @@
+---
+description: UI and design standards (shadcn, minimalist, no emoji, React Icons)
+alwaysApply: true
+---
+
+# Design standards
+
+Follow `docs/DESIGN_GUIDE.md` for full details. Summary:
+
+- **UI**: Use shadcn/ui as the primary component library. Add components with `npx shadcn@latest add <name>`. Customize in `components/ui/`.
+- **Style**: Keep the app minimalist: clear hierarchy, restrained color, no decorative clutter. This is tax filing software; trustworthy and clear.
+- **Icons**: Use **React Icons or Lucide** (e.g. `react-icons/hi`, `lucide-react`). Do **not** use emoji anywhere in the app (UI, empty states, messages, or in-app copy).
