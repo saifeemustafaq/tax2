@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { AppShell } from "@/components/app-shell";
+import { AuthProvider } from "@/components/auth-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
@@ -30,7 +30,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TooltipProvider>
-          <AppShell>{children}</AppShell>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </TooltipProvider>
       </body>
     </html>

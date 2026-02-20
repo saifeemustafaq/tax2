@@ -3,6 +3,8 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { StepProgressBar } from "@/components/step-progress-bar"
+import { useAuth } from "@/components/auth-provider"
+import { getDisplayName, getInitials } from "@/lib/display-name"
 import {
   Collapsible,
   CollapsibleContent,
@@ -11,6 +13,7 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -25,19 +28,91 @@ import {
   SidebarProvider,
   SidebarRail,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider as SidebarTooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import {
   HiOutlineDocumentText,
   HiOutlineCloudUpload,
   HiOutlineArchive,
   HiOutlineChevronRight,
   HiOutlineCalendar,
+  HiOutlineLogout,
 } from "react-icons/hi"
 
 const documentsActive = (pathname: string) =>
   pathname === "/documents/upload" ||
   pathname === "/documents/stored" ||
   pathname === "/duration"
+
+function SidebarFooterWithUser() {
+  const { user, logout, isLoading } = useAuth()
+  const { state } = useSidebar()
+  const isCollapsed = state === "collapsed"
+
+  if (isLoading || !user) return null
+
+  const displayName = getDisplayName(user)
+  const initials = getInitials(user)
+
+  return (
+    <SidebarFooter>
+      <SidebarTooltipProvider>
+        <div className="flex items-center gap-2 overflow-hidden p-2">
+          <div
+            className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground"
+            aria-hidden
+          >
+            {initials}
+          </div>
+          {!isCollapsed && (
+            <>
+              <span className="min-w-0 flex-1 truncate text-sm font-medium" title={displayName}>
+                {displayName}
+              </span>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={() => logout()}
+                    className="ml-auto shrink-0 rounded-md p-1.5 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                    aria-label="Log out"
+                  >
+                    <HiOutlineLogout className="size-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="top">Log out</TooltipContent>
+              </Tooltip>
+            </>
+          )}
+          {isCollapsed && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={() => logout()}
+                  className="shrink-0 rounded-md p-1.5 text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  aria-label="Log out"
+                >
+                  <HiOutlineLogout className="size-4" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                <span className="block font-medium">{displayName}</span>
+                <span className="block text-xs text-muted-foreground">Log out</span>
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
+      </SidebarTooltipProvider>
+    </SidebarFooter>
+  )
+}
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -132,6 +207,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </Collapsible>
           </SidebarGroup>
         </SidebarContent>
+        <SidebarFooterWithUser />
         <SidebarRail />
           </Sidebar>
           <SidebarInset>
