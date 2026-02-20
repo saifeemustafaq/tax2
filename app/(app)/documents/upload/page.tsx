@@ -24,6 +24,16 @@ const DOCUMENT_TYPES = [
     description: "Valid passport (Master document)",
   },
   {
+    id: "i20",
+    title: "I-20",
+    description: "Certificate of Eligibility",
+  },
+  {
+    id: "w2",
+    title: "W2",
+    description: "Wage and Tax Statement",
+  },
+  {
     id: "visa",
     title: "Visa",
     description: "U.S. visa documentation",
@@ -34,11 +44,6 @@ const DOCUMENT_TYPES = [
     description: "Arrival/Departure Record",
   },
   {
-    id: "i20",
-    title: "I-20",
-    description: "Certificate of Eligibility",
-  },
-  {
     id: "travel-history",
     title: "Travel History",
     description: "Travel records and stamps",
@@ -47,11 +52,6 @@ const DOCUMENT_TYPES = [
     id: "ead",
     title: "EAD Card",
     description: "Employment Authorization Document",
-  },
-  {
-    id: "w2",
-    title: "W2",
-    description: "Wage and Tax Statement",
   },
 ] as const
 
