@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { HiCheck } from "react-icons/hi2"
+import { CheckIcon } from "lucide-react"
 import { Checkbox as CheckboxPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
@@ -23,7 +23,7 @@ function Checkbox({
         data-slot="checkbox-indicator"
         className="grid place-content-center text-current transition-none"
       >
-        <HiCheck className="size-3.5" />
+        <CheckIcon className="size-3.5" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/auth-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import "./globals.css";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         <TooltipProvider>
           <AuthProvider>
             {children}
+            <Toaster />
           </AuthProvider>
         </TooltipProvider>
       </body>

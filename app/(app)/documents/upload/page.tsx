@@ -1,7 +1,8 @@
 "use client"
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
+import { toast } from "sonner";
 import {
   HiOutlineCloudUpload,
   HiOutlineLockClosed,
@@ -10,12 +11,12 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
 
 const DOCUMENT_TYPES = [
   {
@@ -137,15 +138,61 @@ function DocumentUploadCard({
   )
 }
 
+const SUPPORTED_IDS = new Set(SUPPORTED_DOCUMENT_TYPES)
+
 export default function DocumentsUploadPage() {
+  const router = useRouter()
   const [aiAutoFill, setAiAutoFill] = useState(true)
   const [files, setFiles] = useState<Partial<Record<DocumentId, File | null>>>(
     {}
   )
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
     setFiles((prev) => ({ ...prev, [id]: file }))
+    setError(null)
   }, [])
+
+  const handleContinue = useCallback(async () => {
+    setError(null)
+    const toUpload: { documentType: string; file: File }[] = []
+    for (const doc of DOCUMENT_TYPES) {
+      const file = files[doc.id]
+      if (file && file instanceof File && SUPPORTED_IDS.has(doc.id as (typeof SUPPORTED_DOCUMENT_TYPES)[number])) {
+        toUpload.push({ documentType: doc.id, file })
+      }
+    }
+
+    if (toUpload.length === 0) {
+      router.push("/duration")
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      for (const { documentType, file } of toUpload) {
+        const formData = new FormData()
+        formData.append("file", file)
+        formData.append("documentType", documentType)
+        const res = await fetch("/api/documents/upload", {
+          method: "POST",
+          body: formData,
+        })
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}))
+          const message = typeof body?.error === "string" ? body.error : "Upload failed. Please try again."
+          setError(message)
+          toast.error(message)
+          return
+        }
+      }
+      toast.success(toUpload.length === 1 ? "Document saved." : "Documents saved.")
+      router.push("/duration")
+    } finally {
+      setIsSubmitting(false)
+    }
+  }, [files, router])
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -178,9 +225,20 @@ export default function DocumentsUploadPage() {
         ))}
       </div>
 
+      {error && (
+        <p className="text-center text-sm text-destructive" role="alert">
+          {error}
+        </p>
+      )}
+
       <div className="flex justify-center pt-4">
-        <Button size="lg" className="min-w-[280px]" asChild>
-          <Link href="/duration">Continue with Uploaded Documents</Link>
+        <Button
+          size="lg"
+          className="min-w-[280px]"
+          onClick={handleContinue}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Uploading…" : "Continue with Uploaded Documents"}
         </Button>
       </div>
     </div>
