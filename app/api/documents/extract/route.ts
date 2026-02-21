@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { extractDocument, ExtractionError } from "@/extraction/openai";
-import { isSupportedDocumentType } from "@/extraction/prompts";
+import { isSupportedDocumentType, SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
 
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
 const ALLOWED_MIME_PREFIXES = ["application/pdf", "image/"];
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     if (!isSupportedDocumentType(documentType.trim())) {
       return NextResponse.json(
-        { error: `Unsupported document type: ${documentType}. Supported: passport, w2.` },
+        { error: `Unsupported document type: ${documentType}. Supported: ${SUPPORTED_DOCUMENT_TYPES.join(", ")}.` },
         { status: 400 }
       );
     }

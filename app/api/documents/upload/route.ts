@@ -4,9 +4,9 @@ import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
 import { extractDocument, ExtractionError } from "@/extraction/openai";
-import { isSupportedDocumentType } from "@/extraction/prompts";
-import type { StoredDocument, StoredDocumentPassport, StoredDocumentW2 } from "@/lib/types/document";
-import type { PassportExtraction, W2Extraction } from "@/extraction/prompts";
+import { isSupportedDocumentType, SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
+import type { StoredDocument, StoredDocumentPassport, StoredDocumentI20, StoredDocumentW2 } from "@/lib/types/document";
+import type { PassportExtraction, I20Extraction, W2Extraction } from "@/extraction/prompts";
 
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
 const ALLOWED_MIME_PREFIXES = ["application/pdf", "image/"];
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     const docType = documentType.trim();
     if (!isSupportedDocumentType(docType)) {
       return NextResponse.json(
-        { error: `Unsupported document type: ${documentType}. Supported: passport, w2.` },
+        { error: `Unsupported document type: ${documentType}. Supported: ${SUPPORTED_DOCUMENT_TYPES.join(", ")}.` },
         { status: 400 }
       );
     }
@@ -90,13 +90,21 @@ export async function POST(request: Request) {
             originalFilename: file.name,
             createdAt: new Date(),
           } satisfies StoredDocumentPassport)
-        : ({
-            userId: new ObjectId(payload.sub),
-            documentType: "w2",
-            data: extracted as W2Extraction,
-            originalFilename: file.name,
-            createdAt: new Date(),
-          } satisfies StoredDocumentW2);
+        : docType === "i20"
+          ? ({
+              userId: new ObjectId(payload.sub),
+              documentType: "i20",
+              data: extracted as I20Extraction,
+              originalFilename: file.name,
+              createdAt: new Date(),
+            } satisfies StoredDocumentI20)
+          : ({
+              userId: new ObjectId(payload.sub),
+              documentType: "w2",
+              data: extracted as W2Extraction,
+              originalFilename: file.name,
+              createdAt: new Date(),
+            } satisfies StoredDocumentW2);
 
     const result = await documents.insertOne(storedDoc);
     const id = result.insertedId.toString();
