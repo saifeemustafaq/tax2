@@ -31,7 +31,7 @@ export async function POST(request: Request) {
         { status: 401 }
       );
     }
-    const users = getUserCollection();
+    const users = await getUserCollection();
     const user = await users.findOne({ email });
     if (!user?.hashedPassword) {
       return NextResponse.json(
