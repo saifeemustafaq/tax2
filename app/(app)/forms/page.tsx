@@ -19,50 +19,61 @@ import {
   FormViewerModal,
   type FormViewerProps,
 } from "@/components/form-viewer-modal";
+import { toast } from "sonner";
 import type { FormEligibility } from "@/app/api/forms/eligibility/route";
 
 type FormDef = {
   id: string;
+  fillApiId: string;
   title: string;
   subtitle: string;
   description: string;
   emptyFile: string;
+  filledFilename: string;
   visibleWhen?: keyof FormEligibility;
 };
 
 const FORMS: FormDef[] = [
   {
     id: "8843",
+    fillApiId: "f8843",
     title: "Form 8843",
     subtitle: "Statement for Exempt Individuals",
     description:
       "Required for all F-1 and J-1 visa holders, even if you had no U.S. income. Declares days of presence excluded under the Substantial Presence Test.",
     emptyFile: "f8843.pdf",
+    filledFilename: "f8843_filled.pdf",
   },
   {
     id: "1040nr",
+    fillApiId: "f1040nr",
     title: "Form 1040-NR",
     subtitle: "U.S. Nonresident Alien Income Tax Return",
     description:
       "The primary federal tax return for nonresident aliens who earned U.S.-source income such as wages, scholarships, or fellowships.",
     emptyFile: "f1040nr.pdf",
+    filledFilename: "f1040nr_filled.pdf",
   },
   {
     id: "1040nro",
+    fillApiId: "f1040nro",
     title: "Schedule OI",
     subtitle: "Other Information (Form 1040-NR)",
     description:
       "Supplement to Form 1040-NR that reports visa type, days of presence, tax treaty benefits, and other information required for nonresident alien filers.",
     emptyFile: "f1040nro.pdf",
+    filledFilename: "schedule_oi_filled.pdf",
     visibleWhen: "schedule_oi",
   },
   {
     id: "540nr",
+    fillApiId: "f540nr",
     title: "Form 540NR",
     subtitle: "California Nonresident or Part-Year Resident",
     description:
       "California state income tax return for nonresidents or part-year residents who earned California-source income.",
-    emptyFile: "f540nr.pdf",
+    emptyFile: "540nr.pdf",
+    filledFilename: "540nr_filled.pdf",
   },
 ];
 
@@ -70,6 +81,7 @@ export default function FormsPage() {
   const [eligibility, setEligibility] = useState<FormEligibility | null>(null);
   const [viewerForm, setViewerForm] = useState<FormViewerProps | null>(null);
   const [viewerOpen, setViewerOpen] = useState(false);
+  const [downloading, setDownloading] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("/api/forms/eligibility")
@@ -94,6 +106,33 @@ export default function FormsPage() {
       subtitle: form.subtitle,
     });
     setViewerOpen(true);
+  }, []);
+
+  const downloadFilled = useCallback(async (form: FormDef) => {
+    setDownloading(form.id);
+    try {
+      const res = await fetch(`/api/forms/${form.fillApiId}/fill`, {
+        method: "POST",
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(data.error || "Failed to generate PDF");
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = form.filledFilename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast.success(`${form.title} downloaded`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Download failed");
+    } finally {
+      setDownloading(null);
+    }
   }, []);
 
   const gridCols =
@@ -139,9 +178,13 @@ export default function FormsPage() {
                 <Button
                   variant="outline"
                   className="w-full justify-start gap-2"
+                  disabled={downloading === form.id}
+                  onClick={() => downloadFilled(form)}
                 >
                   <HiOutlineDocumentDownload className="size-4" />
-                  Download Completed
+                  {downloading === form.id
+                    ? "Generating…"
+                    : "Download Completed"}
                 </Button>
                 <Button
                   variant="ghost"

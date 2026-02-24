@@ -28,4 +28,23 @@ export type StoredDocumentW2 = {
   createdAt: Date;
 };
 
-export type StoredDocument = StoredDocumentPassport | StoredDocumentI20 | StoredDocumentW2;
+export type DurationEntry = {
+  year: number;
+  arrival: string;
+  departure: string;
+};
+
+export type StoredDocumentDuration = {
+  _id?: ObjectId;
+  userId: ObjectId;
+  documentType: "duration";
+  data: { entries: DurationEntry[] };
+  originalFilename?: string;
+  createdAt: Date;
+};
+
+export type StoredDocument =
+  | StoredDocumentPassport
+  | StoredDocumentI20
+  | StoredDocumentW2
+  | StoredDocumentDuration;

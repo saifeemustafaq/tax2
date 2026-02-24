@@ -1,0 +1,48 @@
+import { cookies } from "next/headers";
+import { ObjectId } from "mongodb";
+import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
+import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
+import type {
+  StoredDocumentPassport,
+  StoredDocumentI20,
+  StoredDocumentW2,
+  StoredDocumentDuration,
+} from "@/lib/types/document";
+import type { FormDocuments } from "./types";
+
+/**
+ * Authenticates the user and fetches all relevant documents from MongoDB.
+ * Returns null (with status info) when auth fails.
+ */
+export async function fetchFormDocuments(): Promise<
+  | { ok: true; docs: FormDocuments }
+  | { ok: false; status: number; error: string }
+> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  if (!token) return { ok: false, status: 401, error: "Unauthorized" };
+
+  const payload = await verifyToken(token);
+  if (!payload) return { ok: false, status: 401, error: "Unauthorized" };
+
+  await ensureDocumentsIndexes();
+  const coll = await getDocumentsCollection();
+  const userId = new ObjectId(payload.sub);
+
+  const [passport, i20, w2, duration] = await Promise.all([
+    coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
+    coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
+    coll.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
+    coll.findOne({ userId, documentType: "duration" }) as Promise<StoredDocumentDuration | null>,
+  ]);
+
+  return {
+    ok: true,
+    docs: {
+      passport: passport?.data ?? null,
+      i20: i20?.data ?? null,
+      w2: w2?.data ?? null,
+      duration: duration?.data.entries ?? null,
+    },
+  };
+}
