@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { StepProgressBar } from "@/components/step-progress-bar"
@@ -43,26 +44,135 @@ import {
   HiOutlineChevronRight,
   HiOutlineCalendar,
   HiOutlineLogout,
+  HiOutlineClipboardList,
+  HiOutlineTrash,
 } from "react-icons/hi"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { toast } from "sonner"
 
 const documentsActive = (pathname: string) =>
   pathname === "/documents/upload" ||
   pathname === "/documents/stored" ||
   pathname === "/duration"
 
+const formsActive = (pathname: string) => pathname.startsWith("/forms")
+
 function SidebarFooterWithUser() {
   const { user, logout, isLoading } = useAuth()
   const { state } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const [deleting, setDeleting] = React.useState(false)
 
   if (isLoading || !user) return null
 
   const displayName = getDisplayName(user)
   const initials = getInitials(user)
 
+  const handleDeleteAll = async () => {
+    setDeleting(true)
+    try {
+      const res = await fetch("/api/documents/reset", { method: "DELETE" })
+      if (!res.ok) {
+        toast.error("Failed to delete documents. Please try again.")
+        return
+      }
+      const body = await res.json()
+      toast.success(`Deleted ${body.deleted} document(s).`)
+    } catch {
+      toast.error("Failed to delete documents. Please try again.")
+    } finally {
+      setDeleting(false)
+    }
+  }
+
   return (
     <SidebarFooter>
       <SidebarTooltipProvider>
+        {!isCollapsed && (
+          <div className="px-2 pb-1">
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <button
+                  type="button"
+                  disabled={deleting}
+                  className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                >
+                  <HiOutlineTrash className="size-4" />
+                  <span>{deleting ? "Deleting..." : "Delete all data"}</span>
+                </button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete all uploaded data?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently remove all your uploaded documents
+                    (passport, I-20, W-2, etc.) from the database. You can
+                    re-upload them at any time. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDeleteAll}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Delete all
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
+        {isCollapsed && (
+          <div className="flex justify-center pb-1">
+            <AlertDialog>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AlertDialogTrigger asChild>
+                    <button
+                      type="button"
+                      disabled={deleting}
+                      className="rounded-md p-1.5 text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                      aria-label="Delete all data"
+                    >
+                      <HiOutlineTrash className="size-4" />
+                    </button>
+                  </AlertDialogTrigger>
+                </TooltipTrigger>
+                <TooltipContent side="right">Delete all data</TooltipContent>
+              </Tooltip>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete all uploaded data?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will permanently remove all your uploaded documents
+                    (passport, I-20, W-2, etc.) from the database. You can
+                    re-upload them at any time. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={handleDeleteAll}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    Delete all
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
         <div className="flex items-center gap-2 overflow-hidden p-2">
           <div
             className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground"
@@ -198,6 +308,51 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                         >
                           <HiOutlineCalendar />
                           <span>Duration</span>
+                        </Link>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  </SidebarMenuSub>
+                </SidebarGroupContent>
+              </CollapsibleContent>
+            </Collapsible>
+          </SidebarGroup>
+          <SidebarGroup>
+            <Collapsible
+              defaultOpen={formsActive(pathname)}
+              className="group/forms"
+            >
+              <SidebarGroupLabel className="cursor-pointer text-base font-medium text-sidebar-foreground">
+                <Link href="/forms" className="flex flex-1 items-center gap-2">
+                  <HiOutlineClipboardList />
+                  <span>Forms</span>
+                </Link>
+                <CollapsibleTrigger asChild>
+                  <button
+                    type="button"
+                    className="ml-auto rounded-sm p-0.5 hover:bg-sidebar-accent"
+                    aria-label="Toggle forms menu"
+                  >
+                    <HiOutlineChevronRight className="size-4 transition-transform duration-200 group-data-[state=open]/forms:rotate-90" />
+                  </button>
+                </CollapsibleTrigger>
+              </SidebarGroupLabel>
+              <CollapsibleContent>
+                <SidebarGroupContent>
+                  <SidebarMenuSub>
+                    <SidebarMenuSubItem>
+                      <SidebarMenuSubButton
+                        asChild
+                        isActive={pathname === "/forms/stored"}
+                        className="text-base"
+                      >
+                        <Link
+                          href="/forms/stored"
+                          aria-current={
+                            pathname === "/forms/stored" ? "page" : undefined
+                          }
+                        >
+                          <HiOutlineArchive />
+                          <span>Stored</span>
                         </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
