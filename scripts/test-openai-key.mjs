@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Test Gemini API key. Loads GEMINI_API_KEY from .env in the project root.
+ * Test OpenAI API key. Loads OPENAI_API_KEY from .env in the project root.
  * Usage: node scripts/test-openai-key.mjs
  */
 
@@ -27,77 +27,80 @@ if (existsSync(envPath)) {
   }
 }
 
-const key = process.env.GEMINI_API_KEY;
+const key = process.env.OPENAI_API_KEY;
 
 if (!key) {
-  console.error('Error: GEMINI_API_KEY is not set.');
-  console.error('Add GEMINI_API_KEY=your-key to the .env file in the project root.');
+  console.error('Error: OPENAI_API_KEY is not set.');
+  console.error('Add OPENAI_API_KEY=your-key to the .env file in the project root.');
   process.exit(1);
 }
 
+const model = process.env.OPENAI_EXTRACTION_MODEL || 'gpt-4o-mini';
 const TEST_PROMPT = 'Reply in one short sentence: confirm that you received this message and the API is working.';
-
-const GEMINI_BASE = 'https://generativelanguage.googleapis.com/v1beta';
+const OPENAI_BASE = 'https://api.openai.com/v1';
 
 function parseErrorBody(body) {
   try {
     const j = JSON.parse(body);
-    return j.error?.message || j.error?.status || body;
+    return j.error?.message || j.error?.type || body;
   } catch (_) {
     return body;
   }
 }
 
 async function testKey() {
-  const modelsUrl = `${GEMINI_BASE}/models`;
+  // 1. Validate key by listing models
+  const modelsUrl = `${OPENAI_BASE}/models`;
   const res = await fetch(modelsUrl, {
-    headers: { 'x-goog-api-key': key },
+    headers: { Authorization: `Bearer ${key}` },
   });
 
   if (!res.ok) {
     const body = await res.text();
-    console.error('API key test failed.');
+    console.error('API key validation failed.');
     console.error('Status:', res.status, res.statusText);
     console.error('Message:', parseErrorBody(body));
     process.exit(1);
   }
 
   const data = await res.json();
-  const models = data.models ?? [];
+  const models = data.data ?? [];
   const count = models.length;
   console.log('API key is valid. You have access to', count, 'model(s).');
   if (count > 0) {
-    const names = models.slice(0, 3).map((m) => (m.name || '').replace(/^models\//, '')).join(', ');
-    console.log('Examples:', names + (count > 3 ? '...' : ''));
+    const names = models.slice(0, 5).map((m) => m.id).join(', ');
+    console.log('Examples:', names + (count > 5 ? '...' : ''));
   }
 
+  // 2. Test a chat completion
   console.log('\n--- Prompt test ---');
+  console.log('Model:', model);
   console.log('Prompt:', TEST_PROMPT);
 
-  const generateUrl = `${GEMINI_BASE}/models/gemini-1.5-flash:generateContent`;
-  const chatRes = await fetch(generateUrl, {
+  const chatUrl = `${OPENAI_BASE}/chat/completions`;
+  const chatRes = await fetch(chatUrl, {
     method: 'POST',
     headers: {
-      'x-goog-api-key': key,
+      Authorization: `Bearer ${key}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: TEST_PROMPT }] }],
-      generationConfig: { maxOutputTokens: 150 },
+      model,
+      messages: [{ role: 'user', content: TEST_PROMPT }],
+      max_tokens: 150,
     }),
   });
 
   if (!chatRes.ok) {
     const body = await chatRes.text();
-    console.error('Chat request failed.');
+    console.error('Chat completion failed.');
     console.error('Status:', chatRes.status, chatRes.statusText);
     console.error('Message:', parseErrorBody(body));
     process.exit(1);
   }
 
   const chatData = await chatRes.json();
-  const textPart = chatData.candidates?.[0]?.content?.parts?.[0];
-  const reply = textPart?.text?.trim();
+  const reply = chatData.choices?.[0]?.message?.content?.trim();
   if (reply) {
     console.log('Response:', reply);
   } else {

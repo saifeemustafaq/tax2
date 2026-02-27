@@ -79,7 +79,7 @@ export async function POST(request: Request) {
     const extracted = await extractDocument(docType, file, file.name);
 
     await ensureDocumentsIndexes();
-    const documents = getDocumentsCollection();
+    const documents = await getDocumentsCollection();
 
     const storedDoc: StoredDocument =
       docType === "passport"

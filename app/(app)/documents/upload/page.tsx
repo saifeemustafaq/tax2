@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
@@ -6,17 +6,17 @@ import { toast } from "sonner";
 import {
   HiOutlineCloudUpload,
   HiOutlineLockClosed,
+  HiOutlineCheckCircle,
+  HiOutlineExclamationCircle,
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
+
+type UploadStatus = "idle" | "uploading" | "processing" | "done" | "error";
 
 const DOCUMENT_TYPES = [
   {
@@ -54,60 +54,86 @@ const DOCUMENT_TYPES = [
     title: "EAD Card",
     description: "Employment Authorization Document",
   },
-] as const
+] as const;
 
-type DocumentId = (typeof DOCUMENT_TYPES)[number]["id"]
+type DocumentId = (typeof DOCUMENT_TYPES)[number]["id"];
 
 function DocumentUploadCard({
   id,
   title,
   description,
   file,
+  uploadStatus,
+  uploadProgress,
+  uploadError,
   onFileChange,
 }: {
-  id: DocumentId
-  title: string
-  description: string
-  file: File | null
-  onFileChange: (file: File | null) => void
+  id: DocumentId;
+  title: string;
+  description: string;
+  file: File | null;
+  uploadStatus: UploadStatus;
+  uploadProgress: number;
+  uploadError: string | null;
+  onFileChange: (file: File | null) => void;
 }) {
-  const inputRef = useRef<HTMLInputElement>(null)
-  const [isDragging, setIsDragging] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const isBusy = uploadStatus === "uploading" || uploadStatus === "processing";
+  const isDone = uploadStatus === "done";
+  const isError = uploadStatus === "error";
 
-  const handleClick = () => inputRef.current?.click()
+  const handleClick = () => {
+    if (!isBusy) inputRef.current?.click();
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selected = e.target.files?.[0]
-    onFileChange(selected ?? null)
-    e.target.value = ""
-  }
+    const selected = e.target.files?.[0];
+    onFileChange(selected ?? null);
+    e.target.value = "";
+  };
 
   const handleDrop = useCallback(
     (e: React.DragEvent) => {
-      e.preventDefault()
-      setIsDragging(false)
-      const dropped = e.dataTransfer.files?.[0]
-      if (dropped) onFileChange(dropped)
+      e.preventDefault();
+      setIsDragging(false);
+      if (isBusy) return;
+      const dropped = e.dataTransfer.files?.[0];
+      if (dropped) onFileChange(dropped);
     },
-    [onFileChange]
-  )
+    [onFileChange, isBusy],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(true)
-  }, [])
+    e.preventDefault();
+    setIsDragging(true);
+  }, []);
 
   const handleDragLeave = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    setIsDragging(false)
-  }, [])
+    e.preventDefault();
+    setIsDragging(false);
+  }, []);
+
+  const statusLabel =
+    uploadStatus === "uploading"
+      ? "Uploading…"
+      : uploadStatus === "processing"
+        ? "Processing…"
+        : uploadStatus === "done"
+          ? "Done"
+          : uploadStatus === "error"
+            ? "Upload failed"
+            : null;
 
   return (
     <Card
       className={cn(
-        "cursor-pointer border-dashed transition-colors hover:border-muted-foreground/40 hover:bg-muted/30",
+        "border-dashed transition-colors",
+        !isBusy &&
+          "cursor-pointer hover:border-muted-foreground/40 hover:bg-muted/30",
         isDragging && "border-primary/50 bg-muted/50",
-        file && "border-solid border-primary/30 bg-muted/20"
+        (file || isDone) && "border-solid border-primary/30 bg-muted/20",
+        isError && "border-destructive/30",
       )}
       onClick={handleClick}
       onDrop={handleDrop}
@@ -124,75 +150,190 @@ function DocumentUploadCard({
       />
       <CardHeader className="pb-2">
         <div className="flex justify-center">
-          <HiOutlineCloudUpload className="size-12 text-muted-foreground" />
+          {isDone ? (
+            <HiOutlineCheckCircle className="size-12 text-green-600 dark:text-green-500" />
+          ) : (
+            <HiOutlineCloudUpload className="size-12 text-muted-foreground" />
+          )}
         </div>
         <CardTitle className="text-center text-base">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-1 px-6 pb-4 pt-0 text-center">
+      <CardContent className="flex flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
         <p className="text-sm text-muted-foreground">{description}</p>
         <p className="text-xs text-muted-foreground">
           {file ? file.name : "Drag & drop or click"}
         </p>
+        {(uploadStatus === "uploading" || uploadStatus === "processing") && (
+          <div className="w-full space-y-1">
+            <Progress value={uploadProgress} className="h-2" />
+            <p className="text-xs text-muted-foreground">{statusLabel}</p>
+          </div>
+        )}
+        {isDone && (
+          <p className="flex items-center gap-1 text-xs text-green-600 dark:text-green-500">
+            <HiOutlineCheckCircle className="size-4 shrink-0" />
+            {statusLabel}
+          </p>
+        )}
+        {isError && uploadError && (
+          <p
+            className="flex items-center gap-1 text-xs text-destructive"
+            role="alert"
+          >
+            <HiOutlineExclamationCircle className="size-4 shrink-0" />
+            {uploadError}
+          </p>
+        )}
       </CardContent>
     </Card>
-  )
+  );
 }
 
-const SUPPORTED_IDS = new Set(SUPPORTED_DOCUMENT_TYPES)
+const SUPPORTED_IDS = new Set(SUPPORTED_DOCUMENT_TYPES);
+
+type UploadState = {
+  status: UploadStatus;
+  progress: number;
+  error: string | null;
+};
+
+const initialUploadState: UploadState = {
+  status: "idle",
+  progress: 0,
+  error: null,
+};
 
 export default function DocumentsUploadPage() {
-  const router = useRouter()
-  const [aiAutoFill, setAiAutoFill] = useState(true)
+  const router = useRouter();
+  const [aiAutoFill, setAiAutoFill] = useState(true);
   const [files, setFiles] = useState<Partial<Record<DocumentId, File | null>>>(
-    {}
-  )
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+    {},
+  );
+  const [uploadState, setUploadState] = useState<
+    Partial<Record<DocumentId, UploadState>>
+  >({});
+  const progressIntervalRef = useRef<
+    Partial<Record<DocumentId, ReturnType<typeof setInterval>>>
+  >({});
+  const [error, setError] = useState<string | null>(null);
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
-    setFiles((prev) => ({ ...prev, [id]: file }))
-    setError(null)
-  }, [])
+    const supported = SUPPORTED_IDS.has(
+      id as (typeof SUPPORTED_DOCUMENT_TYPES)[number],
+    );
 
-  const handleContinue = useCallback(async () => {
-    setError(null)
-    const toUpload: { documentType: string; file: File }[] = []
-    for (const doc of DOCUMENT_TYPES) {
-      const file = files[doc.id]
-      if (file && file instanceof File && SUPPORTED_IDS.has(doc.id as (typeof SUPPORTED_DOCUMENT_TYPES)[number])) {
-        toUpload.push({ documentType: doc.id, file })
+    if (progressIntervalRef.current[id]) {
+      clearInterval(progressIntervalRef.current[id]);
+      progressIntervalRef.current[id] = undefined;
+    }
+
+    setFiles((prev) => ({ ...prev, [id]: file }));
+    setError(null);
+
+    if (!file) {
+      setUploadState((prev) => ({
+        ...prev,
+        [id]: { ...initialUploadState },
+      }));
+      return;
+    }
+
+    if (!supported) {
+      setUploadState((prev) => ({
+        ...prev,
+        [id]: { status: "idle", progress: 0, error: null },
+      }));
+      return;
+    }
+
+    setUploadState((prev) => ({
+      ...prev,
+      [id]: { status: "uploading", progress: 0, error: null },
+    }));
+
+      const MOCK_DURATION_MS = 6000;
+      const MOCK_STEPS = 48;
+      const stepMs = MOCK_DURATION_MS / MOCK_STEPS;
+      const progressCap = 85;
+    let step = 0;
+    const intervalId = setInterval(() => {
+      step += 1;
+      const progress = Math.min(
+        Math.round((step / MOCK_STEPS) * progressCap),
+        progressCap,
+      );
+      setUploadState((prev) => {
+        const cur = prev[id];
+        if (!cur || cur.status === "done" || cur.status === "error")
+          return prev;
+        return {
+          ...prev,
+          [id]: {
+            ...cur,
+            status: progress >= 40 ? "processing" : "uploading",
+            progress,
+          },
+        };
+      });
+      if (
+        step >= MOCK_STEPS &&
+        progressIntervalRef.current[id] === intervalId
+      ) {
+        clearInterval(intervalId);
+        progressIntervalRef.current[id] = undefined;
       }
-    }
+    }, stepMs);
+    progressIntervalRef.current[id] = intervalId;
 
-    if (toUpload.length === 0) {
-      router.push("/duration")
-      return
-    }
-
-    setIsSubmitting(true)
-    try {
-      for (const { documentType, file } of toUpload) {
-        const formData = new FormData()
-        formData.append("file", file)
-        formData.append("documentType", documentType)
-        const res = await fetch("/api/documents/upload", {
-          method: "POST",
-          body: formData,
-        })
-        if (!res.ok) {
-          const body = await res.json().catch(() => ({}))
-          const message = typeof body?.error === "string" ? body.error : "Upload failed. Please try again."
-          setError(message)
-          toast.error(message)
-          return
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("documentType", id);
+    fetch("/api/documents/upload", { method: "POST", body: formData })
+      .then(async (res) => {
+        if (progressIntervalRef.current[id]) {
+          clearInterval(progressIntervalRef.current[id]);
+          progressIntervalRef.current[id] = undefined;
         }
-      }
-      toast.success(toUpload.length === 1 ? "Document saved." : "Documents saved.")
-      router.push("/duration")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }, [files, router])
+        if (!res.ok) {
+          const body = await res.json().catch(() => ({}));
+          const message =
+            typeof body?.error === "string"
+              ? body.error
+              : "Upload failed. Please try again.";
+          setUploadState((prev) => ({
+            ...prev,
+            [id]: { status: "error", progress: 0, error: message },
+          }));
+          toast.error(message);
+          return;
+        }
+        setUploadState((prev) => ({
+          ...prev,
+          [id]: { status: "done", progress: 100, error: null },
+        }));
+        toast.success("Document saved.");
+      })
+      .catch(() => {
+        if (progressIntervalRef.current[id]) {
+          clearInterval(progressIntervalRef.current[id]);
+          progressIntervalRef.current[id] = undefined;
+        }
+        setUploadState((prev) => ({
+          ...prev,
+          [id]: {
+            status: "error",
+            progress: 0,
+            error: "Upload failed. Please try again.",
+          },
+        }));
+        toast.error("Upload failed. Please try again.");
+      });
+  }, []);
+
+  const handleContinue = useCallback(() => {
+    setError(null);
+    router.push("/duration");
+  }, [router]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -213,16 +354,22 @@ export default function DocumentsUploadPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {DOCUMENT_TYPES.map((doc) => (
-          <DocumentUploadCard
-            key={doc.id}
-            id={doc.id}
-            title={doc.title}
-            description={doc.description}
-            file={files[doc.id] ?? null}
-            onFileChange={(file) => handleFileChange(doc.id, file)}
-          />
-        ))}
+        {DOCUMENT_TYPES.map((doc) => {
+          const state = uploadState[doc.id] ?? initialUploadState;
+          return (
+            <DocumentUploadCard
+              key={doc.id}
+              id={doc.id}
+              title={doc.title}
+              description={doc.description}
+              file={files[doc.id] ?? null}
+              uploadStatus={state.status}
+              uploadProgress={state.progress}
+              uploadError={state.error}
+              onFileChange={(file) => handleFileChange(doc.id, file)}
+            />
+          );
+        })}
       </div>
 
       {error && (
@@ -232,15 +379,10 @@ export default function DocumentsUploadPage() {
       )}
 
       <div className="flex justify-center pt-4">
-        <Button
-          size="lg"
-          className="min-w-[280px]"
-          onClick={handleContinue}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Uploading…" : "Continue with Uploaded Documents"}
+        <Button size="lg" className="min-w-[280px]" onClick={handleContinue}>
+          Continue with Uploaded Documents
         </Button>
       </div>
     </div>
-  )
+  );
 }

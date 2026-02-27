@@ -24,7 +24,7 @@ export async function GET() {
     }
 
     await ensureDocumentsIndexes();
-    const documents = getDocumentsCollection();
+    const documents = await getDocumentsCollection();
     const cursor = documents.find(
       { userId: new ObjectId(payload.sub) },
       { projection: { originalFilename: 1, documentType: 1, createdAt: 1 }, sort: { createdAt: -1 } }

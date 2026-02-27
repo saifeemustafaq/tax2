@@ -31,7 +31,6 @@ function validateBody(body: unknown): { ok: true; data: RegisterInput } | { ok: 
   if (!contactNumber) return { ok: false, error: "Contact number is required" };
   if (!address) return { ok: false, error: "Address is required" };
   if (!password) return { ok: false, error: "Password is required" };
-  if (password.length < 8) return { ok: false, error: "Password must be at least 8 characters" };
 
   return {
     ok: true,
@@ -60,7 +59,7 @@ export async function POST(request: Request) {
     const { email, firstName, middleName, lastName, contactNumber, address, password } = validated.data;
 
     await ensureUserIndexes();
-    const users = getUserCollection();
+    const users = await getUserCollection();
 
     const existing = await users.findOne({ email });
     if (existing) {
