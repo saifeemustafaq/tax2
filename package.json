@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "serve": "next build && next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pdf-fields-to-json": "npx tsx scripts/pdf-fields-to-json.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

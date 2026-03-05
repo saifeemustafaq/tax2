@@ -1,0 +1,461 @@
+{
+  "pdf": "/home/saif-zorin/Projects/tax2/f8843_2025_new_filled.pdf",
+  "fieldCount": 65,
+  "fields": [
+    {
+      "name": "topmostSubform[0].Page1[0].Pg1Header[0].f1_1[0]",
+      "kind": "text",
+      "value": "beginning-from",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Pg1Header[0].f1_2[0]",
+      "kind": "text",
+      "value": "ending-month",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Pg1Header[0].f1_3[0]",
+      "kind": "text",
+      "value": "26",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_4[0]",
+      "kind": "text",
+      "value": "Your first name and initial",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_5[0]",
+      "kind": "text",
+      "value": "Last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_6[0]",
+      "kind": "text",
+      "value": "11digit TIN",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_7[0]",
+      "kind": "text",
+      "value": "Address in country of residence",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_8[0]",
+      "kind": "text",
+      "value": "Address in the United States",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_9[0]",
+      "kind": "text",
+      "value": "Type of U.S. visa (for example, F, J, M, Q, etc.) ",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_10[0]",
+      "kind": "text",
+      "value": "Current nonimmigrant status",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_11[0]",
+      "kind": "text",
+      "value": "Of what country or countries were you a citizen during the tax year?",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_12[0]",
+      "kind": "text",
+      "value": "What country or countries issued you a passport?",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_13[0]",
+      "kind": "text",
+      "value": "Enter your passport number(s):",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_14[0]",
+      "kind": "text",
+      "value": "days2024",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_15[0]",
+      "kind": "text",
+      "value": "days2023",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_16[0]",
+      "kind": "text",
+      "value": "days2022",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_17[0]",
+      "kind": "text",
+      "value": "days in 2024 you claim you can exclude",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_18[0]",
+      "kind": "text",
+      "value": "Part 2 Point 5 Teachers and trainees field - 1 (Keep empty)",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_19[0]",
+      "kind": "text",
+      "value": "Part 2 Point 5 Teachers and trainees field - 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_20[0]",
+      "kind": "text",
+      "value": "Part 2 Point 5 Teachers and trainees field - 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_21[0]",
+      "kind": "text",
+      "value": "Part 2 Point 6 Teachers and trainees field - 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_22[0]",
+      "kind": "text",
+      "value": "Part 2 Point 6 Teachers and trainees field - 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_23[0]",
+      "kind": "text",
+      "value": "Part 2 Point 6 Teachers and trainees field - 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_24[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_25[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_26[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_27[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_28[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_29[0]",
+      "kind": "text",
+      "value": "A",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_1[0]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_1[1]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_30[0]",
+      "kind": "text",
+      "value": "Part 3 Point 9 Field 1 (keep empty)",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_31[0]",
+      "kind": "text",
+      "value": "Part 3 Point 9 Field 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_32[0]",
+      "kind": "text",
+      "value": "Part 3 Point 9 Field 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_33[0]",
+      "kind": "text",
+      "value": "Enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2024 - Field 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_34[0]",
+      "kind": "text",
+      "value": "Enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2024 - Field 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_35[0]",
+      "kind": "text",
+      "value": "Enter the name, address, and telephone number of the director of the academic or other specialized program you participated in during 2024 - Field 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_36[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_37[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_38[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_39[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_40[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_41[0]",
+      "kind": "text",
+      "value": "B",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_2[0]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_2[1]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_3[0]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_3[1]",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_42[0]",
+      "kind": "text",
+      "value": "Explain - Part 3 Point 14 Field - 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_43[0]",
+      "kind": "text",
+      "value": "Explain - Part 3 Point 14 Field - 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_44[0]",
+      "kind": "text",
+      "value": "Explain - Part 3 Point 14 Field - 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_1[0]",
+      "kind": "text",
+      "value": "Part 4 Professional Athletes - Point 15 - Field 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_2[0]",
+      "kind": "text",
+      "value": "Part 4 Professional Athletes - Point 15 - Field 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_3[0]",
+      "kind": "text",
+      "value": "Part 4 Professional Athletes - Point 15 - Field 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_4[0]",
+      "kind": "text",
+      "value": "Part 4 - Point 16 - Field 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_5[0]",
+      "kind": "text",
+      "value": "Part 4 - Point 16 - Field 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_6[0]",
+      "kind": "text",
+      "value": "Part 4 - Point 16 - Field 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_7[0]",
+      "kind": "text",
+      "value": "Individuals With a Medical Condition - Part 5 - Point 17A - Field 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_8[0]",
+      "kind": "text",
+      "value": "Individuals With a Medical Condition - Part 5 - Point 17A - Field 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_9[0]",
+      "kind": "text",
+      "value": "Individuals With a Medical Condition - Part 5 - Point 17A - Field 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_10[0]",
+      "kind": "text",
+      "value": "Individuals With a Medical Condition - Part 5 - Point 17A - Field 4",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_11[0]",
+      "kind": "text",
+      "value": "Part 5 - 17b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_12[0]",
+      "kind": "text",
+      "value": "Part 5 17c",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_13[0]",
+      "kind": "text",
+      "value": "Physician’s Statement: - Name of Taxpayer - Point 18",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_14[0]",
+      "kind": "text",
+      "value": "Physician’s Statement: Name of physician or other medical official - Point 18",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_15[0]",
+      "kind": "text",
+      "value": "Physician’s Statement: Physician’s or other medical official’s address and telephone number - Point 18",
+      "readOnly": false,
+      "required": false
+    }
+  ]
+}
