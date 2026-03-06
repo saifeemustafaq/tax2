@@ -35,38 +35,22 @@ function parseAddress(raw: string | undefined) {
 /**
  * Maps extracted document data to Form 1040-NR AcroForm field names.
  *
- * Our PDF field layout (numbered with leading zeros, e.g. f1_01):
- *   f1_01 = Tax year begin month (MM)
- *   f1_02 = Tax year end month (MM)
- *   f1_03 = Tax year (2-digit YY)
- *   c1_1  = Deceased checkbox
- *   c1_2  = Amended return checkbox
- *   f1_04 = First name and middle initial
- *   c1_3  = Standard deduction from another return
- *   f1_05 = Last name
- *   f1_06 = SSN / ITIN
- *   f1_07 = Home address (street number and name)
- *   f1_08 = Apt no
- *   f1_09 = City, town
- *   f1_10 = State
- *   c1_4  = Foreign address checkbox
- *   f1_11 = ZIP code
- *   f1_12 = Foreign country name
- *   f1_13 = Foreign province / state / county
- *   f1_14 = Foreign postal code
- *   f1_15..f1_24 = Country, dates info (Schedule OI cross-refs)
+ * PDF field layout per scripts/output/f1040nr_filled_sample.json and
+ * scripts/add-1040nr-field-names.mjs:
  *
- *   Filing status: c1_5[0..4] = Single, MFS, QSS, Estate, Trust
- *   f1_25 = Child's name (if QSS)
+ *   Header: f1_01 = Tax year beginning date, f1_02 = ending date, f1_03 = 2-digit year
+ *   c1_1 = Filed pursuant to 301.9100-2, c1_2 = Combat zone, f1_04 = Combat zone text
+ *   c1_3 = Deceased, f1_05..f1_07 = Deceased date (MM/DD/YYYY)
+ *   c1_4 = Spouse, f1_08..f1_10 = Spouse date, f1_11..f1_13 = Other form header
  *
+ *   f1_14 = First name and middle initial, f1_15 = Last name, f1_16 = SSN/ITIN
+ *   f1_17..f1_21 = Home address, apt, city, state, ZIP
+ *   f1_22..f1_24 = Foreign country, province, postal code (c1_4 = foreign-address indicator in header area; for address block use f1_22..f1_24)
+ *
+ *   Filing status: c1_5[0..4] = Single, MFS, QSS, Estate, Trust; f1_25 = QSS child name
  *   Digital assets: c1_6[0]=Yes, c1_6[1]=No
- *
- *   Dependents table: Row1 f1_26..f1_29, Row2 f1_30..f1_33, etc.
- *
- *   Income lines (1a..15): f1_42..f1_71
- *
- *   Page 2 — Tax & credits, payments, refund:
- *   f2_01..f2_56
+ *   Dependents: Table_Dependents Row1..Row6 (f1_26..f1_41, c1_8..c1_15)
+ *   Income: f1_42..f1_71. Page 2: f2_01..f2_56, Line25_ReadOrder[0].f2_21[0], etc.
  */
 export function mapToF1040NR(
   docs: FormDocuments
@@ -82,28 +66,27 @@ export function mapToF1040NR(
   v[`${P1}.f1_02[0]`] = "12";
   v[`${P1}.f1_03[0]`] = String(taxYearNum % 100).padStart(2, "0");
 
-  // Name
-  v[`${P1}.f1_04[0]`] = passport?.given_names ?? "";
-  v[`${P1}.f1_05[0]`] = passport?.surname ?? "";
+  // Name (f1_14, f1_15 per actual PDF layout)
+  v[`${P1}.f1_14[0]`] = passport?.given_names ?? "";
+  v[`${P1}.f1_15[0]`] = passport?.surname ?? "";
 
-  // SSN / ITIN
-  v[`${P1}.f1_06[0]`] = w2?.employee.ssn ?? "";
+  // SSN / ITIN (f1_16)
+  v[`${P1}.f1_16[0]`] = w2?.employee.ssn ?? "";
 
-  // US address (from W-2 employee address)
+  // US address (f1_17..f1_21 from W-2 employee address)
   const usAddr = parseAddress(w2?.employee.address);
-  v[`${P1}.f1_07[0]`] = usAddr.street;
-  v[`${P1}.f1_08[0]`] = usAddr.apt;
-  v[`${P1}.f1_09[0]`] = usAddr.city;
-  v[`${P1}.f1_10[0]`] = usAddr.state;
-  v[`${P1}.f1_11[0]`] = usAddr.zip;
+  v[`${P1}.f1_17[0]`] = usAddr.street;
+  v[`${P1}.f1_18[0]`] = usAddr.apt;
+  v[`${P1}.f1_19[0]`] = usAddr.city;
+  v[`${P1}.f1_20[0]`] = usAddr.state;
+  v[`${P1}.f1_21[0]`] = usAddr.zip;
 
-  // Foreign address (from passport)
+  // Foreign address (f1_22..f1_24 from passport)
   const pAddr = passport?.address;
   if (pAddr) {
-    v[`${P1}.c1_4[0]`] = true;
-    v[`${P1}.f1_12[0]`] = pAddr.country ?? "";
-    v[`${P1}.f1_13[0]`] = [pAddr.state, pAddr.city_or_district].filter(Boolean).join(", ");
-    v[`${P1}.f1_14[0]`] = pAddr.postal_code ?? "";
+    v[`${P1}.f1_22[0]`] = pAddr.country ?? "";
+    v[`${P1}.f1_23[0]`] = [pAddr.state, pAddr.city_or_district].filter(Boolean).join(", ");
+    v[`${P1}.f1_24[0]`] = pAddr.postal_code ?? "";
   }
 
   // Filing status — default to "Single" for nonresident aliens

@@ -1,11 +1,19 @@
 import type { PassportExtraction, I20Extraction, W2Extraction } from "@/extraction/prompts";
-import type { DurationEntry } from "@/lib/types/document";
+import type {
+  DurationEntry,
+  VisaExtraction,
+  I94Extraction,
+  EadExtraction,
+} from "@/lib/types/document";
 
 export type FormDocuments = {
   passport: PassportExtraction | null;
   i20: I20Extraction | null;
   w2: W2Extraction | null;
   duration: DurationEntry[] | null;
+  visa: VisaExtraction | null;
+  i94: I94Extraction | null;
+  ead: EadExtraction | null;
 };
 
 export function daysInRange(arrival: string, departure: string): number {

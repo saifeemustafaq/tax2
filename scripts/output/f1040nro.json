@@ -1,0 +1,526 @@
+{
+  "pdf": "/home/saif-zorin/Projects/tax2/public/forms/empty/f1040nro.pdf",
+  "fieldCount": 65,
+  "fields": [
+    {
+      "name": "form1040-NR[0].Page1[0].f1_1[0]",
+      "fieldName": "Name shown on Form 1040-NR",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_2[0]",
+      "fieldName": "Your identifying number",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_3[0]",
+      "fieldName": "A Country(ies) citizen or national during tax year",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_4[0]",
+      "fieldName": "B Country of tax residence",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_1[0]",
+      "fieldName": "D1 Were you ever a U.S. citizen Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_1[1]",
+      "fieldName": "D1 Were you ever a U.S. citizen No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_2[0]",
+      "fieldName": "D2 Green card holder Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_2[1]",
+      "fieldName": "D2 Green card holder No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_3[0]",
+      "fieldName": "C Applied for green card Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_3[1]",
+      "fieldName": "C Applied for green card No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_5[0]",
+      "fieldName": "C If yes explain",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_4[0]",
+      "fieldName": "F Changed visa type Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_4[1]",
+      "fieldName": "F Changed visa type No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_6[0]",
+      "fieldName": "F Date and nature of change",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_5[0]",
+      "fieldName": "E Subject to tax in foreign country Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_5[1]",
+      "fieldName": "E Subject to tax in foreign country No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow1[0].f1_7[0]",
+      "fieldName": "G Row1 Visa type or date entered",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow1[0].f1_8[0]",
+      "fieldName": "G Row1 Date departed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow2[0].f1_9[0]",
+      "fieldName": "G Row2 Date entered",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow2[0].f1_10[0]",
+      "fieldName": "G Row2 Date departed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow3[0].f1_11[0]",
+      "fieldName": "G Row3 Date entered",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow3[0].f1_12[0]",
+      "fieldName": "G Row3 Date departed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow4[0].f1_13[0]",
+      "fieldName": "G Row4 Date entered",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table1[0].BodyRow4[0].f1_14[0]",
+      "fieldName": "G Row4 Date departed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow1[0].f1_15[0]",
+      "fieldName": "G Table2 Row1 Type",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow1[0].f1_16[0]",
+      "fieldName": "G Table2 Row1 Date changed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow2[0].f1_17[0]",
+      "fieldName": "G Table2 Row2 Type",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow2[0].f1_18[0]",
+      "fieldName": "G Table2 Row2 Date changed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow3[0].f1_19[0]",
+      "fieldName": "G Table2 Row3 Type",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow3[0].f1_20[0]",
+      "fieldName": "G Table2 Row3 Date changed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow4[0].f1_21[0]",
+      "fieldName": "G Table2 Row4 Type",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineG_Table2[0].BodyRow4[0].f1_22[0]",
+      "fieldName": "G Table2 Row4 Date changed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_23[0]",
+      "fieldName": "H Days in US 2025",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_24[0]",
+      "fieldName": "H Days in US 2024",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_25[0]",
+      "fieldName": "H Days in US 2023",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_6[0]",
+      "fieldName": "L Treaty benefits Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_6[1]",
+      "fieldName": "L Treaty benefits No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_26[0]",
+      "fieldName": "I Latest year and form number filed",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_7[0]",
+      "fieldName": "I Filed prior year return Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_7[1]",
+      "fieldName": "I Filed prior year return No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_8[0]",
+      "fieldName": "J Filing for a trust Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_8[1]",
+      "fieldName": "J Filing for a trust No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_9[0]",
+      "fieldName": "J Trust sub-question Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_9[1]",
+      "fieldName": "J Trust sub-question No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_10[0]",
+      "fieldName": "K Compensation 250k or more Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_10[1]",
+      "fieldName": "K Compensation 250k or more No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow1[0].f1_27[0]",
+      "fieldName": "L1 Row1 Country",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow1[0].f1_28[0]",
+      "fieldName": "L1 Row1 Treaty article",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow1[0].f1_29[0]",
+      "fieldName": "L1 Row1 Months prior years",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow1[0].f1_30[0]",
+      "fieldName": "L1 Row1 Amount exempt",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow2[0].f1_31[0]",
+      "fieldName": "L1 Row2 Country",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow2[0].f1_32[0]",
+      "fieldName": "L1 Row2 Treaty article",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow2[0].f1_33[0]",
+      "fieldName": "L1 Row2 Months prior years",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow2[0].f1_34[0]",
+      "fieldName": "L1 Row2 Amount exempt",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow3[0].f1_35[0]",
+      "fieldName": "L1 Row3 Country",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow3[0].f1_36[0]",
+      "fieldName": "L1 Row3 Treaty article",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow3[0].f1_37[0]",
+      "fieldName": "L1 Row3 Months prior years",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].LineL1_Table[0].BodyRow3[0].f1_38[0]",
+      "fieldName": "L1 Row3 Amount exempt",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].f1_39[0]",
+      "fieldName": "L Additional explanation",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_11[0]",
+      "fieldName": "L2 Subject to tax in foreign country Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_11[1]",
+      "fieldName": "L2 Subject to tax in foreign country No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_12[0]",
+      "fieldName": "L3 Competent Authority Yes",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_12[1]",
+      "fieldName": "L3 Competent Authority No",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_13[0]",
+      "fieldName": "M1 First year 871(d) election",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "form1040-NR[0].Page1[0].c1_14[0]",
+      "fieldName": "M2 Prior year 871(d) election not revoked",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    }
+  ]
+}

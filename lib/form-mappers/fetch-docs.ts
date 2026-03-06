@@ -7,6 +7,9 @@ import type {
   StoredDocumentI20,
   StoredDocumentW2,
   StoredDocumentDuration,
+  StoredDocumentVisa,
+  StoredDocumentI94,
+  StoredDocumentEAD,
 } from "@/lib/types/document";
 import type { FormDocuments } from "./types";
 
@@ -29,11 +32,14 @@ export async function fetchFormDocuments(): Promise<
   const coll = await getDocumentsCollection();
   const userId = new ObjectId(payload.sub);
 
-  const [passport, i20, w2, duration] = await Promise.all([
+  const [passport, i20, w2, duration, visa, i94, ead] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
     coll.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
     coll.findOne({ userId, documentType: "duration" }) as Promise<StoredDocumentDuration | null>,
+    coll.findOne({ userId, documentType: "visa" }) as Promise<StoredDocumentVisa | null>,
+    coll.findOne({ userId, documentType: "i94" }) as Promise<StoredDocumentI94 | null>,
+    coll.findOne({ userId, documentType: "ead" }) as Promise<StoredDocumentEAD | null>,
   ]);
 
   return {
@@ -43,6 +49,9 @@ export async function fetchFormDocuments(): Promise<
       i20: i20?.data ?? null,
       w2: w2?.data ?? null,
       duration: duration?.data.entries ?? null,
+      visa: visa?.data ?? null,
+      i94: i94?.data ?? null,
+      ead: ead?.data ?? null,
     },
   };
 }
