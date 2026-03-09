@@ -1,78 +1,30 @@
 ---
 name: Fix 1040NR field mapping
-overview: The 1040NR form mapper in `lib/form-mappers/f1040nr.ts` has 7 field-to-PDF mismatches and 1 missing field, causing values to appear in wrong positions on the filled PDF. The root cause is that the mapper used incorrect PDF field IDs for income lines 8-11a and placed Page 2 values (Lines 12, 14, 15) into Page 1 fields.
+overview: Fix 7 wrong + 1 missing field mappings in the 1040NR mapper, then build a centralized tax calculation engine (`lib/tax-engine.ts`) with 2025 federal brackets, standard deduction eligibility (India treaty), and tax computation -- used by both 1040NR and 540NR mappers.
 todos:
-  - id: fix-1h
-    content: "Fix Line 1h: change f1_49 to f1_50 for dollar amount, add f1_49 type label"
+  - id: create-tax-engine
+    content: "Create lib/tax-engine.ts with 2025 federal brackets, computeFederalTax(), getStandardDeduction(), isIndianCitizen(), and a top-level compute1040NRTax() that returns all computed lines"
     status: pending
-  - id: fix-income-lines
-    content: "Fix Lines 8/9/11a: change f1_63->f1_68, f1_64->f1_69, f1_66->f1_71"
+  - id: fix-field-mappings
+    content: "Fix all 7 wrong field IDs + add missing Line 11b in lib/form-mappers/f1040nr.ts"
     status: pending
-  - id: fix-page2-lines
-    content: "Fix Lines 12/14/15: move from Page 1 fields (f1_67/f1_70/f1_71) to Page 2 fields (f2_02/f2_06/f2_07)"
+  - id: integrate-engine-1040nr
+    content: "Refactor f1040nr.ts mapper to use compute1040NRTax() from tax-engine, populate Page 2 Lines 16-24 and 34/35a/37"
     status: pending
-  - id: add-11b
-    content: "Add missing Line 11b mapping: P2.f2_01 = AGI"
+  - id: integrate-engine-540nr
+    content: "Update f540nr.ts to use tax-engine for federal AGI (field 2001) so it gets the computed value"
     status: pending
   - id: update-comments
-    content: Update the block comment in mapToF1040NR to reflect corrected field assignments
+    content: "Update block comments in f1040nr.ts to reflect corrected field assignments"
     status: pending
 isProject: false
 ---
 
-# Fix 1040NR Form Field Mapping
+# Fix 1040NR Field Mapping + Tax Calculation Engine
 
-## Problem
+## Part 1: Fix Field Mapping Bugs
 
-The mapper in [lib/form-mappers/f1040nr.ts](lib/form-mappers/f1040nr.ts) maps extracted data to **wrong PDF AcroForm field IDs** for most income and deduction lines. Comparing the mapper code against the authoritative field-name reference in [scripts/add-1040nr-field-names.mjs](scripts/add-1040nr-field-names.mjs) reveals 7 incorrect field assignments and 1 missing field.
-
-## Root Cause
-
-The mapper author appears to have counted field IDs (`f1_XX`) sequentially from Line 1z, **skipping over Lines 2-7 fields** (interest, dividends, IRA, pensions, capital gains) but miscounted. Fields for Lines 5b, 5c, 7a, 7b were mistaken for Lines 8, 9, 11, 12. Additionally, Lines 12/14/15 are Page 2 fields (`f2_XX`) but were incorrectly assigned to Page 1 fields (`f1_XX`).
-
-## Detailed Bug List (7 wrong fields + 1 missing)
-
-### Bug 1: Line 1h amount -- `f1_49` should be `f1_50`
-
-- **Current**: `f1_49` = allocatedTips -- but `f1_49` is "Line 1h **type**" (text description field)
-- **Fix**: Use `f1_50` for the dollar amount; optionally set `f1_49` = `"Allocated tips"` as the type label
-
-### Bug 2: Line 8 (Other income) -- `f1_63` should be `f1_68`
-
-- **Current**: `f1_63` = nonqual -- but `f1_63` is **Line 5b** (Pensions taxable amount)
-- **Fix**: Use `f1_68` which is "Line 8 Other income from Schedule 1"
-
-### Bug 3: Line 9 (Total income) -- `f1_64` should be `f1_69`
-
-- **Current**: `f1_64` = totalIncome -- but `f1_64` is **Line 5c** (Pensions check text)
-- **Fix**: Use `f1_69` which is "Line 9 Total effectively connected income"
-
-### Bug 4: Line 11a (AGI) -- `f1_66` should be `f1_71`
-
-- **Current**: `f1_66` = totalIncome (AGI) -- but `f1_66` is **Line 7a** (Capital gain/loss)
-- **Fix**: Use `f1_71` which is "Line 11a AGI"
-
-### Bug 5: Line 12 (Standard deduction) -- `f1_67` should be `f2_02` (Page 2)
-
-- **Current**: `f1_67` = standardDeduction -- but `f1_67` is **Line 7b** on Page 1
-- **Fix**: Use `${P2}.f2_02[0]` which is "Line 12" on Page 2
-
-### Bug 6: Line 14 (Total deductions) -- `f1_70` should be `f2_06` (Page 2)
-
-- **Current**: `f1_70` = standardDeduction -- but `f1_70` is **Line 10 Adjustments** on Page 1
-- **Fix**: Use `${P2}.f2_06[0]` which is "Line 14" on Page 2
-
-### Bug 7: Line 15 (Taxable income) -- `f1_71` should be `f2_07` (Page 2)
-
-- **Current**: `f1_71` = taxableIncome -- but `f1_71` is **Line 11a AGI** on Page 1 (conflicts with Bug 4 fix)
-- **Fix**: Use `${P2}.f2_07[0]` which is "Line 15" on Page 2
-
-### Missing: Line 11b (Page 2 repeat of AGI)
-
-- `${P2}.f2_01[0]` ("Line 11b") should be populated with the AGI value (same as Line 11a)
-- Currently not mapped at all
-
-## Visual Summary of Corrections
+The mapper in [lib/form-mappers/f1040nr.ts](lib/form-mappers/f1040nr.ts) maps data to **wrong PDF AcroForm field IDs**. Comparing against the field reference in [scripts/add-1040nr-field-names.mjs](scripts/add-1040nr-field-names.mjs):
 
 ```
 Form Line  | What               | WRONG field (current)     | CORRECT field
@@ -87,19 +39,82 @@ Form Line  | What               | WRONG field (current)     | CORRECT field
 15         | Taxable income     | P1.f1_71 (Line 11a)       | P2.f2_07 (Line 15)
 ```
 
-## Implementation
+All fixes are in [lib/form-mappers/f1040nr.ts](lib/form-mappers/f1040nr.ts) lines ~107-148.
 
-All changes are in **one file**: [lib/form-mappers/f1040nr.ts](lib/form-mappers/f1040nr.ts)
+## Part 2: Tax Calculation Engine
 
-### Changes to make (lines ~107-148):
+### New file: `lib/tax-engine.ts`
 
-1. **Line 1h** (line 113): Change `f1_49` to `f1_50`, add `f1_49 = "Allocated tips"` label
-2. **Line 8** (line 120): Change `f1_63` to `f1_68`
-3. **Line 9** (line 124): Change `f1_64` to `f1_69`
-4. **Line 11a** (line 127): Change `f1_66` to `f1_71`
-5. **Line 11b** (new, after line 127): Add `${P2}.f2_01[0]` = totalIncome
-6. **Line 12** (line 131): Change `${P1}.f1_67` to `${P2}.f2_02`
-7. **Line 14** (line 134): Change `${P1}.f1_70` to `${P2}.f2_06`
-8. **Line 15** (line 138): Change `${P1}.f1_71` to `${P2}.f2_07`
+A centralized module reusable by 1040NR, 540NR, and future form mappers.
 
-Also update the block comment at the top of `mapToF1040NR` (lines 35-53) to correct the documented field mapping so it stays accurate.
+### Contents
+
+**1. 2025 Federal Tax Brackets (Single)**
+
+```typescript
+const FEDERAL_BRACKETS_2025_SINGLE = [
+  { min: 0,       max: 11925,   rate: 0.10 },
+  { min: 11925,   max: 48475,   rate: 0.12 },
+  { min: 48475,   max: 103350,  rate: 0.22 },
+  { min: 103350,  max: 197300,  rate: 0.24 },
+  { min: 197300,  max: 250525,  rate: 0.32 },
+  { min: 250525,  max: 626350,  rate: 0.35 },
+  { min: 626350,  max: Infinity, rate: 0.37 },
+];
+```
+
+**2. `computeFederalTax(taxableIncome, brackets)`** -- Progressive bracket math. Iterates brackets, sums `(min(income, max) - min) * rate` for each.
+
+**3. `isIndianCitizen(passport)`** -- Extracted from [app/api/forms/eligibility/route.ts](app/api/forms/eligibility/route.ts) (lines 12-28) into a shared utility. Checks `nationality`, `country_code`, `issuing_country` against `["india","indian","ind","in"]`.
+
+**4. `getStandardDeduction(taxYear, isIndianNational)`** -- NRAs generally cannot claim the standard deduction. Exception: Indian nationals under US-India tax treaty Article 21. Returns `$15,000` for 2025 single Indian nationals, `0` for others.
+
+**5. `compute1040NRTax(docs: FormDocuments)`** -- Top-level function that returns all computed values:
+
+```typescript
+type TaxComputation = {
+  wages: number;              // Line 1a
+  totalWages: number;         // Line 1z
+  totalIncome: number;        // Line 9
+  agi: number;                // Line 11a/11b
+  standardDeduction: number;  // Line 12 (0 if not eligible)
+  totalDeductions: number;    // Line 14
+  taxableIncome: number;      // Line 15
+  tax: number;                // Line 16
+  totalTax: number;           // Line 24
+  federalWithheld: number;    // Line 25a
+  totalPayments: number;      // Line 33
+  overpayment: number;        // Line 34 (if payments > tax)
+  amountOwed: number;         // Line 37 (if tax > payments)
+  refund: number;             // Line 35a
+  isIndianNational: boolean;
+};
+```
+
+### Data flow
+
+```mermaid
+flowchart TD
+    W2[W-2 Data] --> Engine[tax-engine.ts]
+    Passport[Passport Data] --> Engine
+    Engine -->|"compute1040NRTax()"| Result[TaxComputation]
+    Result --> F1040NR["f1040nr.ts mapper"]
+    Result --> F540NR["f540nr.ts mapper (federal AGI)"]
+    Engine -->|"computeFederalTax()"| Reusable["Future forms"]
+```
+
+### Integration with mappers
+
+**f1040nr.ts**: Replace inline income/deduction math with `compute1040NRTax(docs)`. Use the returned `TaxComputation` to populate all lines including the currently-missing Page 2 tax lines:
+
+- Line 16 (`f2_09`): Tax amount from brackets
+- Line 18 (`f2_11`): Lines 16 + 17
+- Line 22 (`f2_15`): Line 18 - Line 21
+- Line 24 (`f2_20`): Total tax
+- Line 34 (`f2_36`): Overpayment (if any)
+- Line 35a (`f2_37`): Refund amount
+- Line 37 (`f2_42`): Amount owed (if any)
+
+**f540nr.ts**: Import `compute1040NRTax` to get the federal AGI for field `2001` instead of using raw `wages_tips_other`.
+
+**eligibility/route.ts**: Import `isIndianCitizen` from `lib/tax-engine.ts` instead of defining it locally.

@@ -50,13 +50,17 @@ function parseAddress(raw: string | undefined) {
  *   Filing status: c1_5[0..4] = Single, MFS, QSS, Estate, Trust; f1_25 = QSS child name
  *   Digital assets: c1_6[0]=Yes, c1_6[1]=No
  *   Dependents: Table_Dependents Row1..Row6 (f1_26..f1_41, c1_8..c1_15)
- *   Income: f1_42..f1_71. Page 2: f2_01..f2_56, Line25_ReadOrder[0].f2_21[0], etc.
+ *   Income (Page 1): f1_42=1a wages, f1_44=1c tips, f1_46=1e dep-care, f1_49=1h type, f1_50=1h amount,
+ *     f1_54=1z total wages, f1_68=Line 8 other income, f1_69=Line 9 total ECI, f1_71=Line 11a AGI
+ *   Tax & Credits (Page 2): f2_01=11b AGI, f2_02=12 deductions, f2_06=14 total deductions,
+ *     f2_07=15 taxable income
+ *   Payments (Page 2): Line25_ReadOrder[0].f2_21=25a withheld, f2_24=25d subtotal, f2_35=33 total payments
  */
 export function mapToF1040NR(
   docs: FormDocuments
 ): Record<string, unknown> {
   const v: Record<string, unknown> = {};
-  const { passport, i20, w2 } = docs;
+  const { passport, w2 } = docs;
 
   const taxYear = w2?.tax_year ?? "2025";
   const taxYearNum = parseInt(taxYear, 10);
@@ -109,33 +113,41 @@ export function mapToF1040NR(
   if (ssTips) v[`${P1}.f1_44[0]`] = amt(ssTips);
   // Line 1e: Dependent care benefits (f1_46)
   if (depCare) v[`${P1}.f1_46[0]`] = amt(depCare);
-  // Line 1h: Other earned income (f1_49)
-  if (allocatedTips) v[`${P1}.f1_49[0]`] = amt(allocatedTips);
+  // Line 1h: Other earned income — f1_49 = type label, f1_50 = dollar amount
+  if (allocatedTips) {
+    v[`${P1}.f1_49[0]`] = "Allocated tips";
+    v[`${P1}.f1_50[0]`] = amt(allocatedTips);
+  }
 
   // Line 1z: Total wages (f1_54) — sum of 1a through 1h
   const totalWages = wages + ssTips + depCare + allocatedTips;
   if (totalWages) v[`${P1}.f1_54[0]`] = amt(totalWages);
 
-  // Line 8: Other income from Schedule 1 (f1_63)
-  if (nonqual) v[`${P1}.f1_63[0]`] = amt(nonqual);
+  // Line 8: Other income from Schedule 1 (f1_68)
+  if (nonqual) v[`${P1}.f1_68[0]`] = amt(nonqual);
 
-  // Line 9: Total effectively connected income (f1_64)
+  // Line 9: Total effectively connected income (f1_69)
   const totalIncome = totalWages + nonqual;
-  if (totalIncome) v[`${P1}.f1_64[0]`] = amt(totalIncome);
+  if (totalIncome) v[`${P1}.f1_69[0]`] = amt(totalIncome);
 
-  // Line 11: Adjusted gross income (f1_66 — same as total if no adjustments)
-  if (totalIncome) v[`${P1}.f1_66[0]`] = amt(totalIncome);
+  // Line 11a: Adjusted gross income (f1_71 — same as total if no adjustments)
+  if (totalIncome) v[`${P1}.f1_71[0]`] = amt(totalIncome);
 
-  // Line 12: Itemized deductions or standard ($14,600 for 2024, $15,000 for 2025 single)
-  const standardDeduction = taxYearNum >= 2025 ? 15000 : 14600;
-  v[`${P1}.f1_67[0]`] = amt(standardDeduction);
+  // Page 2 — Tax and Credits
+  // Line 11b: AGI repeated on Page 2 (f2_01)
+  if (totalIncome) v[`${P2}.f2_01[0]`] = amt(totalIncome);
 
-  // Line 14: Total deductions (f1_70)
-  v[`${P1}.f1_70[0]`] = amt(standardDeduction);
-
-  // Line 15: Taxable income (f1_71)
-  const taxableIncome = Math.max(0, totalIncome - standardDeduction);
-  if (totalIncome) v[`${P1}.f1_71[0]`] = amt(taxableIncome);
+  // Lines 12/14/15: Standard deduction only for Indian citizens (US-India tax treaty Art. 21(2))
+  const isIndian = ["India", "IND", "IN"].includes(
+    (passport?.nationality ?? passport?.issuing_country ?? "").trim()
+  );
+  const deduction = isIndian ? (taxYearNum >= 2025 ? 15750 : 14600) : 0;
+  if (isIndian) {
+    v[`${P2}.f2_02[0]`] = amt(deduction); // Line 12: Standard deduction
+    v[`${P2}.f2_06[0]`] = amt(deduction); // Line 14: Total deductions
+  }
+  const taxableIncome = Math.max(0, totalIncome - deduction);
+  if (totalIncome) v[`${P2}.f2_07[0]`] = amt(taxableIncome); // Line 15: Taxable income
 
   // Page 2 — Payments
   // Line 25a: Federal income tax withheld from W-2 (f2_21)
