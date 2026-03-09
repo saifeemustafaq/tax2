@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -15,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
+import { SSNDialog } from "@/components/ssn-dialog";
 
 type UploadStatus = "idle" | "uploading" | "processing" | "done" | "error";
 
@@ -204,7 +204,6 @@ const initialUploadState: UploadState = {
 };
 
 export default function DocumentsUploadPage() {
-  const router = useRouter();
   const [aiAutoFill, setAiAutoFill] = useState(true);
   const [files, setFiles] = useState<Partial<Record<DocumentId, File | null>>>(
     {},
@@ -216,6 +215,8 @@ export default function DocumentsUploadPage() {
     Partial<Record<DocumentId, ReturnType<typeof setInterval>>>
   >({});
   const [error, setError] = useState<string | null>(null);
+  const [ssnDialogOpen, setSsnDialogOpen] = useState(false);
+  const [w2SsnLast4, setW2SsnLast4] = useState<string | null>(null);
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
     const supported = SUPPORTED_IDS.has(
@@ -307,6 +308,10 @@ export default function DocumentsUploadPage() {
           toast.error(message);
           return;
         }
+        const body = await res.json().catch(() => ({}));
+        if (id === "w2" && typeof body?.ssnLast4 === "string") {
+          setW2SsnLast4(body.ssnLast4);
+        }
         setUploadState((prev) => ({
           ...prev,
           [id]: { status: "done", progress: 100, error: null },
@@ -332,8 +337,8 @@ export default function DocumentsUploadPage() {
 
   const handleContinue = useCallback(() => {
     setError(null);
-    router.push("/duration");
-  }, [router]);
+    setSsnDialogOpen(true);
+  }, []);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -383,6 +388,12 @@ export default function DocumentsUploadPage() {
           Continue with Uploaded Documents
         </Button>
       </div>
+
+      <SSNDialog
+        open={ssnDialogOpen}
+        onOpenChange={setSsnDialogOpen}
+        ssnLast4={w2SsnLast4}
+      />
     </div>
   );
 }

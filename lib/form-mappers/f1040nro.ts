@@ -45,7 +45,7 @@ export function mapToF1040NRO(
   // Name shown on Form 1040-NR, Your identifying number
   const fullName = [passport?.given_names, passport?.surname].filter(Boolean).join(" ");
   v[`${P1}.f1_1[0]`] = fullName;
-  v[`${P1}.f1_2[0]`] = w2?.employee.ssn ?? "";
+  v[`${P1}.f1_2[0]`] = docs.ssn ?? "";
 
   // A. Country(ies) citizen during tax year
   v[`${P1}.f1_3[0]`] = passport?.nationality ?? passport?.issuing_country ?? "";

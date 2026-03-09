@@ -71,7 +71,7 @@ export function mapToF1040NR(
   v[`${P1}.f1_15[0]`] = passport?.surname ?? "";
 
   // SSN / ITIN (f1_16)
-  v[`${P1}.f1_16[0]`] = w2?.employee.ssn ?? "";
+  v[`${P1}.f1_16[0]`] = docs.ssn ?? "";
 
   // US address (f1_17..f1_21 from W-2 employee address)
   const usAddr = parseAddress(w2?.employee.address);

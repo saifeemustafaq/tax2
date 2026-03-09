@@ -32,7 +32,7 @@ export function mapToF8843(
   // Name and TIN (f1_04, f1_05, f1_06)
   v[`${P1}.f1_04[0]`] = passport?.given_names ?? "";
   v[`${P1}.f1_05[0]`] = passport?.surname ?? "";
-  v[`${P1}.f1_06[0]`] = w2?.employee.ssn ?? "";
+  v[`${P1}.f1_06[0]`] = docs.ssn ?? "";
 
   // Address in country of residence (f1_07)
   const addr = passport?.address;

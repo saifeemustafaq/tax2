@@ -9,6 +9,7 @@ export interface UserDocument {
   contactNumber: string;
   address: string;
   hashedPassword: string;
+  ssn?: string;
   createdAt?: Date;
 }
 

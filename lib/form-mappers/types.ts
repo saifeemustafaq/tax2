@@ -14,6 +14,7 @@ export type FormDocuments = {
   visa: VisaExtraction | null;
   i94: I94Extraction | null;
   ead: EadExtraction | null;
+  ssn: string | null;
 };
 
 export function daysInRange(arrival: string, departure: string): number {

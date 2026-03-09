@@ -63,7 +63,7 @@ export function mapToF540NR(
   v["540NR_form_1005"] = passport?.surname ?? "";
 
   // SSN
-  v["540NR_form_1006"] = w2?.employee.ssn ?? "";
+  v["540NR_form_1006"] = docs.ssn ?? "";
 
   // Mailing address (from W-2 employee address)
   const rawAddr = w2?.employee.address ?? "";

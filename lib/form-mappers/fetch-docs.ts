@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
-import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
+import { getDocumentsCollection, ensureDocumentsIndexes, getUserCollection } from "@/lib/mongodb";
 import type {
   StoredDocumentPassport,
   StoredDocumentI20,
@@ -32,7 +32,8 @@ export async function fetchFormDocuments(): Promise<
   const coll = await getDocumentsCollection();
   const userId = new ObjectId(payload.sub);
 
-  const [passport, i20, w2, duration, visa, i94, ead] = await Promise.all([
+  const usersColl = await getUserCollection();
+  const [passport, i20, w2, duration, visa, i94, ead, user] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
     coll.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
@@ -40,6 +41,7 @@ export async function fetchFormDocuments(): Promise<
     coll.findOne({ userId, documentType: "visa" }) as Promise<StoredDocumentVisa | null>,
     coll.findOne({ userId, documentType: "i94" }) as Promise<StoredDocumentI94 | null>,
     coll.findOne({ userId, documentType: "ead" }) as Promise<StoredDocumentEAD | null>,
+    usersColl.findOne({ _id: userId }),
   ]);
 
   return {
@@ -52,6 +54,7 @@ export async function fetchFormDocuments(): Promise<
       visa: visa?.data ?? null,
       i94: i94?.data ?? null,
       ead: ead?.data ?? null,
+      ssn: user?.ssn ?? null,
     },
   };
 }

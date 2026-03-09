@@ -109,17 +109,28 @@ export async function POST(request: Request) {
     const result = await documents.insertOne(storedDoc);
     const id = result.insertedId.toString();
 
-    return NextResponse.json(
-      {
-        document: {
-          id,
-          documentType: storedDoc.documentType,
-          originalFilename: storedDoc.originalFilename,
-          createdAt: storedDoc.createdAt.toISOString(),
-        },
+    const responseBody: {
+      document: { id: string; documentType: string; originalFilename: string; createdAt: string };
+      ssnLast4?: string;
+    } = {
+      document: {
+        id,
+        documentType: storedDoc.documentType,
+        originalFilename: storedDoc.originalFilename ?? "",
+        createdAt: storedDoc.createdAt.toISOString(),
       },
-      { status: 201 }
-    );
+    };
+
+    if (docType === "w2") {
+      const w2Data = extracted as W2Extraction;
+      const rawSsn = w2Data?.employee?.ssn ?? "";
+      const digits = rawSsn.replace(/\D/g, "");
+      if (digits.length >= 4) {
+        responseBody.ssnLast4 = digits.slice(-4);
+      }
+    }
+
+    return NextResponse.json(responseBody, { status: 201 });
   } catch (err) {
     if (err instanceof ExtractionError) {
       if (err.code === "missing_key") {
