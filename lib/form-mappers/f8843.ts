@@ -49,7 +49,7 @@ export function mapToF8843(
   // 1a: Visa type and date of entry (f1_09)
   const visaType = i20?.class_of_admission ?? "";
   const entryDate = i20?.program_of_study?.earliest_admission_date ?? "";
-  v[`${P1}.f1_09[0]`] = visaType + (entryDate ? ` - Entered: ${entryDate}` : "");
+  v[`${P1}.f1_09[0]`] = visaType + (entryDate ? ` ${entryDate}` : "");
 
   // 1b: Current nonimmigrant status (f1_10)
   v[`${P1}.f1_10[0]`] = i20?.class_of_admission ?? "";
