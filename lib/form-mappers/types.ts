@@ -35,13 +35,31 @@ export function daysForYear(
   return String(daysInRange(e.arrival, e.departure));
 }
 
+/**
+ * IRS-compatible whole-dollar rounding.
+ * Fractional part >= 0.51 → round up; < 0.51 → round down (truncate).
+ * Operates in integer cents to avoid IEEE 754 floating-point comparison bugs.
+ * Idempotent: taxRound(taxRound(n)) === taxRound(n).
+ */
+export function taxRound(n: number): number {
+  if (!Number.isFinite(n) || n === 0) return 0;
+  const cents = Math.round(n * 100);
+  const wholeDollars = Math.trunc(cents / 100);
+  const remainderCents = Math.abs(cents % 100);
+  if (remainderCents === 0) return wholeDollars;
+  if (cents > 0) {
+    return remainderCents >= 51 ? wholeDollars + 1 : wholeDollars;
+  }
+  return remainderCents >= 51 ? wholeDollars - 1 : wholeDollars;
+}
+
 export function parseNum(v: string | number | undefined | null): number {
   if (v === undefined || v === null || v === "") return 0;
   const n = typeof v === "number" ? v : Number(v);
-  return Number.isFinite(n) ? n : 0;
+  return Number.isFinite(n) ? taxRound(n) : 0;
 }
 
 export function amt(n: string | number | undefined | null): string {
-  const num = parseNum(n);
-  return num ? String(Math.round(num * 100) / 100) : "";
+  const num = taxRound(parseNum(n));
+  return num ? String(num) : "";
 }

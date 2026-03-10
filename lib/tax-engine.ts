@@ -8,7 +8,7 @@
 
 import type { PassportExtraction } from "@/extraction/prompts";
 import type { FormDocuments } from "./form-mappers/types";
-import { parseNum } from "./form-mappers/types";
+import { parseNum, taxRound } from "./form-mappers/types";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -71,7 +71,7 @@ export function computeFederalTax(
     const taxableInBracket = Math.min(taxableIncome, bracket.max) - bracket.min;
     tax += taxableInBracket * bracket.rate;
   }
-  return Math.round(tax * 100) / 100;
+  return taxRound(tax);
 }
 
 const INDIA_IDENTIFIERS = new Set(["india", "indian", "ind", "in"]);
@@ -131,27 +131,27 @@ export function compute1040NRTax(docs: FormDocuments): TaxComputation {
   const otherIncome     = parseNum(w2?.nonqualified_plans); // Line 8 (Schedule 1)
   const federalWithheld = parseNum(w2?.federal_income_tax_withheld);
 
-  const totalWages  = wages + ssTips + depCare + allocatedTips;
-  const totalIncome = totalWages + otherIncome;
+  const totalWages  = taxRound(wages + ssTips + depCare + allocatedTips);
+  const totalIncome = taxRound(totalWages + otherIncome);
   const agi         = totalIncome; // No above-the-line adjustments for basic NRA case
 
   // Deductions
   const isIndianNational  = isIndianCitizen(passport);
   const standardDeduction = getStandardDeduction(taxYearNum, isIndianNational);
   const totalDeductions   = standardDeduction;
-  const taxableIncome     = Math.max(0, agi - totalDeductions);
+  const taxableIncome     = taxRound(Math.max(0, agi - totalDeductions));
 
   // Tax
   const brackets  = getBracketsForYear(taxYearNum);
-  const tax       = computeFederalTax(taxableIncome, brackets);
-  const totalTax  = tax; // No additional taxes (Schedule 2) for basic case
+  const tax       = computeFederalTax(taxableIncome, brackets); // already taxRound'd inside
+  const totalTax  = tax;
 
   // Payments and balance
   const totalPayments = federalWithheld;
   const balance       = totalPayments - totalTax;
-  const overpayment   = balance > 0 ? Math.round(balance * 100) / 100 : 0;
+  const overpayment   = balance > 0 ? taxRound(balance) : 0;
   const refund        = overpayment;
-  const amountOwed    = balance < 0 ? Math.round(Math.abs(balance) * 100) / 100 : 0;
+  const amountOwed    = balance < 0 ? taxRound(Math.abs(balance)) : 0;
 
   return {
     wages,

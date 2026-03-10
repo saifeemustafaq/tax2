@@ -15,6 +15,18 @@ import type { FormDocuments } from "./types";
 import { sanitizeW2 } from "@/extraction/prompts/forms/w2";
 
 /**
+ * Normalizes any SSN string to canonical XXX-XX-XXXX format.
+ * Returns null if the input doesn't resolve to exactly 9 digits
+ * (e.g. a redacted "XXX-XX-1234" from a W-2 scan).
+ */
+function normalizeSsn(raw: string | undefined | null): string | null {
+  if (!raw) return null;
+  const digits = raw.replace(/\D/g, "");
+  if (digits.length !== 9) return null;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`;
+}
+
+/**
  * Authenticates the user and fetches all relevant documents from MongoDB.
  * Returns null (with status info) when auth fails.
  */
@@ -55,7 +67,11 @@ export async function fetchFormDocuments(): Promise<
       visa: visa?.data ?? null,
       i94: i94?.data ?? null,
       ead: ead?.data ?? null,
-      ssn: user?.ssn ?? null,
+      // Prefer the SSN the user explicitly entered in the SSN dialog (already in
+      // XXX-XX-XXXX format). Fall back to the SSN extracted from their W-2 if
+      // the dialog was skipped or cancelled — only accepted when it resolves to
+      // a full 9 digits (rejects redacted values like "XXX-XX-1234").
+      ssn: user?.ssn ?? normalizeSsn(w2?.data?.employee?.ssn) ?? null,
     },
   };
 }
