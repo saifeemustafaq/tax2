@@ -1,5 +1,6 @@
 import type { FormDocuments } from "./types";
-import { amt, parseNum } from "./types";
+import { amt } from "./types";
+import { compute1040NRTax } from "@/lib/tax-engine";
 
 const P1 = "topmostSubform[0].Page1[0]";
 const P2 = "topmostSubform[0].Page2[0]";
@@ -99,65 +100,74 @@ export function mapToF1040NR(
   // Digital assets — default No
   v[`${P1}.c1_6[1]`] = true;
 
-  // Income from W-2
-  const wages = parseNum(w2?.wages_tips_other);
-  const fedWithheld = parseNum(w2?.federal_income_tax_withheld);
-  const ssTips = parseNum(w2?.social_security_tips);
-  const depCare = parseNum(w2?.dependent_care_benefits);
-  const allocatedTips = parseNum(w2?.allocated_tips);
-  const nonqual = parseNum(w2?.nonqualified_plans);
+  // Compute all tax values via the centralized engine
+  const c = compute1040NRTax(docs);
 
   // Line 1a: Wages (f1_42)
-  v[`${P1}.f1_42[0]`] = amt(wages);
+  v[`${P1}.f1_42[0]`] = amt(c.wages);
   // Line 1c: Tip income (f1_44)
-  if (ssTips) v[`${P1}.f1_44[0]`] = amt(ssTips);
+  if (c.ssTips) v[`${P1}.f1_44[0]`] = amt(c.ssTips);
   // Line 1e: Dependent care benefits (f1_46)
-  if (depCare) v[`${P1}.f1_46[0]`] = amt(depCare);
+  if (c.depCare) v[`${P1}.f1_46[0]`] = amt(c.depCare);
   // Line 1h: Other earned income — f1_49 = type label, f1_50 = dollar amount
-  if (allocatedTips) {
+  if (c.allocatedTips) {
     v[`${P1}.f1_49[0]`] = "Allocated tips";
-    v[`${P1}.f1_50[0]`] = amt(allocatedTips);
+    v[`${P1}.f1_50[0]`] = amt(c.allocatedTips);
   }
 
-  // Line 1z: Total wages (f1_54) — sum of 1a through 1h
-  const totalWages = wages + ssTips + depCare + allocatedTips;
-  if (totalWages) v[`${P1}.f1_54[0]`] = amt(totalWages);
+  // Line 1z: Total wages (f1_54)
+  if (c.totalWages) v[`${P1}.f1_54[0]`] = amt(c.totalWages);
 
   // Line 8: Other income from Schedule 1 (f1_68)
-  if (nonqual) v[`${P1}.f1_68[0]`] = amt(nonqual);
+  if (c.otherIncome) v[`${P1}.f1_68[0]`] = amt(c.otherIncome);
 
   // Line 9: Total effectively connected income (f1_69)
-  const totalIncome = totalWages + nonqual;
-  if (totalIncome) v[`${P1}.f1_69[0]`] = amt(totalIncome);
+  if (c.totalIncome) v[`${P1}.f1_69[0]`] = amt(c.totalIncome);
 
-  // Line 11a: Adjusted gross income (f1_71 — same as total if no adjustments)
-  if (totalIncome) v[`${P1}.f1_71[0]`] = amt(totalIncome);
+  // Line 11a: Adjusted gross income (f1_71)
+  if (c.agi) v[`${P1}.f1_71[0]`] = amt(c.agi);
 
   // Page 2 — Tax and Credits
   // Line 11b: AGI repeated on Page 2 (f2_01)
-  if (totalIncome) v[`${P2}.f2_01[0]`] = amt(totalIncome);
+  if (c.agi) v[`${P2}.f2_01[0]`] = amt(c.agi);
 
-  // Lines 12/14/15: Standard deduction only for Indian citizens (US-India tax treaty Art. 21(2))
-  const isIndian = ["India", "IND", "IN"].includes(
-    (passport?.nationality ?? passport?.issuing_country ?? "").trim()
-  );
-  const deduction = isIndian ? (taxYearNum >= 2025 ? 15750 : 14600) : 0;
-  if (isIndian) {
-    v[`${P2}.f2_02[0]`] = amt(deduction); // Line 12: Standard deduction
-    v[`${P2}.f2_06[0]`] = amt(deduction); // Line 14: Total deductions
+  // Lines 12/14/15: Standard deduction (Indian nationals via US-India treaty Art. 21(2))
+  if (c.standardDeduction) {
+    v[`${P2}.f2_02[0]`] = amt(c.standardDeduction); // Line 12
+    v[`${P2}.f2_06[0]`] = amt(c.totalDeductions);   // Line 14
   }
-  const taxableIncome = Math.max(0, totalIncome - deduction);
-  if (totalIncome) v[`${P2}.f2_07[0]`] = amt(taxableIncome); // Line 15: Taxable income
+  if (c.totalIncome) v[`${P2}.f2_07[0]`] = amt(c.taxableIncome); // Line 15
+
+  // Line 16: Tax from brackets (f2_09)
+  if (c.tax) v[`${P2}.f2_09[0]`] = amt(c.tax);
+
+  // Line 18: Tax (f2_11) — same as Line 16 (no Schedule D)
+  if (c.tax) v[`${P2}.f2_11[0]`] = amt(c.tax);
+
+  // Line 22: Line 18 minus credits (f2_15) — same as Line 18 for basic case
+  if (c.tax) v[`${P2}.f2_15[0]`] = amt(c.tax);
+
+  // Line 24: Total tax (f2_20)
+  if (c.totalTax) v[`${P2}.f2_20[0]`] = amt(c.totalTax);
 
   // Page 2 — Payments
-  // Line 25a: Federal income tax withheld from W-2 (f2_21)
-  if (fedWithheld) v[`${P2}.Line25_ReadOrder[0].f2_21[0]`] = amt(fedWithheld);
+  // Line 25a: Federal income tax withheld (f2_21)
+  if (c.federalWithheld) v[`${P2}.Line25_ReadOrder[0].f2_21[0]`] = amt(c.federalWithheld);
 
   // Line 25d: Subtotal (f2_24)
-  if (fedWithheld) v[`${P2}.f2_24[0]`] = amt(fedWithheld);
+  if (c.federalWithheld) v[`${P2}.f2_24[0]`] = amt(c.federalWithheld);
 
   // Line 33: Total payments (f2_35)
-  if (fedWithheld) v[`${P2}.f2_35[0]`] = amt(fedWithheld);
+  if (c.totalPayments) v[`${P2}.f2_35[0]`] = amt(c.totalPayments);
+
+  // Line 34: Overpayment (f2_36)
+  if (c.overpayment) v[`${P2}.f2_36[0]`] = amt(c.overpayment);
+
+  // Line 35a: Refund (f2_37)
+  if (c.refund) v[`${P2}.f2_37[0]`] = amt(c.refund);
+
+  // Line 36: Amount owed (f2_41)
+  if (c.amountOwed) v[`${P2}.f2_41[0]`] = amt(c.amountOwed);
 
   return v;
 }

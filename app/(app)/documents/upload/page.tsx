@@ -128,7 +128,7 @@ function DocumentUploadCard({
   return (
     <Card
       className={cn(
-        "border-dashed transition-colors",
+        "flex flex-col border-dashed transition-colors",
         !isBusy &&
           "cursor-pointer hover:border-muted-foreground/40 hover:bg-muted/30",
         isDragging && "border-primary/50 bg-muted/50",
@@ -158,32 +158,35 @@ function DocumentUploadCard({
         </div>
         <CardTitle className="text-center text-base">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
+      <CardContent className="flex flex-1 flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
         <p className="text-sm text-muted-foreground">{description}</p>
         <p className="text-xs text-muted-foreground">
           {file ? file.name : "Drag & drop or click"}
         </p>
-        {(uploadStatus === "uploading" || uploadStatus === "processing") && (
-          <div className="w-full space-y-1">
-            <Progress value={uploadProgress} className="h-2" />
-            <p className="text-xs text-muted-foreground">{statusLabel}</p>
-          </div>
-        )}
-        {isDone && (
-          <p className="flex items-center gap-1 text-xs text-green-600 dark:text-green-500">
-            <HiOutlineCheckCircle className="size-4 shrink-0" />
-            {statusLabel}
-          </p>
-        )}
-        {isError && uploadError && (
-          <p
-            className="flex items-center gap-1 text-xs text-destructive"
-            role="alert"
-          >
-            <HiOutlineExclamationCircle className="size-4 shrink-0" />
-            {uploadError}
-          </p>
-        )}
+
+        <div className="mt-auto flex min-h-[2rem] w-full items-center justify-center">
+          {(uploadStatus === "uploading" || uploadStatus === "processing") && (
+            <div className="w-full space-y-1">
+              <Progress value={uploadProgress} className="h-2" />
+              <p className="text-xs text-muted-foreground">{statusLabel}</p>
+            </div>
+          )}
+          {isDone && (
+            <p className="flex items-center gap-1 text-xs text-green-600 dark:text-green-500">
+              <HiOutlineCheckCircle className="size-4 shrink-0" />
+              {statusLabel}
+            </p>
+          )}
+          {isError && uploadError && (
+            <p
+              className="flex items-center gap-1 text-xs text-destructive"
+              role="alert"
+            >
+              <HiOutlineExclamationCircle className="size-4 shrink-0" />
+              {uploadError}
+            </p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );

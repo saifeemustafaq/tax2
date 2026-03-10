@@ -12,6 +12,7 @@ import type {
   StoredDocumentEAD,
 } from "@/lib/types/document";
 import type { FormDocuments } from "./types";
+import { sanitizeW2 } from "@/extraction/prompts/forms/w2";
 
 /**
  * Authenticates the user and fetches all relevant documents from MongoDB.
@@ -49,7 +50,7 @@ export async function fetchFormDocuments(): Promise<
     docs: {
       passport: passport?.data ?? null,
       i20: i20?.data ?? null,
-      w2: w2?.data ?? null,
+      w2: w2?.data ? sanitizeW2(w2.data) : null,
       duration: duration?.data.entries ?? null,
       visa: visa?.data ?? null,
       i94: i94?.data ?? null,
