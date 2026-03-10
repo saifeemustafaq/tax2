@@ -4,28 +4,11 @@ import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
 import type { StoredDocumentPassport } from "@/lib/types/document";
+import { isIndianCitizen } from "@/lib/tax-engine";
 
 export type FormEligibility = {
   schedule_oi: boolean;
 };
-
-const INDIA_IDENTIFIERS = new Set([
-  "india",
-  "indian",
-  "ind",
-  "in",
-]);
-
-function isIndianCitizen(doc: StoredDocumentPassport): boolean {
-  const fields = [
-    doc.data.nationality,
-    doc.data.country_code,
-    doc.data.issuing_country,
-  ];
-  return fields.some(
-    (v) => typeof v === "string" && INDIA_IDENTIFIERS.has(v.trim().toLowerCase())
-  );
-}
 
 export async function GET() {
   try {
@@ -48,7 +31,7 @@ export async function GET() {
     })) as StoredDocumentPassport | null;
 
     const eligibility: FormEligibility = {
-      schedule_oi: passport !== null && isIndianCitizen(passport),
+      schedule_oi: isIndianCitizen(passport?.data ?? null),
     };
 
     return NextResponse.json(eligibility);

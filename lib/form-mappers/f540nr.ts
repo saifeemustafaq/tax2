@@ -1,5 +1,6 @@
 import type { FormDocuments } from "./types";
 import { amt, parseNum } from "./types";
+import { compute1040NRTax } from "@/lib/tax-engine";
 
 /**
  * Maps extracted document data to California Form 540NR AcroForm fields.
@@ -63,7 +64,7 @@ export function mapToF540NR(
   v["540NR_form_1005"] = passport?.surname ?? "";
 
   // SSN
-  v["540NR_form_1006"] = w2?.employee.ssn ?? "";
+  v["540NR_form_1006"] = docs.ssn ?? "";
 
   // Mailing address (from W-2 employee address)
   const rawAddr = w2?.employee.address ?? "";
@@ -91,11 +92,9 @@ export function mapToF540NR(
   const caWages = parseNum(caEntry?.state_wages);
   const caWithheld = parseNum(caEntry?.state_income_tax);
 
-  // Federal wages (for federal AGI cross-reference)
-  const fedWages = parseNum(w2?.wages_tips_other);
-
-  // Page 2: Federal AGI (line 13 of 540NR ≈ field 2001)
-  if (fedWages) v["540NR_form_2001"] = amt(fedWages);
+  // Page 2: Federal AGI — use computed AGI from tax engine (not raw wages)
+  const { agi } = compute1040NRTax(docs);
+  if (agi) v["540NR_form_2001"] = amt(agi);
 
   // CA wages
   if (caWages) v["540NR_form_2002"] = amt(caWages);

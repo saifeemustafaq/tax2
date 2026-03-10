@@ -60,7 +60,7 @@ const FORMS: FormDef[] = [
     title: "Schedule OI",
     subtitle: "Other Information (Form 1040-NR)",
     description:
-      "Supplement to Form 1040-NR that reports visa type, days of presence, tax treaty benefits, and other information required for nonresident alien filers.",
+      "Supplement to Form 1040-NR. Reports visa type, days of presence, prior returns, trust filing, treaty benefits, and other information required for nonresident alien filers.",
     emptyFile: "f1040nro.pdf",
     filledFilename: "schedule_oi_filled.pdf",
     visibleWhen: "schedule_oi",

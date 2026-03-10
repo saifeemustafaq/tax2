@@ -62,7 +62,55 @@ export const w2Schema = z.object({
 
 export type W2Extraction = z.infer<typeof w2Schema>;
 
-export const w2Prompt = `Extract all visible fields from this W-2 Wage and Tax Statement image or PDF into the exact JSON structure requested. Use empty string "" for any text field you cannot read or that is not present. For dollar amounts use the exact value shown on the form as a string (e.g. "45000.00") or "" if not present. For Box 12a-d extract each coded entry as an object with "code" (the letter code, e.g. "D", "DD", "W") and "amount" (dollar value as string); use an empty array [] if no Box 12 entries are present. For Box 13 set each checkbox to true if checked, false otherwise. For Box 14 (Other) concatenate all entries into a single string or use "" if empty. For state_local (Boxes 15-20) extract each state/local row as an object in the array; use an empty array [] if no state/local information is present. For source include file_name and pages_included when available; omit if not applicable. Return only valid JSON matching the schema.`;
+export const w2Prompt = `Extract all visible fields from this W-2 Wage and Tax Statement image or PDF into the exact JSON structure requested. Use empty string "" for any text field you cannot read or that is not present. For dollar amounts use the exact value shown on the form as a string (e.g. "45000.00") or "" if not present.
+
+CRITICAL — Box 10 vs Box 12 (these boxes are physically adjacent on the W-2 and must NOT be confused):
+- Box 10 "Dependent care benefits" → maps ONLY to the "dependent_care_benefits" field. If Box 10 is blank or absent, set "dependent_care_benefits" to "".
+- Box 11 "Nonqualified plans" → maps ONLY to the "nonqualified_plans" field. If Box 11 is blank or absent, set "nonqualified_plans" to "".
+- Box 12a-d entries (which always carry a letter code such as D, DD, W, AA, etc.) must go EXCLUSIVELY into the "box_12" array. NEVER copy a Box 12 amount into "dependent_care_benefits" or "nonqualified_plans" — even if the dollar amounts appear similar or adjacent.
+- Code DD in Box 12 is the employer-sponsored health coverage cost. It is for information only and must NOT appear in any other field.
+
+For Box 12a-d: extract each coded entry as an object with "code" (the letter code, e.g. "D", "DD", "W") and "amount" (dollar value as string); use an empty array [] if no Box 12 entries are present. For Box 13 set each checkbox to true if checked, false otherwise. For Box 14 (Other) concatenate all entries into a single string or use "" if empty. For state_local (Boxes 15-20) extract each state/local row as an object in the array; use an empty array [] if no state/local information is present. For source include file_name and pages_included when available; omit if not applicable. Return only valid JSON matching the schema.`;
+
+/**
+ * Normalizes a dollar-amount string for comparison.
+ * Strips commas, spaces, and $ signs then returns the numeric string.
+ * "15,000.00", "$15,000", "15000.00", "15000" → "15000"
+ * Returns "" for blank or non-numeric input.
+ */
+function normalizeAmount(s: string): string {
+  const stripped = s.replace(/[$,\s]/g, "");
+  if (stripped === "") return "";
+  const n = parseFloat(stripped);
+  return Number.isFinite(n) ? String(n) : "";
+}
+
+/**
+ * Post-extraction guard: clears dependent_care_benefits / nonqualified_plans
+ * if the LLM placed a Box 12 amount there instead of in box_12[].
+ * Amount comparison is normalised so formatting differences don't cause misses.
+ */
+export function sanitizeW2(data: W2Extraction): W2Extraction {
+  const box12Amounts = new Set(
+    data.box_12
+      .map((e) => normalizeAmount(e.amount))
+      .filter((a) => a !== ""),
+  );
+
+  return {
+    ...data,
+    dependent_care_benefits:
+      normalizeAmount(data.dependent_care_benefits) !== "" &&
+      box12Amounts.has(normalizeAmount(data.dependent_care_benefits))
+        ? ""
+        : data.dependent_care_benefits,
+    nonqualified_plans:
+      normalizeAmount(data.nonqualified_plans) !== "" &&
+      box12Amounts.has(normalizeAmount(data.nonqualified_plans))
+        ? ""
+        : data.nonqualified_plans,
+  };
+}
 
 const stringProp = (desc: string) => ({ type: "string" as const, description: desc });
 const boolProp = (desc: string) => ({ type: "boolean" as const, description: desc });

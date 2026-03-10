@@ -1,0 +1,1374 @@
+{
+  "pdf": "/home/saif-zorin/Projects/tax2/f1040nr_filled_sample.pdf",
+  "fieldCount": 171,
+  "fields": [
+    {
+      "name": "topmostSubform[0].Page1[0].f1_01[0]",
+      "fieldName": "Tax year beginning date",
+      "kind": "text",
+      "value": "beginning date",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_02[0]",
+      "fieldName": "Tax year ending date",
+      "kind": "text",
+      "value": "ending date",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_03[0]",
+      "fieldName": "Tax year end (2-digit year)",
+      "kind": "text",
+      "value": "26",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_1[0]",
+      "fieldName": "Filed pursuant to section 301.9100-2",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_2[0]",
+      "fieldName": "Combat zone",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_04[0]",
+      "fieldName": "Combat zone (form header)",
+      "kind": "text",
+      "value": "form header Combat Zone",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_3[0]",
+      "fieldName": "Deceased",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_05[0]",
+      "fieldName": "Deceased date (MM)",
+      "kind": "text",
+      "value": "01",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_06[0]",
+      "fieldName": "Deceased date (DD)",
+      "kind": "text",
+      "value": "02",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_07[0]",
+      "fieldName": "Deceased date (YYYY)",
+      "kind": "text",
+      "value": "2025",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_08[0]",
+      "fieldName": "Spouse date (MM)",
+      "kind": "text",
+      "value": "01",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_09[0]",
+      "fieldName": "Spouse date (DD)",
+      "kind": "text",
+      "value": "02",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_10[0]",
+      "fieldName": "Spouse date (YYYY)",
+      "kind": "text",
+      "value": "2026",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_4[0]",
+      "fieldName": "Spouse",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_11[0]",
+      "fieldName": "Other form header 1",
+      "kind": "text",
+      "value": "other form header 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_12[0]",
+      "fieldName": "Other form header 2",
+      "kind": "text",
+      "value": "other form header 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_13[0]",
+      "fieldName": "Other form header 3",
+      "kind": "text",
+      "value": "other form header 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_14[0]",
+      "fieldName": "First name and middle initial",
+      "kind": "text",
+      "value": "Your first name and middle initial",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_15[0]",
+      "fieldName": "Last name",
+      "kind": "text",
+      "value": "Last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_16[0]",
+      "fieldName": "Identifying number (SSN/ITIN)",
+      "kind": "text",
+      "value": "Your iden",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_17[0]",
+      "fieldName": "Home address (number and street)",
+      "kind": "text",
+      "value": "Home address (number and street). If you have a P.O. box, see instructions.",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_18[0]",
+      "fieldName": "Apt. no.",
+      "kind": "text",
+      "value": "Apt. no.",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_19[0]",
+      "fieldName": "City, town, or post office",
+      "kind": "text",
+      "value": "City, town, or post office. If you have a foreign address, also complete spaces below.",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_20[0]",
+      "fieldName": "State",
+      "kind": "text",
+      "value": "State",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_21[0]",
+      "fieldName": "ZIP code",
+      "kind": "text",
+      "value": "ZIP code",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_22[0]",
+      "fieldName": "Foreign country name",
+      "kind": "text",
+      "value": "Foreign country name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_23[0]",
+      "fieldName": "Foreign province/state/county",
+      "kind": "text",
+      "value": "Foreign province/state/county",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_24[0]",
+      "fieldName": "Foreign postal code",
+      "kind": "text",
+      "value": "Foreign postal code",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_5[0]",
+      "fieldName": "Filing status: Single",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_5[1]",
+      "fieldName": "Filing status: Married filing separately (MFS)",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_5[2]",
+      "fieldName": "Filing status: Qualifying surviving spouse (QSS)",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_5[3]",
+      "fieldName": "Filing status: Estate",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_5[4]",
+      "fieldName": "Filing status: Trust",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_25[0]",
+      "fieldName": "QSS child name (if not your dependent)",
+      "kind": "text",
+      "value": "If you checked the QSS box, enter the child’s name if the qualifying person is a child but not your dependent:",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_6[0]",
+      "fieldName": "Digital assets: Yes",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_6[1]",
+      "fieldName": "Digital assets: No",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Dependents_ReadOrder[0].c1_7[0]",
+      "fieldName": "More than four dependents (check here)",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row1[0].f1_26[0]",
+      "fieldName": "Dependent 1 first name",
+      "kind": "text",
+      "value": "Dep 1 first name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row1[0].f1_27[0]",
+      "fieldName": "Dependent 2 first name",
+      "kind": "text",
+      "value": "Dep 2 first name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row1[0].f1_28[0]",
+      "fieldName": "Dependent 3 first name",
+      "kind": "text",
+      "value": "Dep 3 first name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row1[0].f1_29[0]",
+      "fieldName": "Dependent 4 first name",
+      "kind": "text",
+      "value": "Dep 4 first name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row2[0].f1_30[0]",
+      "fieldName": "Dependent 1 last name",
+      "kind": "text",
+      "value": "Dep 1 last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row2[0].f1_31[0]",
+      "fieldName": "Dependent 2 last name",
+      "kind": "text",
+      "value": "Dep 2 last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row2[0].f1_32[0]",
+      "fieldName": "Dependent 3 last name",
+      "kind": "text",
+      "value": "Dep 3 last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row2[0].f1_33[0]",
+      "fieldName": "Dependent 4 last name",
+      "kind": "text",
+      "value": "Dep 4 last name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row3[0].f1_34[0]",
+      "fieldName": "Dependent 1 identifying number",
+      "kind": "text",
+      "value": "DepNum1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row3[0].f1_35[0]",
+      "fieldName": "Dependent 2 identifying number",
+      "kind": "text",
+      "value": "DepNum2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row3[0].f1_36[0]",
+      "fieldName": "Dependent 3 identifying number",
+      "kind": "text",
+      "value": "DepNum3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row3[0].f1_37[0]",
+      "fieldName": "Dependent 4 identifying number",
+      "kind": "text",
+      "value": "DepNum4",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row4[0].f1_38[0]",
+      "fieldName": "Dependent 1 relationship",
+      "kind": "text",
+      "value": "Relationship Dep 1",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row4[0].f1_39[0]",
+      "fieldName": "Dependent 2 relationship",
+      "kind": "text",
+      "value": "Relationship Dep 2",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row4[0].f1_40[0]",
+      "fieldName": "Dependent 3 relationship",
+      "kind": "text",
+      "value": "Relationship Dep 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row4[0].f1_41[0]",
+      "fieldName": "Dependent 4 relationship",
+      "kind": "text",
+      "value": "Relationship Dep 4",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row5[0].c1_8[0]",
+      "fieldName": "Dep 1 lived with you more than half of 2025",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row5[0].c1_9[0]",
+      "fieldName": "Dep 2 lived with you more than half of 2025",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row5[0].c1_10[0]",
+      "fieldName": "Dep 3 lived with you more than half of 2025",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row5[0].c1_11[0]",
+      "fieldName": "Dep 4 lived with you more than half of 2025",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent1[0].c1_12[0]",
+      "fieldName": "Dep 1 Child tax credit",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent1[0].c1_12[1]",
+      "fieldName": "Dep 1 Credit for other dependents",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent2[0].c1_13[0]",
+      "fieldName": "Dep 2 Child tax credit",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent2[0].c1_13[1]",
+      "fieldName": "Dep 2 Credit for other dependents",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent3[0].c1_14[0]",
+      "fieldName": "Dep 3 Child tax credit",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent3[0].c1_14[1]",
+      "fieldName": "Dep 3 Credit for other dependents",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent4[0].c1_15[0]",
+      "fieldName": "Dep 4 Child tax credit",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Table_Dependents[0].Row6[0].Dependent4[0].c1_15[1]",
+      "fieldName": "Dep 4 Credit for other dependents",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_42[0]",
+      "fieldName": "Line 1a Wages",
+      "kind": "text",
+      "value": "1a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_43[0]",
+      "fieldName": "Line 1b",
+      "kind": "text",
+      "value": "1b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_44[0]",
+      "fieldName": "Line 1c Tip income",
+      "kind": "text",
+      "value": "1c",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_45[0]",
+      "fieldName": "Line 1d",
+      "kind": "text",
+      "value": "1d",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_46[0]",
+      "fieldName": "Line 1e Dependent care benefits",
+      "kind": "text",
+      "value": "1e",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_47[0]",
+      "fieldName": "Line 1f",
+      "kind": "text",
+      "value": "1f",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_48[0]",
+      "fieldName": "Line 1g",
+      "kind": "text",
+      "value": "1g",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_49[0]",
+      "fieldName": "Line 1h type",
+      "kind": "text",
+      "value": "1h type",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_50[0]",
+      "fieldName": "Line 1h amount",
+      "kind": "text",
+      "value": "1h amount",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_51[0]",
+      "fieldName": "Line 1h (reserved)",
+      "kind": "text",
+      "value": "",
+      "readOnly": true,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_52[0]",
+      "fieldName": "Line 1 (reserved)",
+      "kind": "text",
+      "value": "",
+      "readOnly": true,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].Line1k_ReadOrder[0].f1_53[0]",
+      "fieldName": "Line 1k",
+      "kind": "text",
+      "value": "1k",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_54[0]",
+      "fieldName": "Line 1z Total wages",
+      "kind": "text",
+      "value": "1z",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_55[0]",
+      "fieldName": "Line 2a",
+      "kind": "text",
+      "value": "2a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_56[0]",
+      "fieldName": "Line 2b",
+      "kind": "text",
+      "value": "2b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_57[0]",
+      "fieldName": "Line 3a",
+      "kind": "text",
+      "value": "3a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_58[0]",
+      "fieldName": "Line 3b",
+      "kind": "text",
+      "value": "3b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_16[0]",
+      "fieldName": "Line 3 checkbox 1",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_17[0]",
+      "fieldName": "Line 3 checkbox 2",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_59[0]",
+      "fieldName": "Line 4a",
+      "kind": "text",
+      "value": "4a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_60[0]",
+      "fieldName": "Line 4b",
+      "kind": "text",
+      "value": "4b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_18[0]",
+      "fieldName": "Line 4 checkbox 1",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_19[0]",
+      "fieldName": "Line 4 checkbox 2",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_20[0]",
+      "fieldName": "Line 4 checkbox 3",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_61[0]",
+      "fieldName": "Line 4c",
+      "kind": "text",
+      "value": "4C check",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_62[0]",
+      "fieldName": "Line 5a",
+      "kind": "text",
+      "value": "5a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_63[0]",
+      "fieldName": "Line 5b Other income",
+      "kind": "text",
+      "value": "5b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_21[0]",
+      "fieldName": "Line 5 checkbox 1",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_22[0]",
+      "fieldName": "Line 5 checkbox 2",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_23[0]",
+      "fieldName": "Line 5 checkbox 3",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_64[0]",
+      "fieldName": "Line 5c",
+      "kind": "text",
+      "value": "5c check",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_65[0]",
+      "fieldName": "Line 6 (reserved)",
+      "kind": "text",
+      "value": "",
+      "readOnly": true,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_66[0]",
+      "fieldName": "Line 7a Total income",
+      "kind": "text",
+      "value": "7a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_24[0]",
+      "fieldName": "Line 7 checkbox 1",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].c1_25[0]",
+      "fieldName": "Line 7 checkbox 2",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_67[0]",
+      "fieldName": "Line 7b",
+      "kind": "text",
+      "value": "7b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_68[0]",
+      "fieldName": "Line 8 Other income from Schedule 1",
+      "kind": "text",
+      "value": "8",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_69[0]",
+      "fieldName": "Line 9 Total effectively connected income",
+      "kind": "text",
+      "value": "9",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_70[0]",
+      "fieldName": "Line 10 Adjustments",
+      "kind": "text",
+      "value": "10",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page1[0].f1_71[0]",
+      "fieldName": "Line 11a AGI",
+      "kind": "text",
+      "value": "11a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_01[0]",
+      "fieldName": "Line 11b",
+      "kind": "text",
+      "value": "11b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_02[0]",
+      "fieldName": "Line 12b",
+      "kind": "text",
+      "value": "12b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_03[0]",
+      "fieldName": "Line 13a",
+      "kind": "text",
+      "value": "13a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_04[0]",
+      "fieldName": "Line 13b",
+      "kind": "text",
+      "value": "13b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_05[0]",
+      "fieldName": "Line 13c",
+      "kind": "text",
+      "value": "13c",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_06[0]",
+      "fieldName": "Line 14 Tax",
+      "kind": "text",
+      "value": "14",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_07[0]",
+      "fieldName": "Line 15 Total tax",
+      "kind": "text",
+      "value": "15",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_1[0]",
+      "fieldName": "Line 16 checkbox 1",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_2[0]",
+      "fieldName": "Line 16 checkbox 2",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_3[0]",
+      "fieldName": "Line 16 checkbox 3",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_08[0]",
+      "fieldName": "Line 16 (checkbox 3 text)",
+      "kind": "text",
+      "value": "16 checkbox 3",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_09[0]",
+      "fieldName": "Line 16 Amount",
+      "kind": "text",
+      "value": "16",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_10[0]",
+      "fieldName": "Line 17",
+      "kind": "text",
+      "value": "17",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_11[0]",
+      "fieldName": "Line 18",
+      "kind": "text",
+      "value": "18",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_12[0]",
+      "fieldName": "Line 19",
+      "kind": "text",
+      "value": "19",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_13[0]",
+      "fieldName": "Line 20",
+      "kind": "text",
+      "value": "20",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_14[0]",
+      "fieldName": "Line 21",
+      "kind": "text",
+      "value": "21",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_15[0]",
+      "fieldName": "Line 22 Total credits",
+      "kind": "text",
+      "value": "22",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].Line23a_ReadOrder[0].f2_16[0]",
+      "fieldName": "Line 23a",
+      "kind": "text",
+      "value": "23a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_17[0]",
+      "fieldName": "Line 23b",
+      "kind": "text",
+      "value": "23b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_18[0]",
+      "fieldName": "Line 23c",
+      "kind": "text",
+      "value": "23c",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_19[0]",
+      "fieldName": "Line 23d",
+      "kind": "text",
+      "value": "23d",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_20[0]",
+      "fieldName": "Line 24",
+      "kind": "text",
+      "value": "24",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].Line25_ReadOrder[0].f2_21[0]",
+      "fieldName": "Line 25a Federal tax withheld",
+      "kind": "text",
+      "value": "25a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_22[0]",
+      "fieldName": "Line 25b",
+      "kind": "text",
+      "value": "25b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_23[0]",
+      "fieldName": "Line 25c",
+      "kind": "text",
+      "value": "25c",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_24[0]",
+      "fieldName": "Line 25d Subtotal",
+      "kind": "text",
+      "value": "25d",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_25[0]",
+      "fieldName": "Line 25e",
+      "kind": "text",
+      "value": "25e",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_26[0]",
+      "fieldName": "Line 25f",
+      "kind": "text",
+      "value": "25f",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_27[0]",
+      "fieldName": "Line 25g",
+      "kind": "text",
+      "value": "25g",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_28[0]",
+      "fieldName": "Line 26",
+      "kind": "text",
+      "value": "26",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_29[0]",
+      "fieldName": "Line 27 (reserved)",
+      "kind": "text",
+      "value": "",
+      "readOnly": true,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].Line28_ReadOrder[0].c2_4[0]",
+      "fieldName": "Line 28 checkbox",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_30[0]",
+      "fieldName": "Line 28",
+      "kind": "text",
+      "value": "28",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_31[0]",
+      "fieldName": "Line 29",
+      "kind": "text",
+      "value": "29",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_32[0]",
+      "fieldName": "Line 30",
+      "kind": "text",
+      "value": "30",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_33[0]",
+      "fieldName": "Line 31",
+      "kind": "text",
+      "value": "31",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_34[0]",
+      "fieldName": "Line 32",
+      "kind": "text",
+      "value": "32",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_35[0]",
+      "fieldName": "Line 33 Total payments",
+      "kind": "text",
+      "value": "33",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_36[0]",
+      "fieldName": "Line 34",
+      "kind": "text",
+      "value": "34",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_5[0]",
+      "fieldName": "Refund: routing/account",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_37[0]",
+      "fieldName": "Line 35a Amount to refund",
+      "kind": "text",
+      "value": "35a",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].RoutingNo[0].f2_38[0]",
+      "fieldName": "Line 35b Routing number",
+      "kind": "text",
+      "value": "35b",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_6[0]",
+      "fieldName": "Account type: Checking",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_6[1]",
+      "fieldName": "Account type: Savings",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].AccountNo[0].f2_39[0]",
+      "fieldName": "Line 35d Account number",
+      "kind": "text",
+      "value": "35D Account num",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_40[0]",
+      "fieldName": "Line 35e",
+      "kind": "text",
+      "value": "35e",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_41[0]",
+      "fieldName": "Line 36 Amount you owe",
+      "kind": "text",
+      "value": "36",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_42[0]",
+      "fieldName": "Line 37",
+      "kind": "text",
+      "value": "37",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_43[0]",
+      "fieldName": "Line 38",
+      "kind": "text",
+      "value": "38",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_7[0]",
+      "fieldName": "Third party designee: Yes",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_7[1]",
+      "fieldName": "Third party designee: No",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_44[0]",
+      "fieldName": "Third party designee name",
+      "kind": "text",
+      "value": "Third party designee - Designee’s\nname",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_45[0]",
+      "fieldName": "Designee phone no.",
+      "kind": "text",
+      "value": "Phone No.",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_46[0]",
+      "fieldName": "Designee PIN",
+      "kind": "text",
+      "value": "PIN",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_47[0]",
+      "fieldName": "Your occupation",
+      "kind": "text",
+      "value": "Your occupation",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_48[0]",
+      "fieldName": "Your PIN (IRSPIN)",
+      "kind": "text",
+      "value": "IRSPIN",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_49[0]",
+      "fieldName": "Your phone number",
+      "kind": "text",
+      "value": "Phone Number",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_50[0]",
+      "fieldName": "Your email address",
+      "kind": "text",
+      "value": "Email address",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_51[0]",
+      "fieldName": "Preparer's name",
+      "kind": "text",
+      "value": "Preparer's name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_52[0]",
+      "fieldName": "Preparer PTIN",
+      "kind": "text",
+      "value": "PTIN",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].c2_8[0]",
+      "fieldName": "Preparer self-employed",
+      "kind": "checkbox",
+      "value": true,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_53[0]",
+      "fieldName": "Firm's name",
+      "kind": "text",
+      "value": "Firms name",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_54[0]",
+      "fieldName": "Firm phone no.",
+      "kind": "text",
+      "value": "Phone no",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_55[0]",
+      "fieldName": "Firm address",
+      "kind": "text",
+      "value": "Firm address",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "topmostSubform[0].Page2[0].f2_56[0]",
+      "fieldName": "Firm's EIN",
+      "kind": "text",
+      "value": "Firm's EIN",
+      "readOnly": false,
+      "required": false
+    }
+  ]
+}

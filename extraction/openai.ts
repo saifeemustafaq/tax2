@@ -4,6 +4,7 @@ import {
   isSupportedDocumentType,
   type SupportedDocumentType,
 } from "@/extraction/prompts";
+import { sanitizeW2, type W2Extraction } from "@/extraction/prompts/forms/w2";
 
 const DEFAULT_MODEL = "gpt-4o-mini";
 
@@ -136,6 +137,10 @@ export async function extractDocument(
       `Validation failed: ${result.error.message}`,
       "validation",
     );
+  }
+
+  if (documentType === "w2") {
+    return sanitizeW2(result.data as W2Extraction);
   }
 
   return result.data;

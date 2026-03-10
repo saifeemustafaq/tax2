@@ -17,12 +17,17 @@ declare global {
   var _mongoClientPromise: Promise<MongoClient> | undefined;
 }
 
-function getClientPromise(): Promise<MongoClient> {
+async function getClientPromise(): Promise<MongoClient> {
   if (!uri) {
     throw new Error("Missing MONGODB_URI environment variable");
   }
   if (global._mongoClientPromise) {
-    return global._mongoClientPromise;
+    try {
+      return await global._mongoClientPromise;
+    } catch {
+      // Previous connection failed; discard and retry below
+      global._mongoClientPromise = undefined;
+    }
   }
   const client = new MongoClient(uri, options);
   global._mongoClientPromise = client.connect();

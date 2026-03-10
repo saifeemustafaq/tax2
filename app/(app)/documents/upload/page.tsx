@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -15,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
+import { SSNDialog } from "@/components/ssn-dialog";
 
 type UploadStatus = "idle" | "uploading" | "processing" | "done" | "error";
 
@@ -128,7 +128,7 @@ function DocumentUploadCard({
   return (
     <Card
       className={cn(
-        "border-dashed transition-colors",
+        "flex flex-col border-dashed transition-colors",
         !isBusy &&
           "cursor-pointer hover:border-muted-foreground/40 hover:bg-muted/30",
         isDragging && "border-primary/50 bg-muted/50",
@@ -158,32 +158,35 @@ function DocumentUploadCard({
         </div>
         <CardTitle className="text-center text-base">{title}</CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
+      <CardContent className="flex flex-1 flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
         <p className="text-sm text-muted-foreground">{description}</p>
         <p className="text-xs text-muted-foreground">
           {file ? file.name : "Drag & drop or click"}
         </p>
-        {(uploadStatus === "uploading" || uploadStatus === "processing") && (
-          <div className="w-full space-y-1">
-            <Progress value={uploadProgress} className="h-2" />
-            <p className="text-xs text-muted-foreground">{statusLabel}</p>
-          </div>
-        )}
-        {isDone && (
-          <p className="flex items-center gap-1 text-xs text-green-600 dark:text-green-500">
-            <HiOutlineCheckCircle className="size-4 shrink-0" />
-            {statusLabel}
-          </p>
-        )}
-        {isError && uploadError && (
-          <p
-            className="flex items-center gap-1 text-xs text-destructive"
-            role="alert"
-          >
-            <HiOutlineExclamationCircle className="size-4 shrink-0" />
-            {uploadError}
-          </p>
-        )}
+
+        <div className="mt-auto flex min-h-[2rem] w-full items-center justify-center">
+          {(uploadStatus === "uploading" || uploadStatus === "processing") && (
+            <div className="w-full space-y-1">
+              <Progress value={uploadProgress} className="h-2" />
+              <p className="text-xs text-muted-foreground">{statusLabel}</p>
+            </div>
+          )}
+          {isDone && (
+            <p className="flex items-center gap-1 text-xs text-green-600 dark:text-green-500">
+              <HiOutlineCheckCircle className="size-4 shrink-0" />
+              {statusLabel}
+            </p>
+          )}
+          {isError && uploadError && (
+            <p
+              className="flex items-center gap-1 text-xs text-destructive"
+              role="alert"
+            >
+              <HiOutlineExclamationCircle className="size-4 shrink-0" />
+              {uploadError}
+            </p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
@@ -204,7 +207,6 @@ const initialUploadState: UploadState = {
 };
 
 export default function DocumentsUploadPage() {
-  const router = useRouter();
   const [aiAutoFill, setAiAutoFill] = useState(true);
   const [files, setFiles] = useState<Partial<Record<DocumentId, File | null>>>(
     {},
@@ -216,6 +218,8 @@ export default function DocumentsUploadPage() {
     Partial<Record<DocumentId, ReturnType<typeof setInterval>>>
   >({});
   const [error, setError] = useState<string | null>(null);
+  const [ssnDialogOpen, setSsnDialogOpen] = useState(false);
+  const [w2SsnLast4, setW2SsnLast4] = useState<string | null>(null);
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
     const supported = SUPPORTED_IDS.has(
@@ -307,6 +311,10 @@ export default function DocumentsUploadPage() {
           toast.error(message);
           return;
         }
+        const body = await res.json().catch(() => ({}));
+        if (id === "w2" && typeof body?.ssnLast4 === "string") {
+          setW2SsnLast4(body.ssnLast4);
+        }
         setUploadState((prev) => ({
           ...prev,
           [id]: { status: "done", progress: 100, error: null },
@@ -332,8 +340,8 @@ export default function DocumentsUploadPage() {
 
   const handleContinue = useCallback(() => {
     setError(null);
-    router.push("/duration");
-  }, [router]);
+    setSsnDialogOpen(true);
+  }, []);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -383,6 +391,12 @@ export default function DocumentsUploadPage() {
           Continue with Uploaded Documents
         </Button>
       </div>
+
+      <SSNDialog
+        open={ssnDialogOpen}
+        onOpenChange={setSsnDialogOpen}
+        ssnLast4={w2SsnLast4}
+      />
     </div>
   );
 }

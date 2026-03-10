@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,7 +18,22 @@ const YEARS = [2023, 2024, 2025] as const;
 
 type YearDates = Record<number, { arrival: string; departure: string }>;
 
+function daysInUS(arrival: string, departure: string): number | null {
+  if (!arrival || !departure) return null;
+  const diff = new Date(departure).getTime() - new Date(arrival).getTime();
+  if (diff < 0) return null;
+  return Math.round(diff / 86_400_000) + 1;
+}
+
+function randomDate(year: number, startMonth: number, endMonth: number): string {
+  const month = startMonth + Math.floor(Math.random() * (endMonth - startMonth + 1));
+  const maxDay = new Date(year, month, 0).getDate();
+  const day = 1 + Math.floor(Math.random() * maxDay);
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
 export default function DurationPage() {
+  const router = useRouter();
   const [dates, setDates] = useState<YearDates>(() =>
     Object.fromEntries(YEARS.map((y) => [y, { arrival: "", departure: "" }]))
   );
@@ -54,6 +70,17 @@ export default function DurationPage() {
     []
   );
 
+  const fillRandom = useCallback(() => {
+    const filled: YearDates = {};
+    for (const year of YEARS) {
+      filled[year] = {
+        arrival: randomDate(year, 1, 3),
+        departure: randomDate(year, 11, 12),
+      };
+    }
+    setDates(filled);
+  }, []);
+
   const save = useCallback(async () => {
     setSaving(true);
     try {
@@ -69,6 +96,7 @@ export default function DurationPage() {
       });
       if (!res.ok) throw new Error("Failed to save");
       toast.success("Travel dates saved");
+      router.push("/forms");
     } catch {
       toast.error("Failed to save travel dates");
     } finally {
@@ -95,6 +123,7 @@ export default function DurationPage() {
         {YEARS.map((year) => {
           const minDate = `${year}-01-01`;
           const maxDate = `${year}-12-31`;
+          const days = daysInUS(dates[year]?.arrival, dates[year]?.departure);
           return (
             <Card key={year} className="border-border">
               <CardHeader className="pb-3">
@@ -135,6 +164,11 @@ export default function DurationPage() {
                     aria-label={`Departure date for ${year}`}
                   />
                 </div>
+                {days !== null && (
+                  <p className="rounded-md bg-muted px-3 py-2 text-center text-sm font-medium text-muted-foreground">
+                    {days} {days === 1 ? "day" : "days"} in the US
+                  </p>
+                )}
               </CardContent>
             </Card>
           );
@@ -145,14 +179,19 @@ export default function DurationPage() {
         <Button variant="outline" size="lg" asChild>
           <Link href="/documents/upload">Back</Link>
         </Button>
-        <Button
-          size="lg"
-          type="button"
-          onClick={save}
-          disabled={saving || !loaded}
-        >
-          {saving ? "Saving…" : "Save & Continue"}
-        </Button>
+        <div className="flex gap-3">
+          <Button variant="outline" size="lg" type="button" onClick={fillRandom}>
+            Fill
+          </Button>
+          <Button
+            size="lg"
+            type="button"
+            onClick={save}
+            disabled={saving || !loaded}
+          >
+            {saving ? "Saving…" : "Save & Continue"}
+          </Button>
+        </div>
       </div>
     </div>
   );
