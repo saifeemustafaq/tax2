@@ -86,12 +86,15 @@ export function mapToF1040NR(
   v[`${P1}.f1_20[0]`] = usAddr.state;
   v[`${P1}.f1_21[0]`] = usAddr.zip;
 
-  // Foreign address (f1_22..f1_24 from passport)
-  const pAddr = passport?.address;
-  if (pAddr) {
-    v[`${P1}.f1_22[0]`] = pAddr.country ?? "";
-    v[`${P1}.f1_23[0]`] = [pAddr.state, pAddr.city_or_district].filter(Boolean).join(", ");
-    v[`${P1}.f1_24[0]`] = pAddr.postal_code ?? "";
+  // Foreign address (f1_22..f1_24) — only when the current address is NOT a US postal address
+  const hasUSAddress = Boolean(usAddr.state && usAddr.zip);
+  if (!hasUSAddress) {
+    const pAddr = passport?.address;
+    if (pAddr) {
+      v[`${P1}.f1_22[0]`] = pAddr.country ?? "";
+      v[`${P1}.f1_23[0]`] = [pAddr.state, pAddr.city_or_district].filter(Boolean).join(", ");
+      v[`${P1}.f1_24[0]`] = pAddr.postal_code ?? "";
+    }
   }
 
   // Filing status — default to "Single" for nonresident aliens
