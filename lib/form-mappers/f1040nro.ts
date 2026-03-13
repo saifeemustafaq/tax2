@@ -1,5 +1,5 @@
 import type { FormDocuments } from "./types";
-import { daysForYear } from "./types";
+import { daysForYear, formatDateLong } from "./types";
 
 /**
  * Schedule OI (Form 1040-NR) — Other Information.
@@ -61,8 +61,8 @@ export function mapToF1040NRO(
 
   // E. Visa type / immigration status on last day of tax year (first row of G table used for visa type)
   v[`${P1}.LineG_Table1[0].BodyRow1[0].f1_7[0]`] = i20?.class_of_admission ?? "";
-  // G. First entry/depart dates (from I-20 or duration)
-  const entryDate = i20?.program_of_study?.earliest_admission_date ?? "";
+  // G. First entry/depart dates (user-provided most recent F1 visa entry)
+  const entryDate = formatDateLong(docs.f1VisaEntryDate);
   v[`${P1}.LineG_Table1[0].BodyRow1[0].f1_8[0]`] = entryDate;
 
   // F. Changed visa type? — No (default); f1_6 left blank

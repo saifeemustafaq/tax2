@@ -15,7 +15,7 @@ function getClient(): OpenAI {
       "OPENAI_API_KEY is not set. Document extraction requires an OpenAI API key.",
     );
   }
-  return new OpenAI({ apiKey: key });
+  return new OpenAI({ apiKey: key, maxRetries: 3, timeout: 60_000 });
 }
 
 function getModel(): string {
@@ -89,11 +89,25 @@ export async function extractDocument(
   const model = getModel();
 
   const name = filename ?? (file instanceof File ? file.name : "document");
-  const fileId = await uploadFile(
-    file,
-    name,
-    file instanceof Blob ? file.type : undefined,
-  );
+
+  let fileId: string;
+  try {
+    fileId = await uploadFile(
+      file,
+      name,
+      file instanceof Blob ? file.type : undefined,
+    );
+  } catch (err) {
+    // Wrap connection / network errors with a user-friendly code so the route
+    // returns 502 (retryable) instead of 500 (unexpected server error).
+    if (err instanceof Error && !("code" in err && (err as ExtractionError).code)) {
+      throw new ExtractionError(
+        "Could not reach the extraction service. Check your network and try again.",
+        "api",
+      );
+    }
+    throw err;
+  }
 
   const prompt = config.prompt;
   const jsonSchema = config.jsonSchema;

@@ -107,7 +107,7 @@ export const passportJsonSchema = {
   type: "object" as const,
   properties: {
     document_type: { type: "string", description: "Document type e.g. P" },
-    issuing_country: { type: "string", description: "Issuing country name or code" },
+    issuing_country: { type: "string", description: "The country that issued this passport, as printed on the passport cover or data page (e.g. India, United Kingdom). NOT the country of residence or visa country." },
     passport_type: { type: "string", description: "Passport type" },
     country_code: { type: "string", description: "Country code" },
     passport_number: { type: "string", description: "Passport number" },

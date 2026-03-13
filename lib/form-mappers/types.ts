@@ -15,7 +15,27 @@ export type FormDocuments = {
   i94: I94Extraction | null;
   ead: EadExtraction | null;
   ssn: string | null;
+  f1VisaEntryDate: string | null;
+  institutionName: string | null;
+  programDirectorName: string | null;
+  institutionAddress: string | null;
+  institutionPhone: string | null;
+  visaHistory: Record<string, string> | null;
 };
+
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+/** Converts a YYYY-MM-DD string to "DD Month YYYY" (e.g. "24 August 2026"). */
+export function formatDateLong(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const [y, m, d] = iso.split("-");
+  const mi = parseInt(m, 10);
+  if (!y || !m || !d || !mi || mi < 1 || mi > 12) return iso;
+  return `${parseInt(d, 10)} ${MONTHS[mi - 1]} ${y}`;
+}
 
 export function daysInRange(arrival: string, departure: string): number {
   const a = new Date(arrival);
@@ -62,4 +82,32 @@ export function parseNum(v: string | number | undefined | null): number {
 export function amt(n: string | number | undefined | null): string {
   const num = taxRound(parseNum(n));
   return num ? String(num) : "";
+}
+
+export function parseAddress(raw: string | undefined) {
+  const out = { street: "", apt: "", city: "", state: "", zip: "" };
+  if (!raw) return out;
+  const m = raw.match(/^(.*),\s*([^,]+),\s*([A-Z]{2})\s*(\d{5}(?:-\d{4})?)$/i);
+  if (!m) {
+    out.street = raw.trim();
+    return out;
+  }
+  const pre = (m[1] || "").trim();
+  out.city = (m[2] || "").trim();
+  out.state = (m[3] || "").trim().toUpperCase();
+  out.zip = (m[4] || "").trim();
+  const tokens = pre
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  out.street = tokens.shift() || "";
+  out.apt = tokens.join(", ");
+  if (!out.apt) {
+    const aptInline = out.street.match(/\b(?:Apt\.?|Apartment|#)\s*([\w-]+)/i);
+    if (aptInline) {
+      out.apt = aptInline[1];
+      out.street = out.street.replace(aptInline[0], "").trim();
+    }
+  }
+  return out;
 }

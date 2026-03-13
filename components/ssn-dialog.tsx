@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { HiOutlineCheckCircle, HiOutlineExclamationCircle } from "react-icons/hi";
@@ -21,6 +21,8 @@ interface SSNDialogProps {
   onOpenChange: (open: boolean) => void;
   /** Last 4 digits of SSN extracted from W-2, if a W-2 was uploaded. */
   ssnLast4?: string | null;
+  /** School name extracted from I-20, used to pre-fill institution name. */
+  schoolName?: string | null;
 }
 
 function formatSSN(raw: string): string {
@@ -34,44 +36,101 @@ function isValidSSN(value: string): boolean {
   return /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
 
-export function SSNDialog({ open, onOpenChange, ssnLast4 }: SSNDialogProps) {
+const VISA_TYPES = ["", "F", "J", "M", "Q"] as const;
+const VISA_YEARS = [2019, 2020, 2021, 2022, 2023, 2024] as const;
+
+export function SSNDialog({ open, onOpenChange, ssnLast4, schoolName }: SSNDialogProps) {
   const router = useRouter();
   const [ssn, setSSN] = useState("");
+  const [entryDate, setEntryDate] = useState("");
+  const [institutionName, setInstitutionName] = useState("");
+  const [programDirectorName, setProgramDirectorName] = useState("");
+  const [institutionAddress, setInstitutionAddress] = useState("");
+  const [institutionPhone, setInstitutionPhone] = useState("");
+  const [visaHistory, setVisaHistory] = useState<Record<number, string>>(
+    () => Object.fromEntries(VISA_YEARS.map((y) => [y, ""])),
+  );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (schoolName && !institutionName) {
+      setInstitutionName(schoolName);
+    }
+  }, [schoolName, institutionName]);
+
+  const handleSSNChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
     setSSN(formatSSN(e.target.value));
   }, []);
 
-  const valid = isValidSSN(ssn);
-  const enteredLast4 = valid ? ssn.replace(/\D/g, "").slice(-4) : null;
+  const handleDateChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
+    setEntryDate(e.target.value);
+  }, []);
 
+  const handleVisaChange = useCallback((year: number, value: string) => {
+    setError(null);
+    setVisaHistory((prev) => ({ ...prev, [year]: value }));
+  }, []);
+
+  const ssnValid = isValidSSN(ssn);
+  const dateValid = /^\d{4}-\d{2}-\d{2}$/.test(entryDate);
+  const institutionValid =
+    institutionName.trim() !== "" &&
+    programDirectorName.trim() !== "" &&
+    institutionAddress.trim() !== "" &&
+    institutionPhone.trim() !== "";
+  const canSubmit = ssnValid && dateValid && institutionValid;
+
+  const enteredLast4 = ssnValid ? ssn.replace(/\D/g, "").slice(-4) : null;
   let matchIndicator: "match" | "mismatch" | null = null;
   if (ssnLast4 && enteredLast4) {
     matchIndicator = enteredLast4 === ssnLast4 ? "match" : "mismatch";
   }
 
   const handleContinue = useCallback(async () => {
-    if (!valid) {
+    if (!ssnValid) {
       setError("Please enter a valid SSN in the format XXX-XX-XXXX.");
+      return;
+    }
+    if (!dateValid) {
+      setError("Please enter a valid date for your most recent F1 visa entry.");
+      return;
+    }
+    if (!institutionValid) {
+      setError("Please fill in all academic institution fields.");
       return;
     }
 
     setLoading(true);
     setError(null);
 
+    const visaHistoryPayload: Record<string, string> = {};
+    for (const year of VISA_YEARS) {
+      if (visaHistory[year]) {
+        visaHistoryPayload[String(year)] = visaHistory[year];
+      }
+    }
+
     try {
       const res = await fetch("/api/user/ssn", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ssn }),
+        body: JSON.stringify({
+          ssn,
+          f1VisaEntryDate: entryDate,
+          institutionName: institutionName.trim(),
+          programDirectorName: programDirectorName.trim(),
+          institutionAddress: institutionAddress.trim(),
+          institutionPhone: institutionPhone.trim(),
+          visaHistory: visaHistoryPayload,
+        }),
       });
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        const message = typeof body?.error === "string" ? body.error : "Failed to save SSN.";
+        const message = typeof body?.error === "string" ? body.error : "Failed to save information.";
         setError(message);
         toast.error(message);
         return;
@@ -79,30 +138,34 @@ export function SSNDialog({ open, onOpenChange, ssnLast4 }: SSNDialogProps) {
 
       router.push("/duration");
     } catch {
-      const message = "Failed to save SSN. Please try again.";
+      const message = "Failed to save information. Please try again.";
       setError(message);
       toast.error(message);
     } finally {
       setLoading(false);
     }
-  }, [ssn, valid, router]);
+  }, [
+    ssn, ssnValid, entryDate, dateValid,
+    institutionName, programDirectorName, institutionAddress, institutionPhone,
+    institutionValid, visaHistory, router,
+  ]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-md"
+        className="sm:max-w-lg max-h-[85vh] overflow-y-auto"
         onInteractOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
       >
         <DialogHeader>
-          <DialogTitle>Enter your Social Security Number</DialogTitle>
+          <DialogTitle>Additional Information</DialogTitle>
           <DialogDescription>
-            Your SSN is required for tax form filing and will not be
-            auto-detected from uploaded documents.
+            Please provide the following details required for your tax forms.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 py-2">
+        <div className="space-y-6 py-2">
+          {/* SSN */}
           <div className="space-y-2">
             <Label htmlFor="ssn-input">Social Security Number</Label>
             <Input
@@ -111,10 +174,9 @@ export function SSNDialog({ open, onOpenChange, ssnLast4 }: SSNDialogProps) {
               inputMode="numeric"
               placeholder="XXX-XX-XXXX"
               value={ssn}
-              onChange={handleChange}
+              onChange={handleSSNChange}
               maxLength={11}
               autoComplete="off"
-              aria-label="Social Security Number"
             />
           </div>
 
@@ -124,13 +186,110 @@ export function SSNDialog({ open, onOpenChange, ssnLast4 }: SSNDialogProps) {
               Last 4 digits match your W-2.
             </p>
           )}
-
           {matchIndicator === "mismatch" && (
             <p className="flex items-center gap-1.5 text-sm text-amber-600 dark:text-amber-500">
               <HiOutlineExclamationCircle className="size-4 shrink-0" />
               Last 4 digits do not match your W-2. Please verify.
             </p>
           )}
+
+          {/* F1 Visa Entry Date */}
+          <div className="space-y-2">
+            <Label htmlFor="entry-date-input">Most Recent U.S. Entry Date on F1 Visa</Label>
+            <Input
+              id="entry-date-input"
+              type="date"
+              value={entryDate}
+              onChange={handleDateChange}
+              autoComplete="off"
+            />
+            <p className="text-xs text-muted-foreground">
+              This is the date you most recently entered the United States on
+              your F1 visa. This is not necessarily the first time you entered
+              the US &mdash; it is your most recent entry.
+            </p>
+          </div>
+
+          {/* Academic Institution */}
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium">Academic Institution</legend>
+
+            <div className="space-y-2">
+              <Label htmlFor="inst-name">Name of Institution</Label>
+              <Input
+                id="inst-name"
+                type="text"
+                value={institutionName}
+                onChange={(e) => { setError(null); setInstitutionName(e.target.value); }}
+                placeholder="e.g. Carnegie Mellon University"
+                autoComplete="off"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="dir-name">Name of the Director of the Program</Label>
+              <Input
+                id="dir-name"
+                type="text"
+                value={programDirectorName}
+                onChange={(e) => { setError(null); setProgramDirectorName(e.target.value); }}
+                autoComplete="off"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="inst-address">Address of the Institution</Label>
+              <Input
+                id="inst-address"
+                type="text"
+                value={institutionAddress}
+                onChange={(e) => { setError(null); setInstitutionAddress(e.target.value); }}
+                autoComplete="off"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="inst-phone">Telephone Number</Label>
+              <Input
+                id="inst-phone"
+                type="tel"
+                value={institutionPhone}
+                onChange={(e) => { setError(null); setInstitutionPhone(e.target.value); }}
+                placeholder="e.g. (412) 268-2000"
+                autoComplete="off"
+              />
+            </div>
+          </fieldset>
+
+          {/* Visa History */}
+          <fieldset className="space-y-3">
+            <legend className="text-sm font-medium">Visa Type Held Per Year</legend>
+            <p className="text-xs text-muted-foreground">
+              Select the type of U.S. visa (F, J, M, Q) you held during each year.
+              Leave blank for years that do not apply.
+            </p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+              {VISA_YEARS.map((year) => (
+                <div key={year} className="flex items-center gap-2">
+                  <Label htmlFor={`visa-${year}`} className="w-10 shrink-0 text-sm">
+                    {year}
+                  </Label>
+                  <select
+                    id={`visa-${year}`}
+                    value={visaHistory[year] ?? ""}
+                    onChange={(e) => handleVisaChange(year, e.target.value)}
+                    className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    {VISA_TYPES.map((v) => (
+                      <option key={v} value={v}>
+                        {v || "—"}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
+          </fieldset>
 
           {error && (
             <p
@@ -151,7 +310,7 @@ export function SSNDialog({ open, onOpenChange, ssnLast4 }: SSNDialogProps) {
           >
             Cancel
           </Button>
-          <Button onClick={handleContinue} disabled={!valid || loading}>
+          <Button onClick={handleContinue} disabled={!canSubmit || loading}>
             {loading ? "Saving…" : "Continue"}
           </Button>
         </DialogFooter>

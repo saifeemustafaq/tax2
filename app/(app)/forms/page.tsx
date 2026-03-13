@@ -74,6 +74,7 @@ const FORMS: FormDef[] = [
       "California state income tax return for nonresidents or part-year residents who earned California-source income.",
     emptyFile: "540nr.pdf",
     filledFilename: "540nr_filled.pdf",
+    visibleWhen: "ca_540nr",
   },
 ];
 

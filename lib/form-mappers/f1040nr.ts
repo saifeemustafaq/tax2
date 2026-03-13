@@ -1,37 +1,9 @@
 import type { FormDocuments } from "./types";
-import { amt } from "./types";
+import { amt, parseAddress } from "./types";
 import { compute1040NRTax } from "@/lib/tax-engine";
 
 const P1 = "topmostSubform[0].Page1[0]";
 const P2 = "topmostSubform[0].Page2[0]";
-
-function parseAddress(raw: string | undefined) {
-  const out = { street: "", apt: "", city: "", state: "", zip: "" };
-  if (!raw) return out;
-  const m = raw.match(/^(.*),\s*([^,]+),\s*([A-Z]{2})\s*(\d{5}(?:-\d{4})?)$/i);
-  if (!m) {
-    out.street = raw.trim();
-    return out;
-  }
-  const pre = (m[1] || "").trim();
-  out.city = (m[2] || "").trim();
-  out.state = (m[3] || "").trim().toUpperCase();
-  out.zip = (m[4] || "").trim();
-  const tokens = pre
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
-  out.street = tokens.shift() || "";
-  out.apt = tokens.join(", ");
-  if (!out.apt) {
-    const aptInline = out.street.match(/\b(?:Apt\.?|Apartment|#)\s*([\w-]+)/i);
-    if (aptInline) {
-      out.apt = aptInline[1];
-      out.street = out.street.replace(aptInline[0], "").trim();
-    }
-  }
-  return out;
-}
 
 /**
  * Maps extracted document data to Form 1040-NR AcroForm field names.

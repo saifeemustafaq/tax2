@@ -3,11 +3,13 @@ import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
-import type { StoredDocumentPassport } from "@/lib/types/document";
+import type { StoredDocumentPassport, StoredDocumentW2 } from "@/lib/types/document";
 import { isIndianCitizen } from "@/lib/tax-engine";
+import { parseNum } from "@/lib/form-mappers/types";
 
 export type FormEligibility = {
   schedule_oi: boolean;
+  ca_540nr: boolean;
 };
 
 export async function GET() {
@@ -24,14 +26,18 @@ export async function GET() {
 
     await ensureDocumentsIndexes();
     const documents = await getDocumentsCollection();
+    const userId = new ObjectId(payload.sub);
 
-    const passport = (await documents.findOne({
-      userId: new ObjectId(payload.sub),
-      documentType: "passport",
-    })) as StoredDocumentPassport | null;
+    const [passport, w2] = await Promise.all([
+      documents.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
+      documents.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
+    ]);
 
     const eligibility: FormEligibility = {
       schedule_oi: isIndianCitizen(passport?.data ?? null),
+      ca_540nr: (w2?.data.state_local ?? []).some(
+        (sl) => sl.state.toUpperCase() === "CA" && parseNum(sl.state_wages) > 0
+      ),
     };
 
     return NextResponse.json(eligibility);

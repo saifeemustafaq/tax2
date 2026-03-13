@@ -1,5 +1,5 @@
 import type { FormDocuments } from "./types";
-import { daysForYear } from "./types";
+import { daysForYear, formatDateLong } from "./types";
 
 const P1 = "topmostSubform[0].Page1[0]";
 
@@ -48,7 +48,7 @@ export function mapToF8843(
 
   // 1a: Visa type and date of entry (f1_09)
   const visaType = i20?.class_of_admission ?? "";
-  const entryDate = i20?.program_of_study?.earliest_admission_date ?? "";
+  const entryDate = formatDateLong(docs.f1VisaEntryDate);
   v[`${P1}.f1_09[0]`] = visaType + (entryDate ? ` ${entryDate}` : "");
 
   // 1b: Current nonimmigrant status (f1_10)
@@ -67,20 +67,23 @@ export function mapToF8843(
   v[`${P1}.f1_16[0]`] = daysForYear(duration, 2023);
   v[`${P1}.f1_17[0]`] = daysForYear(duration, 2025);
 
-  // Part III — Student info (f1_26..f1_34 in this PDF)
-  if (i20) {
-    v[`${P1}.f1_26[0]`] = i20?.school_information?.school_name ?? "";
-    v[`${P1}.f1_27[0]`] = [i20?.program_of_study?.education_level, i20?.program_of_study?.major_1?.name].filter(Boolean).join(" - ") || "";
-    const dso = i20?.school_information?.school_official_contact;
-    const schoolAddr = i20?.school_information?.school_address ?? "";
-    if (dso) {
-      v[`${P1}.f1_30[0]`] = [dso.name, dso.title].filter(Boolean).join(", ");
-      v[`${P1}.f1_31[0]`] = schoolAddr;
-      v[`${P1}.f1_32[0]`] = "";
-    }
-    v[`${P1}.f1_33[0]`] = i20?.program_of_study?.program_start_date ?? "";
-    v[`${P1}.f1_34[0]`] = i20?.program_of_study?.program_end_date ?? "";
-  }
+  // Part III — Student info
+  // Q9: Academic institution (name, address, phone combined)
+  const instParts = [docs.institutionName, docs.institutionAddress, docs.institutionPhone].filter(Boolean);
+  v[`${P1}.f1_26[0]`] = instParts.join(", ");
+
+  // Q10: Director (director name + same address and phone)
+  const dirParts = [docs.programDirectorName, docs.institutionAddress, docs.institutionPhone].filter(Boolean);
+  v[`${P1}.f1_27[0]`] = dirParts.join(", ");
+
+  // Q11: Visa type per year (2019-2024)
+  const vh = docs.visaHistory;
+  v[`${P1}.f1_28[0]`] = vh?.["2019"] ?? "";
+  v[`${P1}.f1_29[0]`] = vh?.["2020"] ?? "";
+  v[`${P1}.f1_30[0]`] = vh?.["2021"] ?? "";
+  v[`${P1}.f1_31[0]`] = vh?.["2022"] ?? "";
+  v[`${P1}.f1_32[0]`] = vh?.["2023"] ?? "";
+  v[`${P1}.f1_33[0]`] = vh?.["2024"] ?? "";
 
   return v;
 }

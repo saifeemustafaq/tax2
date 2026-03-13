@@ -175,3 +175,157 @@ export function compute1040NRTax(docs: FormDocuments): TaxComputation {
     amountOwed,
   };
 }
+
+// ---------------------------------------------------------------------------
+// California 2025 tax brackets — Single filer
+// ---------------------------------------------------------------------------
+
+export const CA_BRACKETS_2025_SINGLE: TaxBracket[] = [
+  { min: 0,       max: 10756,    rate: 0.01  },
+  { min: 10756,   max: 25499,    rate: 0.02  },
+  { min: 25499,   max: 40245,    rate: 0.04  },
+  { min: 40245,   max: 55866,    rate: 0.06  },
+  { min: 55866,   max: 70606,    rate: 0.08  },
+  { min: 70606,   max: 360659,   rate: 0.093 },
+  { min: 360659,  max: 432787,   rate: 0.103 },
+  { min: 432787,  max: 721314,   rate: 0.113 },
+  { min: 721314,  max: Infinity, rate: 0.123 },
+];
+
+// 2025 CA personal exemption credit (single filer)
+const CA_PERSONAL_EXEMPTION_CREDIT_2025 = 144;
+// Mental Health Services Tax: 1% surcharge on CA taxable income over $1,000,000
+const CA_MHST_THRESHOLD_2025 = 1_000_000;
+const CA_MHST_RATE = 0.01;
+
+// ---------------------------------------------------------------------------
+// CA 540NR computation type
+// ---------------------------------------------------------------------------
+
+export type CA540NRComputation = {
+  federalAgi: number;
+  caWages: number;
+  caAdjustedGrossIncome: number;
+  caStandardDeduction: number;
+  caTaxableIncome: number;
+  caProrationRatio: number;     // CA income / total federal income (0–1)
+  caTaxBeforeCredits: number;
+  caMhst: number;
+  caExemptionCredit: number;    // prorated personal exemption credit
+  caNetTax: number;
+  caSdi: number;                // CA SDI withheld (from W-2 Box 14)
+  caWithheld: number;           // CA income tax withheld (from W-2 Box 17)
+  caOverpayment: number;
+  caRefund: number;
+  caAmountOwed: number;
+};
+
+// ---------------------------------------------------------------------------
+// CA SDI helper
+// ---------------------------------------------------------------------------
+
+/**
+ * Extracts the CA SDI amount from W-2 Box 14 free-text.
+ * Handles labels like "CASDI 234.56", "CA SDI: 234.56", "CASDI-234.56".
+ */
+function parseCaSdi(box14: string | undefined | null): number {
+  if (!box14) return 0;
+  const m = box14.match(/(?:CA\s*SDI|CASDI)\s*[:\-]?\s*([\d,]+(?:\.\d+)?)/i);
+  if (!m) return 0;
+  return parseNum(m[1].replace(/,/g, ""));
+}
+
+// ---------------------------------------------------------------------------
+// CA 540NR top-level orchestrator
+// ---------------------------------------------------------------------------
+
+/**
+ * Computes all CA 540NR tax values from extracted document data.
+ * Single NRA filer, nonresident flow.
+ *
+ * Key simplifications for the basic NRA case:
+ *   - No CA-specific income additions or subtractions
+ *   - CA AGI = CA wages from W-2 state_local (Box 15)
+ *   - No CA standard deduction (NRA nonresidents are not eligible)
+ *   - Proration ratio = CA wages / federal AGI (capped at 1.0)
+ *   - Balance uses CA income tax withheld only (SDI credit applies only
+ *     to excess withholding from multiple employers)
+ */
+export function compute540NRTax(docs: FormDocuments): CA540NRComputation {
+  const { w2 } = docs;
+
+  // Federal AGI from the 1040-NR computation
+  const { agi: federalAgi } = compute1040NRTax(docs);
+
+  // CA wages and income tax withheld from W-2 Box 15–17
+  const caEntry = w2?.state_local?.find(
+    (sl) => sl.state.toUpperCase() === "CA"
+  );
+  const caWages    = parseNum(caEntry?.state_wages);
+  const caWithheld = parseNum(caEntry?.state_income_tax);
+
+  // CA SDI from W-2 Box 14 (informational; only excess SDI from multiple
+  // employers offsets income tax — shown on the form but excluded from balance)
+  const caSdi = parseCaSdi(w2?.box_14);
+
+  // CA adjusted gross income (= CA wages for basic NRA, no adjustments)
+  const caAdjustedGrossIncome = caWages;
+
+  // NRA nonresidents cannot claim the CA standard deduction
+  const caStandardDeduction = 0;
+
+  // CA taxable income
+  const caTaxableIncome = taxRound(
+    Math.max(0, caAdjustedGrossIncome - caStandardDeduction)
+  );
+
+  // Proration ratio: CA source income / total federal income, capped at 1.0
+  const caProrationRatio =
+    federalAgi > 0 ? Math.min(1.0, caWages / federalAgi) : caWages > 0 ? 1.0 : 0;
+
+  // CA tax from 2025 brackets
+  const caTaxBeforeCredits = computeFederalTax(
+    caTaxableIncome,
+    CA_BRACKETS_2025_SINGLE
+  );
+
+  // Mental Health Services Tax (1% on CA taxable income over $1M)
+  const caMhst =
+    caTaxableIncome > CA_MHST_THRESHOLD_2025
+      ? taxRound((caTaxableIncome - CA_MHST_THRESHOLD_2025) * CA_MHST_RATE)
+      : 0;
+
+  // Prorated personal exemption credit: $144 × proration ratio
+  const caExemptionCredit = taxRound(
+    CA_PERSONAL_EXEMPTION_CREDIT_2025 * caProrationRatio
+  );
+
+  // Net CA tax after exemption credit (not less than 0)
+  const caNetTax = taxRound(
+    Math.max(0, caTaxBeforeCredits + caMhst - caExemptionCredit)
+  );
+
+  // Balance: CA income tax withheld vs. CA tax owed
+  const balance      = caWithheld - caNetTax;
+  const caOverpayment = balance > 0 ? taxRound(balance)      : 0;
+  const caRefund      = caOverpayment;
+  const caAmountOwed  = balance < 0 ? taxRound(Math.abs(balance)) : 0;
+
+  return {
+    federalAgi,
+    caWages,
+    caAdjustedGrossIncome,
+    caStandardDeduction,
+    caTaxableIncome,
+    caProrationRatio,
+    caTaxBeforeCredits,
+    caMhst,
+    caExemptionCredit,
+    caNetTax,
+    caSdi,
+    caWithheld,
+    caOverpayment,
+    caRefund,
+    caAmountOwed,
+  };
+}

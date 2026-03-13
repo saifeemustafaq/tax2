@@ -72,6 +72,12 @@ export async function fetchFormDocuments(): Promise<
       // the dialog was skipped or cancelled — only accepted when it resolves to
       // a full 9 digits (rejects redacted values like "XXX-XX-1234").
       ssn: user?.ssn ?? normalizeSsn(w2?.data?.employee?.ssn) ?? null,
+      f1VisaEntryDate: user?.f1VisaEntryDate ?? null,
+      institutionName: user?.institutionName ?? null,
+      programDirectorName: user?.programDirectorName ?? null,
+      institutionAddress: user?.institutionAddress ?? null,
+      institutionPhone: user?.institutionPhone ?? null,
+      visaHistory: user?.visaHistory ?? null,
     },
   };
 }

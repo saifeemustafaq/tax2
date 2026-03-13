@@ -112,6 +112,7 @@ export async function POST(request: Request) {
     const responseBody: {
       document: { id: string; documentType: string; originalFilename: string; createdAt: string };
       ssnLast4?: string;
+      schoolName?: string;
     } = {
       document: {
         id,
@@ -128,6 +129,10 @@ export async function POST(request: Request) {
       if (digits.length >= 4) {
         responseBody.ssnLast4 = digits.slice(-4);
       }
+    }
+
+    if (docType === "i20") {
+      responseBody.schoolName = (extracted as I20Extraction)?.school_information?.school_name ?? "";
     }
 
     return NextResponse.json(responseBody, { status: 201 });

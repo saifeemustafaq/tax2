@@ -220,6 +220,7 @@ export default function DocumentsUploadPage() {
   const [error, setError] = useState<string | null>(null);
   const [ssnDialogOpen, setSsnDialogOpen] = useState(false);
   const [w2SsnLast4, setW2SsnLast4] = useState<string | null>(null);
+  const [i20SchoolName, setI20SchoolName] = useState<string | null>(null);
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
     const supported = SUPPORTED_IDS.has(
@@ -315,6 +316,9 @@ export default function DocumentsUploadPage() {
         if (id === "w2" && typeof body?.ssnLast4 === "string") {
           setW2SsnLast4(body.ssnLast4);
         }
+        if (id === "i20" && typeof body?.schoolName === "string") {
+          setI20SchoolName(body.schoolName);
+        }
         setUploadState((prev) => ({
           ...prev,
           [id]: { status: "done", progress: 100, error: null },
@@ -396,6 +400,7 @@ export default function DocumentsUploadPage() {
         open={ssnDialogOpen}
         onOpenChange={setSsnDialogOpen}
         ssnLast4={w2SsnLast4}
+        schoolName={i20SchoolName}
       />
     </div>
   );

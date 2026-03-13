@@ -1,113 +1,184 @@
 import type { FormDocuments } from "./types";
-import { amt, parseNum } from "./types";
-import { compute1040NRTax } from "@/lib/tax-engine";
+import { amt, parseAddress } from "./types";
+import { compute540NRTax } from "@/lib/tax-engine";
 
 /**
  * Maps extracted document data to California Form 540NR AcroForm fields.
  *
- * Field names use the pattern "540NR_form_XYYY" where X=page, YYY=field number.
- * Page 1 (1xxx): Taxpayer info, filing status, exemptions
- * Page 2 (2xxx): Income adjustments
+ * Field naming: "540NR_form_XYYY" where X = page section, YYY = field number.
+ *
+ * Physical field positions verified via scripts/debug-540nr-fields.ts
+ * (coordinate dump in scripts/output/540nr-layout.json).
+ *
+ * Page 1 (1xxx): Personal info, filing status, exemptions
+ *   1003     First name
+ *   1004     Middle initial
+ *   1005     Last name
+ *   1006     Suffix (narrow, top=108 left=385 w=43) — NOT SSN
+ *   1007     SSN / ITIN (top=108 left=432 w=108)
+ *   1013     Additional information (top=169 left=36 w=426) — do NOT use for city
+ *   1014     PBA code (top=169 left=466 w=73) — do NOT use for state
+ *   1015     Street address (top=198 left=36 w=348)
+ *   1016     Apt / Ste (top=198 left=388 w=73)
+ *   1018     City (top=228 left=36 w=361)
+ *   1019     State (top=228 left=401 w=25)
+ *   1020     ZIP code (top=228 left=430 w=110)
+ *   1021     Foreign country (top=258 left=36 w=213) — non-US address
+ *   1024     Date of birth (top=297 left=74 w=97)
+ *   1029 RB  Filing status radio
+ *   1030     Personal exemption count (Line 7)
+ *
+ * Page 2 (2xxx): Income
+ *   2001     Federal AGI
+ *   2002     CA wages
+ *   2028     CA adjusted gross income
+ *   2036     CA taxable income
+ *
  * Page 3 (3xxx): Tax computation
- * Page 4 (4xxx): Payments & credits
+ *   3-column layout: left(w=127) | narrow(w=26) | right(w=113, x=437)
+ *   3003     Right col, row 1 (top=69)  — CA tax amount (Line 31)
+ *   3006     Right col, row 2 (top=94)  — MHST
+ *   3011     Proration CA source income (top=225, right col)
+ *   3012     Proration total income / federal AGI (top=249, right col)
+ *   3013     Proration ratio 4-decimal (top=273, right col)
+ *   3014     Prorated exemption credit amount (top=297, right col)
+ *   3022     Net CA tax after all credits (top=502, right col)
+ *   3029     Final net CA tax (top=693, right col)
+ *
+ * Page 4 (4xxx): Payments
+ *   4003     CA income tax withheld (W-2 Box 17)
+ *   4004     CA SDI withheld (W-2 Box 14)
+ *   4022     Total payments
+ *
  * Page 5 (5xxx): Refund / amount owed
- * Page 6 (6xxx): Signature
+ *   5001     Net CA tax — first right-col field (top=82)
+ *   5002     Total payments (top=118)
+ *   5005     Overpayment (top=154)
+ *   5006     Refund amount (top=179)
+ *   5007     Amount owed (top=215)
  *
- * Key page-1 fields (from PDF field discovery):
- *   1001 CB = Amended return checkbox
- *   1002 = Tax year
- *   1003 = Your first name
- *   1004 = Your middle initial
- *   1005 = Your last name
- *   1006 = Your SSN
- *   1007 = Spouse first name
- *   1008 = Spouse middle initial
- *   1009 = Spouse last name
- *   1010 = Spouse SSN
- *   1011 = Street address (current mailing)
- *   1012 = Apt/Ste
- *   1013 = City
- *   1014 = State
- *   1015 = ZIP code
- *   1016 = Country (if foreign)
- *   1017..1027 = Additional identity / prior-year info
- *   1028 CB = Head of household checkbox
- *   1029 RB = Filing status radio
- *   1030..1053 = Exemptions, dependents, CA income
- *
- * Page 2 fields (California AGI):
- *   2001 = Federal AGI (from 1040-NR)
- *   2002 = CA wages
- *   2003..2036 = Various CA adjustments
- *
- * Page 3 fields (Tax):
- *   3001..3029 = Tax, credits, net tax
- *
- * Page 4 fields (Payments):
- *   4003..4022 = CA withholding, estimated payments, credits
+ * Page 6 (6xxx): Signature block
+ *   6002     Taxpayer name (wide, top=178 left=97 w=354)
+ *   6003     Date signed (top=178 left=463 w=111)
  */
-export function mapToF540NR(
-  docs: FormDocuments
-): Record<string, unknown> {
+export function mapToF540NR(docs: FormDocuments): Record<string, unknown> {
   const v: Record<string, unknown> = {};
   const { passport, w2 } = docs;
 
-  const taxYear = w2?.tax_year ?? "2025";
+  const c = compute540NRTax(docs);
 
-  // Tax year
-  v["540NR_form_1002"] = taxYear;
+  // -------------------------------------------------------------------------
+  // Page 1 — Personal information
+  // -------------------------------------------------------------------------
 
-  // Your name
+  v["540NR_form_1002"] = w2?.tax_year ?? "2025";
+
+  // Taxpayer name
   const givenParts = (passport?.given_names ?? "").split(" ");
   v["540NR_form_1003"] = givenParts[0] ?? "";
-  v["540NR_form_1004"] = givenParts.length > 1 ? givenParts[givenParts.length - 1].charAt(0) : "";
+  v["540NR_form_1004"] =
+    givenParts.length > 1 ? givenParts[givenParts.length - 1].charAt(0) : "";
   v["540NR_form_1005"] = passport?.surname ?? "";
 
-  // SSN
-  v["540NR_form_1006"] = docs.ssn ?? "";
+  // SSN / ITIN — field 1007 (top=108 left=432 w=108)
+  v["540NR_form_1007"] = docs.ssn ?? "";
 
-  // Mailing address (from W-2 employee address)
-  const rawAddr = w2?.employee.address ?? "";
-  const addrMatch = rawAddr.match(
-    /^(.*),\s*([^,]+),\s*([A-Z]{2})\s*(\d{5}(?:-\d{4})?)$/i
-  );
-  if (addrMatch) {
-    v["540NR_form_1011"] = (addrMatch[1] || "").trim();
-    v["540NR_form_1013"] = (addrMatch[2] || "").trim();
-    v["540NR_form_1014"] = (addrMatch[3] || "").trim().toUpperCase();
-    v["540NR_form_1015"] = (addrMatch[4] || "").trim();
-  } else {
-    v["540NR_form_1011"] = rawAddr;
+  // Mailing address — use parseAddress on W-2 employee address (US postal)
+  const addr = parseAddress(w2?.employee.address);
+  if (addr.city) {
+    // US postal address parsed successfully
+    v["540NR_form_1015"] = addr.street;
+    if (addr.apt) v["540NR_form_1016"] = addr.apt;
+    v["540NR_form_1018"] = addr.city;
+    v["540NR_form_1019"] = addr.state;
+    v["540NR_form_1020"] = addr.zip;
+  } else if (addr.street) {
+    // Raw address, no city/state/zip parsed — write street and foreign country
+    v["540NR_form_1015"] = addr.street;
+    const pAddr = passport?.address;
+    if (pAddr?.country) v["540NR_form_1021"] = pAddr.country;
   }
 
-  // Filing status radio — Single (value "1" typically)
-  // Radio groups need the option name; we'll try "1" for single
-  v["540NR_form_1029 RB"] = "1";
+  // Date of birth (MM/DD/YYYY) — prefer passport, fall back to I-20
+  const rawDob = passport?.date_of_birth ?? docs.i20?.student?.date_of_birth ?? "";
+  if (rawDob) {
+    // Convert YYYY-MM-DD → MM/DD/YYYY if needed
+    const isoMatch = rawDob.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    v["540NR_form_1024"] = isoMatch
+      ? `${isoMatch[2]}/${isoMatch[3]}/${isoMatch[1]}`
+      : rawDob;
+  }
 
-  // CA state wages and state income tax from W-2 state_local entries
-  const caEntry = w2?.state_local?.find(
-    (sl) => sl.state.toUpperCase() === "CA"
-  );
+  // Filing status: single NRA
+  v["540NR_form_1029 RB"] = "Line 1 . Single.";
 
-  const caWages = parseNum(caEntry?.state_wages);
-  const caWithheld = parseNum(caEntry?.state_income_tax);
+  // Personal exemption count (Line 7) — 1 for single filer
+  v["540NR_form_1030"] = "1";
 
-  // Page 2: Federal AGI — use computed AGI from tax engine (not raw wages)
-  const { agi } = compute1040NRTax(docs);
-  if (agi) v["540NR_form_2001"] = amt(agi);
+  // -------------------------------------------------------------------------
+  // Page 2 — Income
+  // -------------------------------------------------------------------------
 
-  // CA wages
-  if (caWages) v["540NR_form_2002"] = amt(caWages);
+  if (c.federalAgi)            v["540NR_form_2001"] = amt(c.federalAgi);
+  if (c.caWages)               v["540NR_form_2002"] = amt(c.caWages);
+  if (c.caAdjustedGrossIncome) v["540NR_form_2028"] = amt(c.caAdjustedGrossIncome);
+  if (c.caTaxableIncome)       v["540NR_form_2036"] = amt(c.caTaxableIncome);
 
-  // Page 4: CA state tax withheld (line 71 ≈ field 4003)
-  if (caWithheld) v["540NR_form_4003"] = amt(caWithheld);
+  // -------------------------------------------------------------------------
+  // Page 3 — Tax computation
+  // Right column (x=437, w=113) fields are the dollar-amount fields.
+  // Left column (w=127) and narrow column (w=26) are not filled here.
+  // -------------------------------------------------------------------------
 
-  // Page 5: Signature info — name
+  // Line 31: CA tax from rate schedule (right col, row 1)
+  if (c.caTaxBeforeCredits) v["540NR_form_3003"] = amt(c.caTaxBeforeCredits);
+
+  // MHST — 1% on CA taxable income > $1M (right col, row 2)
+  if (c.caMhst) v["540NR_form_3006"] = amt(c.caMhst);
+
+  // Proration section (all right col)
+  if (c.caWages)           v["540NR_form_3011"] = amt(c.caWages);
+  if (c.federalAgi)        v["540NR_form_3012"] = amt(c.federalAgi);
+  v["540NR_form_3013"]     = c.caProrationRatio.toFixed(4);
+  if (c.caExemptionCredit) v["540NR_form_3014"] = amt(c.caExemptionCredit);
+
+  // Net CA tax after all credits (carried forward)
+  if (c.caNetTax) {
+    v["540NR_form_3022"] = amt(c.caNetTax);
+    v["540NR_form_3029"] = amt(c.caNetTax);
+  }
+
+  // -------------------------------------------------------------------------
+  // Page 4 — Payments
+  // -------------------------------------------------------------------------
+
+  if (c.caWithheld) v["540NR_form_4003"] = amt(c.caWithheld);
+  if (c.caSdi)      v["540NR_form_4004"] = amt(c.caSdi);
+  if (c.caWithheld) v["540NR_form_4022"] = amt(c.caWithheld);
+
+  // -------------------------------------------------------------------------
+  // Page 5 — Refund or Amount Owed
+  // 5001 = Net CA tax (top=82, first right-col field on page 5)
+  // 5002 = Total payments (top=118)
+  // -------------------------------------------------------------------------
+
+  if (c.caNetTax)      v["540NR_form_5001"] = amt(c.caNetTax);
+  if (c.caWithheld)    v["540NR_form_5002"] = amt(c.caWithheld);
+  if (c.caOverpayment) v["540NR_form_5005"] = amt(c.caOverpayment);
+  if (c.caRefund)      v["540NR_form_5006"] = amt(c.caRefund);
+  if (c.caAmountOwed)  v["540NR_form_5007"] = amt(c.caAmountOwed);
+
+  // -------------------------------------------------------------------------
+  // Page 6 — Signature block
+  // 6002 = Taxpayer name (wide, left-aligned, top=178 left=97 w=354)
+  // 6003 = Date signed (top=178 left=463 w=111)
+  // -------------------------------------------------------------------------
+
   const fullName = [passport?.given_names, passport?.surname]
     .filter(Boolean)
     .join(" ");
-  v["540NR_form_6001"] = fullName;
-  v["540NR_form_6002"] = new Date().toISOString().slice(0, 10);
+  if (fullName) v["540NR_form_6002"] = fullName;
+  v["540NR_form_6003"] = new Date().toISOString().slice(0, 10);
 
   return v;
 }
