@@ -103,6 +103,7 @@ export default function FormsPage() {
   const openViewer = useCallback((form: FormDef) => {
     setViewerForm({
       formId: form.id,
+      fillApiId: form.fillApiId,
       title: form.title,
       subtitle: form.subtitle,
     });

@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import type { DurationEntry } from "@/lib/types/document";
+import type { YearSummary } from "@/lib/duration-calculator";
 
 const YEARS = [2023, 2024, 2025] as const;
 
@@ -25,37 +26,59 @@ function daysInUS(arrival: string, departure: string): number | null {
   return Math.round(diff / 86_400_000) + 1;
 }
 
-function randomDate(year: number, startMonth: number, endMonth: number): string {
-  const month = startMonth + Math.floor(Math.random() * (endMonth - startMonth + 1));
-  const maxDay = new Date(year, month, 0).getDate();
-  const day = 1 + Math.floor(Math.random() * maxDay);
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-}
-
 export default function DurationPage() {
   const router = useRouter();
   const [dates, setDates] = useState<YearDates>(() =>
     Object.fromEntries(YEARS.map((y) => [y, { arrival: "", departure: "" }]))
   );
+  const [computed, setComputed] = useState<YearSummary[] | null>(null);
   const [saving, setSaving] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     fetch("/api/duration")
       .then((res) => (res.ok ? res.json() : null))
-      .then((data: { entries?: DurationEntry[] } | null) => {
-        if (!data?.entries?.length) return;
-        const entries = data.entries;
-        setDates((prev) => {
-          const next = { ...prev };
-          for (const e of entries) {
-            if (e.year in next) {
-              next[e.year] = { arrival: e.arrival, departure: e.departure };
+      .then(
+        (data: {
+          entries?: DurationEntry[];
+          computed?: YearSummary[] | null;
+        } | null) => {
+          if (!data) return;
+
+          if (data.computed) setComputed(data.computed);
+
+          // If no manual entries saved yet, auto-fill from computed data
+          if (!data.entries?.length && data.computed?.length) {
+            const filled: YearDates = Object.fromEntries(
+              YEARS.map((y) => [y, { arrival: "", departure: "" }])
+            );
+            for (const summary of data.computed) {
+              if (summary.year in filled) {
+                // Cap departure to year end (inputs are bounded to the year)
+                const yearEnd = `${summary.year}-12-31`;
+                filled[summary.year] = {
+                  arrival: summary.firstArrival,
+                  departure:
+                    summary.lastDeparture > yearEnd
+                      ? yearEnd
+                      : summary.lastDeparture,
+                };
+              }
             }
+            setDates(filled);
+          } else if (data.entries?.length) {
+            setDates((prev) => {
+              const next = { ...prev };
+              for (const e of data.entries!) {
+                if (e.year in next) {
+                  next[e.year] = { arrival: e.arrival, departure: e.departure };
+                }
+              }
+              return next;
+            });
           }
-          return next;
-        });
-      })
+        }
+      )
       .catch(() => {})
       .finally(() => setLoaded(true));
   }, []);
@@ -70,16 +93,23 @@ export default function DurationPage() {
     []
   );
 
-  const fillRandom = useCallback(() => {
-    const filled: YearDates = {};
-    for (const year of YEARS) {
-      filled[year] = {
-        arrival: randomDate(year, 1, 3),
-        departure: randomDate(year, 11, 12),
-      };
-    }
-    setDates(filled);
-  }, []);
+  const applyComputed = useCallback(() => {
+    if (!computed) return;
+    setDates((prev) => {
+      const next = { ...prev };
+      for (const summary of computed) {
+        if (summary.year in next) {
+          const yearEnd = `${summary.year}-12-31`;
+          next[summary.year] = {
+            arrival: summary.firstArrival,
+            departure:
+              summary.lastDeparture > yearEnd ? yearEnd : summary.lastDeparture,
+          };
+        }
+      }
+      return next;
+    });
+  }, [computed]);
 
   const save = useCallback(async () => {
     setSaving(true);
@@ -104,6 +134,10 @@ export default function DurationPage() {
     }
   }, [dates]);
 
+  const computedByYear = computed
+    ? Object.fromEntries(computed.map((s) => [s.year, s]))
+    : {};
+
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <div className="space-y-2">
@@ -119,17 +153,36 @@ export default function DurationPage() {
         </p>
       </div>
 
+      {loaded && !computed && (
+        <div className="rounded-md border border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
+          Upload your I-94 travel history document to auto-compute days in the
+          US per year.
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-3">
         {YEARS.map((year) => {
           const minDate = `${year}-01-01`;
           const maxDate = `${year}-12-31`;
           const days = daysInUS(dates[year]?.arrival, dates[year]?.departure);
+          const yearComputed = computedByYear[year];
           return (
             <Card key={year} className="border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg font-semibold">{year}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {yearComputed && (
+                  <div className="rounded-md bg-primary/10 px-3 py-2 text-xs text-primary">
+                    <span className="font-semibold">
+                      {yearComputed.totalDays}{" "}
+                      {yearComputed.totalDays === 1 ? "day" : "days"}
+                    </span>{" "}
+                    from travel history &middot;{" "}
+                    {yearComputed.trips.length}{" "}
+                    {yearComputed.trips.length === 1 ? "trip" : "trips"}
+                  </div>
+                )}
                 <div className="space-y-2">
                   <label
                     htmlFor={`arrival-${year}`}
@@ -180,9 +233,16 @@ export default function DurationPage() {
           <Link href="/documents/upload">Back</Link>
         </Button>
         <div className="flex gap-3">
-          <Button variant="outline" size="lg" type="button" onClick={fillRandom}>
-            Fill
-          </Button>
+          {computed ? (
+            <Button
+              variant="outline"
+              size="lg"
+              type="button"
+              onClick={applyComputed}
+            >
+              Compute from Travel History
+            </Button>
+          ) : null}
           <Button
             size="lg"
             type="button"

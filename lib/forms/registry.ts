@@ -36,7 +36,7 @@ const FORM_REGISTRY: FormFillDef[] = [
     pdfPath: "public/forms/empty/f1040nro.pdf",
     filledFilename: "schedule_oi_filled.pdf",
     mapper: mapToF1040NRO,
-    requiredDocTypes: ["passport", "i20"],
+    requiredDocTypes: ["passport", "i20", "duration"],
   },
   {
     formId: "f540nr",

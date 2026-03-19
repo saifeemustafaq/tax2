@@ -61,6 +61,7 @@ import {
 import { toast } from "sonner"
 
 const documentsActive = (pathname: string) =>
+  pathname === "/" ||
   pathname === "/documents/upload" ||
   pathname === "/documents/stored" ||
   pathname === "/duration"
@@ -88,6 +89,7 @@ function SidebarFooterWithUser() {
       }
       const body = await res.json()
       toast.success(`Deleted ${body.deleted} document(s).`)
+      window.dispatchEvent(new Event("documents:deleted"))
     } catch {
       toast.error("Failed to delete documents. Please try again.")
     } finally {
@@ -250,11 +252,19 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               defaultOpen={documentsActive(pathname)}
               className="group/collapsible"
             >
-              <SidebarGroupLabel asChild>
-                <CollapsibleTrigger className="cursor-pointer text-base font-medium text-sidebar-foreground">
+              <SidebarGroupLabel className="cursor-pointer text-base font-medium text-sidebar-foreground">
+                <Link href="/" className="flex flex-1 items-center gap-2">
                   <HiOutlineDocumentText />
                   <span>Documents</span>
-                  <HiOutlineChevronRight className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                </Link>
+                <CollapsibleTrigger asChild>
+                  <button
+                    type="button"
+                    className="ml-auto rounded-sm p-0.5 hover:bg-sidebar-accent"
+                    aria-label="Toggle documents menu"
+                  >
+                    <HiOutlineChevronRight className="size-4 transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </button>
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>

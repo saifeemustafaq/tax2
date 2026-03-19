@@ -1,12 +1,13 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   HiOutlineCloudUpload,
   HiOutlineLockClosed,
   HiOutlineCheckCircle,
   HiOutlineExclamationCircle,
+  HiOutlineInformationCircle,
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +16,7 @@ import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
 import { SSNDialog } from "@/components/ssn-dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type UploadStatus = "idle" | "uploading" | "processing" | "done" | "error";
 
@@ -23,38 +25,50 @@ const DOCUMENT_TYPES = [
     id: "passport",
     title: "Passport",
     description: "Valid passport (Master document)",
+    required: true,
   },
   {
     id: "i20",
     title: "I-20",
     description: "Certificate of Eligibility",
+    required: true,
   },
   {
     id: "w2",
     title: "W2",
     description: "Wage and Tax Statement",
-  },
-  {
-    id: "visa",
-    title: "Visa",
-    description: "U.S. visa documentation",
-  },
-  {
-    id: "i94",
-    title: "I-94",
-    description: "Arrival/Departure Record",
+    required: true,
   },
   {
     id: "travel-history",
     title: "Travel History",
     description: "Travel records and stamps",
+    infoHref: "https://i94.cbp.dhs.gov/",
+    required: true,
+  },
+  {
+    id: "visa",
+    title: "Visa",
+    description: "U.S. visa documentation",
+    required: false,
+  },
+  {
+    id: "i94",
+    title: "I-94",
+    description: "Arrival/Departure Record",
+    required: false,
   },
   {
     id: "ead",
     title: "EAD Card",
     description: "Employment Authorization Document",
+    required: false,
   },
 ] as const;
+
+const REQUIRED_DOCUMENT_IDS = DOCUMENT_TYPES
+  .filter((d) => d.required)
+  .map((d) => d.id);
 
 type DocumentId = (typeof DOCUMENT_TYPES)[number]["id"];
 
@@ -62,7 +76,10 @@ function DocumentUploadCard({
   id,
   title,
   description,
+  infoHref,
+  required,
   file,
+  savedFilename,
   uploadStatus,
   uploadProgress,
   uploadError,
@@ -71,7 +88,10 @@ function DocumentUploadCard({
   id: DocumentId;
   title: string;
   description: string;
+  infoHref?: string;
+  required?: boolean;
   file: File | null;
+  savedFilename?: string | null;
   uploadStatus: UploadStatus;
   uploadProgress: number;
   uploadError: string | null;
@@ -148,23 +168,51 @@ function DocumentUploadCard({
         aria-label={`Upload ${title}`}
         onChange={handleChange}
       />
-      <CardHeader className="pb-2">
+      <CardHeader className="px-4 pb-1 pt-3">
         <div className="flex justify-center">
           {isDone ? (
-            <HiOutlineCheckCircle className="size-12 text-green-600 dark:text-green-500" />
+            <HiOutlineCheckCircle className="size-8 text-green-600 dark:text-green-500" />
           ) : (
-            <HiOutlineCloudUpload className="size-12 text-muted-foreground" />
+            <HiOutlineCloudUpload className="size-8 text-muted-foreground" />
           )}
         </div>
-        <CardTitle className="text-center text-base">{title}</CardTitle>
+        <CardTitle className="text-center text-base">
+          {title}
+          {required && !isDone && (
+            <span className="ml-1 text-xs font-normal text-destructive">*</span>
+          )}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-1 flex-col items-center gap-2 px-6 pb-4 pt-0 text-center">
-        <p className="text-sm text-muted-foreground">{description}</p>
+      <CardContent className="flex flex-1 flex-col items-center gap-1 px-4 pb-3 pt-0 text-center">
+        <p className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
+          {description}
+          {infoHref && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <a
+                    href={infoHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="shrink-0 text-muted-foreground hover:text-foreground"
+                    aria-label="Get your travel history"
+                  >
+                    <HiOutlineInformationCircle className="size-4" />
+                  </a>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Get your travel history at i94.cbp.dhs.gov</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </p>
         <p className="text-xs text-muted-foreground">
-          {file ? file.name : "Drag & drop or click"}
+          {file ? file.name : savedFilename ? savedFilename : "Drag & drop or click"}
         </p>
 
-        <div className="mt-auto flex min-h-[2rem] w-full items-center justify-center">
+        <div className="mt-auto flex min-h-[1.5rem] w-full items-center justify-center">
           {(uploadStatus === "uploading" || uploadStatus === "processing") && (
             <div className="w-full space-y-1">
               <Progress value={uploadProgress} className="h-2" />
@@ -214,6 +262,38 @@ export default function DocumentsUploadPage() {
   const [uploadState, setUploadState] = useState<
     Partial<Record<DocumentId, UploadState>>
   >({});
+  const [savedFilenames, setSavedFilenames] = useState<Partial<Record<DocumentId, string>>>({});
+
+  useEffect(() => {
+    fetch("/api/documents")
+      .then((res) => res.ok ? res.json() : null)
+      .then((body) => {
+        if (!body?.documents) return;
+        const names: Partial<Record<DocumentId, string>> = {};
+        const states: Partial<Record<DocumentId, UploadState>> = {};
+        const validIds = new Set(DOCUMENT_TYPES.map((d) => d.id));
+        for (const doc of body.documents as { documentType: string; originalFilename: string }[]) {
+          const docId = doc.documentType as DocumentId;
+          if (validIds.has(docId) && doc.originalFilename && !names[docId]) {
+            names[docId] = doc.originalFilename;
+            states[docId] = { status: "done", progress: 100, error: null };
+          }
+        }
+        setSavedFilenames(names);
+        setUploadState(states);
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    const handleDeleted = () => {
+      setSavedFilenames({});
+      setUploadState({});
+      setFiles({});
+    };
+    window.addEventListener("documents:deleted", handleDeleted);
+    return () => window.removeEventListener("documents:deleted", handleDeleted);
+  }, []);
   const progressIntervalRef = useRef<
     Partial<Record<DocumentId, ReturnType<typeof setInterval>>>
   >({});
@@ -221,6 +301,7 @@ export default function DocumentsUploadPage() {
   const [ssnDialogOpen, setSsnDialogOpen] = useState(false);
   const [w2SsnLast4, setW2SsnLast4] = useState<string | null>(null);
   const [i20SchoolName, setI20SchoolName] = useState<string | null>(null);
+  const [travelHistoryEntryDate, setTravelHistoryEntryDate] = useState<string | null>(null);
 
   const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
     const supported = SUPPORTED_IDS.has(
@@ -319,10 +400,14 @@ export default function DocumentsUploadPage() {
         if (id === "i20" && typeof body?.schoolName === "string") {
           setI20SchoolName(body.schoolName);
         }
+        if (id === "travel-history" && typeof body?.entryDate === "string") {
+          setTravelHistoryEntryDate(body.entryDate);
+        }
         setUploadState((prev) => ({
           ...prev,
           [id]: { status: "done", progress: 100, error: null },
         }));
+        setSavedFilenames((prev) => ({ ...prev, [id]: file.name }));
         toast.success("Document saved.");
       })
       .catch(() => {
@@ -342,10 +427,24 @@ export default function DocumentsUploadPage() {
       });
   }, []);
 
+  const allRequiredUploaded = REQUIRED_DOCUMENT_IDS.every(
+    (id) => uploadState[id]?.status === "done",
+  );
+
   const handleContinue = useCallback(() => {
     setError(null);
+    const missing = REQUIRED_DOCUMENT_IDS.filter(
+      (id) => uploadState[id]?.status !== "done",
+    );
+    if (missing.length > 0) {
+      const names = missing.map(
+        (id) => DOCUMENT_TYPES.find((d) => d.id === id)!.title,
+      );
+      setError(`Please upload the following required documents: ${names.join(", ")}`);
+      return;
+    }
     setSsnDialogOpen(true);
-  }, []);
+  }, [uploadState]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -374,7 +473,10 @@ export default function DocumentsUploadPage() {
               id={doc.id}
               title={doc.title}
               description={doc.description}
+              infoHref={"infoHref" in doc ? doc.infoHref : undefined}
+              required={doc.required}
               file={files[doc.id] ?? null}
+              savedFilename={savedFilenames[doc.id]}
               uploadStatus={state.status}
               uploadProgress={state.progress}
               uploadError={state.error}
@@ -390,8 +492,18 @@ export default function DocumentsUploadPage() {
         </p>
       )}
 
-      <div className="flex justify-center pt-4">
-        <Button size="lg" className="min-w-[280px]" onClick={handleContinue}>
+      <div className="flex flex-col items-center gap-2 pt-4">
+        {!allRequiredUploaded && (
+          <p className="text-sm text-muted-foreground">
+            Upload all required (*) documents to continue
+          </p>
+        )}
+        <Button
+          size="lg"
+          className="min-w-[280px]"
+          onClick={handleContinue}
+          disabled={!allRequiredUploaded}
+        >
           Continue with Uploaded Documents
         </Button>
       </div>
@@ -401,6 +513,7 @@ export default function DocumentsUploadPage() {
         onOpenChange={setSsnDialogOpen}
         ssnLast4={w2SsnLast4}
         schoolName={i20SchoolName}
+        entryDate={travelHistoryEntryDate}
       />
     </div>
   );

@@ -10,6 +10,7 @@ import type {
   StoredDocumentVisa,
   StoredDocumentI94,
   StoredDocumentEAD,
+  StoredDocumentTravelHistory,
 } from "@/lib/types/document";
 import type { FormDocuments } from "./types";
 import { sanitizeW2 } from "@/extraction/prompts/forms/w2";
@@ -46,7 +47,7 @@ export async function fetchFormDocuments(): Promise<
   const userId = new ObjectId(payload.sub);
 
   const usersColl = await getUserCollection();
-  const [passport, i20, w2, duration, visa, i94, ead, user] = await Promise.all([
+  const [passport, i20, w2, duration, visa, i94, ead, travelHistoryDoc, user] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
     coll.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
@@ -54,6 +55,7 @@ export async function fetchFormDocuments(): Promise<
     coll.findOne({ userId, documentType: "visa" }) as Promise<StoredDocumentVisa | null>,
     coll.findOne({ userId, documentType: "i94" }) as Promise<StoredDocumentI94 | null>,
     coll.findOne({ userId, documentType: "ead" }) as Promise<StoredDocumentEAD | null>,
+    coll.findOne({ userId, documentType: "travel-history" }) as Promise<StoredDocumentTravelHistory | null>,
     usersColl.findOne({ _id: userId }),
   ]);
 
@@ -67,6 +69,7 @@ export async function fetchFormDocuments(): Promise<
       visa: visa?.data ?? null,
       i94: i94?.data ?? null,
       ead: ead?.data ?? null,
+      travelHistory: travelHistoryDoc?.data ?? null,
       // Prefer the SSN the user explicitly entered in the SSN dialog (already in
       // XXX-XX-XXXX format). Fall back to the SSN extracted from their W-2 if
       // the dialog was skipped or cancelled — only accepted when it resolves to

@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { ObjectId } from "mongodb";
 import {
   Card,
   CardContent,
@@ -8,27 +9,34 @@ import {
 } from "@/components/ui/card";
 import { columns, type DocumentRow } from "../../../../components/ui/data-table/columns";
 import { DataTable } from "../../../../components/ui/data-table/data-table";
-import type { DocumentListItem } from "@/app/api/documents/route";
+import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
+import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
 
 async function getData(): Promise<DocumentRow[]> {
   const cookieStore = await cookies();
-  const cookieHeader = cookieStore.toString();
-  const base = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-  const res = await fetch(`${base}/api/documents`, {
-    cache: "no-store",
-    headers: {
-      Accept: "application/json",
-      ...(cookieHeader ? { Cookie: cookieHeader } : {}),
-    },
-  });
-  if (!res.ok) return [];
-  const json = (await res.json()) as { documents?: DocumentListItem[] };
-  return (json.documents ?? []).map((d) => ({
-    id: d.id,
-    originalFilename: d.originalFilename,
-    documentType: d.documentType,
-    createdAt: d.createdAt,
-  }));
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  if (!token) return [];
+
+  const payload = await verifyToken(token);
+  if (!payload) return [];
+
+  await ensureDocumentsIndexes();
+  const documents = await getDocumentsCollection();
+  const cursor = documents.find(
+    { userId: new ObjectId(payload.sub) },
+    { projection: { originalFilename: 1, documentType: 1, createdAt: 1 }, sort: { createdAt: -1 } }
+  );
+
+  const list: DocumentRow[] = [];
+  for await (const doc of cursor) {
+    list.push({
+      id: doc._id!.toString(),
+      originalFilename: doc.originalFilename ?? "",
+      documentType: doc.documentType,
+      createdAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt),
+    });
+  }
+  return list;
 }
 
 export default async function DocumentsStoredPage() {

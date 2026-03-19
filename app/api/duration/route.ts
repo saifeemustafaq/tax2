@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
-import type { StoredDocumentDuration, DurationEntry } from "@/lib/types/document";
+import type { StoredDocumentDuration, StoredDocumentTravelHistory, DurationEntry } from "@/lib/types/document";
+import { computeDaysFromTravelHistory } from "@/lib/duration-calculator";
 
 export async function GET() {
   try {
@@ -19,13 +20,21 @@ export async function GET() {
 
     await ensureDocumentsIndexes();
     const documents = await getDocumentsCollection();
+    const userId = new ObjectId(payload.sub);
 
-    const doc = (await documents.findOne({
-      userId: new ObjectId(payload.sub),
-      documentType: "duration",
-    })) as StoredDocumentDuration | null;
+    const [durationDoc, travelHistoryDoc] = await Promise.all([
+      documents.findOne({ userId, documentType: "duration" }) as Promise<StoredDocumentDuration | null>,
+      documents.findOne({ userId, documentType: "travel-history" }) as Promise<StoredDocumentTravelHistory | null>,
+    ]);
 
-    return NextResponse.json({ entries: doc?.data.entries ?? [] });
+    const computed = travelHistoryDoc?.data?.records?.length
+      ? computeDaysFromTravelHistory(travelHistoryDoc.data.records)
+      : null;
+
+    return NextResponse.json({
+      entries: durationDoc?.data.entries ?? [],
+      computed,
+    });
   } catch (err) {
     console.error("Duration GET error:", err);
     return NextResponse.json(

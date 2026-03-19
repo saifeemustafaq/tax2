@@ -5,8 +5,8 @@ import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
 import { extractDocument, ExtractionError } from "@/extraction/openai";
 import { isSupportedDocumentType, SUPPORTED_DOCUMENT_TYPES } from "@/extraction/prompts";
-import type { StoredDocument, StoredDocumentPassport, StoredDocumentI20, StoredDocumentW2 } from "@/lib/types/document";
-import type { PassportExtraction, I20Extraction, W2Extraction } from "@/extraction/prompts";
+import type { StoredDocument, StoredDocumentPassport, StoredDocumentI20, StoredDocumentW2, StoredDocumentTravelHistory } from "@/lib/types/document";
+import type { PassportExtraction, I20Extraction, W2Extraction, TravelHistoryExtraction } from "@/extraction/prompts";
 
 const MAX_FILE_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
 const ALLOWED_MIME_PREFIXES = ["application/pdf", "image/"];
@@ -98,13 +98,21 @@ export async function POST(request: Request) {
               originalFilename: file.name,
               createdAt: new Date(),
             } satisfies StoredDocumentI20)
-          : ({
-              userId: new ObjectId(payload.sub),
-              documentType: "w2",
-              data: extracted as W2Extraction,
-              originalFilename: file.name,
-              createdAt: new Date(),
-            } satisfies StoredDocumentW2);
+          : docType === "travel-history"
+            ? ({
+                userId: new ObjectId(payload.sub),
+                documentType: "travel-history",
+                data: extracted as TravelHistoryExtraction,
+                originalFilename: file.name,
+                createdAt: new Date(),
+              } satisfies StoredDocumentTravelHistory)
+            : ({
+                userId: new ObjectId(payload.sub),
+                documentType: "w2",
+                data: extracted as W2Extraction,
+                originalFilename: file.name,
+                createdAt: new Date(),
+              } satisfies StoredDocumentW2);
 
     const result = await documents.insertOne(storedDoc);
     const id = result.insertedId.toString();
@@ -113,6 +121,7 @@ export async function POST(request: Request) {
       document: { id: string; documentType: string; originalFilename: string; createdAt: string };
       ssnLast4?: string;
       schoolName?: string;
+      entryDate?: string;
     } = {
       document: {
         id,
@@ -133,6 +142,16 @@ export async function POST(request: Request) {
 
     if (docType === "i20") {
       responseBody.schoolName = (extracted as I20Extraction)?.school_information?.school_name ?? "";
+    }
+
+    if (docType === "travel-history") {
+      const records = (extracted as TravelHistoryExtraction)?.records ?? [];
+      const mostRecentArrival = records
+        .filter((r) => r.type === "Arrival")
+        .sort((a, b) => b.date.localeCompare(a.date))[0];
+      if (mostRecentArrival?.date) {
+        responseBody.entryDate = mostRecentArrival.date;
+      }
     }
 
     return NextResponse.json(responseBody, { status: 201 });

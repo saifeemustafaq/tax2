@@ -1,5 +1,5 @@
 import type { ObjectId } from "mongodb";
-import type { PassportExtraction, I20Extraction, W2Extraction } from "@/extraction/prompts";
+import type { PassportExtraction, I20Extraction, W2Extraction, TravelHistoryExtraction } from "@/extraction/prompts";
 
 /** Placeholder until visa extraction exists. */
 export type VisaExtraction = {
@@ -94,6 +94,15 @@ export type StoredDocumentEAD = {
   createdAt: Date;
 };
 
+export type StoredDocumentTravelHistory = {
+  _id?: ObjectId;
+  userId: ObjectId;
+  documentType: "travel-history";
+  data: TravelHistoryExtraction;
+  originalFilename?: string;
+  createdAt: Date;
+};
+
 export type StoredDocument =
   | StoredDocumentPassport
   | StoredDocumentI20
@@ -101,4 +110,5 @@ export type StoredDocument =
   | StoredDocumentDuration
   | StoredDocumentVisa
   | StoredDocumentI94
-  | StoredDocumentEAD;
+  | StoredDocumentEAD
+  | StoredDocumentTravelHistory;

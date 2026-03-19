@@ -47,8 +47,16 @@ export function mapToF8843(
   v[`${P1}.f1_08[0]`] = w2?.employee.address || i20?.school_information?.school_address || "";
 
   // 1a: Visa type and date of entry (f1_09)
+  // Use explicitly set entry date; fall back to the most recent Arrival in travel history
   const visaType = i20?.class_of_admission ?? "";
-  const entryDate = formatDateLong(docs.f1VisaEntryDate);
+  let entryDateIso = docs.f1VisaEntryDate;
+  if (!entryDateIso && docs.travelHistory && docs.travelHistory.records.length > 0) {
+    const mostRecentArrival = docs.travelHistory.records
+      .filter((r) => r.type === "Arrival")
+      .sort((a, b) => b.date.localeCompare(a.date))[0];
+    entryDateIso = mostRecentArrival?.date ?? null;
+  }
+  const entryDate = formatDateLong(entryDateIso);
   v[`${P1}.f1_09[0]`] = visaType + (entryDate ? ` ${entryDate}` : "");
 
   // 1b: Current nonimmigrant status (f1_10)

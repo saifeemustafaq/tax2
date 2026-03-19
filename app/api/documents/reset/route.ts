@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
-import { getDocumentsCollection, ensureDocumentsIndexes } from "@/lib/mongodb";
+import { getDocumentsCollection, ensureDocumentsIndexes, getUserCollection } from "@/lib/mongodb";
 
 export async function DELETE() {
   try {
@@ -16,11 +16,28 @@ export async function DELETE() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const userId = new ObjectId(payload.sub);
+
     await ensureDocumentsIndexes();
     const documents = await getDocumentsCollection();
-    const result = await documents.deleteMany({
-      userId: new ObjectId(payload.sub),
-    });
+    const result = await documents.deleteMany({ userId });
+
+    // Clear extracted data fields from the user record while preserving the account
+    const users = await getUserCollection();
+    await users.updateOne(
+      { _id: userId },
+      {
+        $unset: {
+          ssn: "",
+          f1VisaEntryDate: "",
+          institutionName: "",
+          programDirectorName: "",
+          institutionAddress: "",
+          institutionPhone: "",
+          visaHistory: "",
+        },
+      }
+    );
 
     return NextResponse.json({
       deleted: result.deletedCount,

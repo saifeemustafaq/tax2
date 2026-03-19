@@ -1,4 +1,4 @@
-import type { PassportExtraction, I20Extraction, W2Extraction } from "@/extraction/prompts";
+import type { PassportExtraction, I20Extraction, W2Extraction, TravelHistoryExtraction } from "@/extraction/prompts";
 import type {
   DurationEntry,
   VisaExtraction,
@@ -14,6 +14,7 @@ export type FormDocuments = {
   visa: VisaExtraction | null;
   i94: I94Extraction | null;
   ead: EadExtraction | null;
+  travelHistory: TravelHistoryExtraction | null;
   ssn: string | null;
   f1VisaEntryDate: string | null;
   institutionName: string | null;

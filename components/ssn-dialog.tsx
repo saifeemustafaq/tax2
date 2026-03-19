@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { HiOutlineCheckCircle, HiOutlineExclamationCircle } from "react-icons/hi";
@@ -23,6 +23,8 @@ interface SSNDialogProps {
   ssnLast4?: string | null;
   /** School name extracted from I-20, used to pre-fill institution name. */
   schoolName?: string | null;
+  /** Most recent US arrival date (YYYY-MM-DD) from travel history, used to pre-fill entry date. */
+  entryDate?: string | null;
 }
 
 function formatSSN(raw: string): string {
@@ -39,7 +41,7 @@ function isValidSSN(value: string): boolean {
 const VISA_TYPES = ["", "F", "J", "M", "Q"] as const;
 const VISA_YEARS = [2019, 2020, 2021, 2022, 2023, 2024] as const;
 
-export function SSNDialog({ open, onOpenChange, ssnLast4, schoolName }: SSNDialogProps) {
+export function SSNDialog({ open, onOpenChange, ssnLast4: ssnLast4Prop, schoolName: schoolNameProp, entryDate: entryDateProp }: SSNDialogProps) {
   const router = useRouter();
   const [ssn, setSSN] = useState("");
   const [entryDate, setEntryDate] = useState("");
@@ -51,13 +53,65 @@ export function SSNDialog({ open, onOpenChange, ssnLast4, schoolName }: SSNDialo
     () => Object.fromEntries(VISA_YEARS.map((y) => [y, ""])),
   );
   const [loading, setLoading] = useState(false);
+  const [fetchingExisting, setFetchingExisting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [resolvedSsnLast4, setResolvedSsnLast4] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
+
+  const ssnLast4 = ssnLast4Prop ?? resolvedSsnLast4;
 
   useEffect(() => {
-    if (schoolName && !institutionName) {
-      setInstitutionName(schoolName);
+    if (!open || fetchedRef.current) return;
+    fetchedRef.current = true;
+    setFetchingExisting(true);
+
+    fetch("/api/user/ssn")
+      .then(async (res) => {
+        if (!res.ok) return;
+        const data = await res.json();
+
+        if (data.ssn && !ssn) setSSN(data.ssn);
+        if (data.f1VisaEntryDate && !entryDate) setEntryDate(data.f1VisaEntryDate);
+        if (data.institutionName && !institutionName) setInstitutionName(data.institutionName);
+        if (data.programDirectorName && !programDirectorName) setProgramDirectorName(data.programDirectorName);
+        if (data.institutionAddress && !institutionAddress) setInstitutionAddress(data.institutionAddress);
+        if (data.institutionPhone && !institutionPhone) setInstitutionPhone(data.institutionPhone);
+
+        if (data.ssnLast4) setResolvedSsnLast4(data.ssnLast4);
+
+        if (data.schoolName && !institutionName) setInstitutionName(data.schoolName);
+        if (data.entryDate && !entryDate) setEntryDate(data.entryDate);
+
+        if (data.visaHistory && typeof data.visaHistory === "object") {
+          setVisaHistory((prev) => {
+            const merged = { ...prev };
+            for (const [year, visa] of Object.entries(data.visaHistory)) {
+              const y = Number(year);
+              if (!isNaN(y) && typeof visa === "string" && visa && !merged[y]) {
+                merged[y] = visa;
+              }
+            }
+            return merged;
+          });
+        }
+      })
+      .catch(() => {})
+      .finally(() => setFetchingExisting(false));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (schoolNameProp && !institutionName) {
+      setInstitutionName(schoolNameProp);
     }
-  }, [schoolName, institutionName]);
+  }, [schoolNameProp, institutionName]);
+
+  useEffect(() => {
+    if (entryDateProp && !entryDate) {
+      setEntryDate(entryDateProp);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entryDateProp]);
 
   const handleSSNChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
