@@ -28,7 +28,7 @@ export async function GET() {
 
     const [user, w2Doc, i20Doc, travelHistoryDoc] = await Promise.all([
       users.findOne({ _id: userId }),
-      docs.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
+      docs.findOne({ userId, documentType: "w2" }, { sort: { w2Index: 1 } }) as Promise<StoredDocumentW2 | null>,
       docs.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
       docs.findOne({ userId, documentType: "travel-history" }) as Promise<StoredDocumentTravelHistory | null>,
     ]);

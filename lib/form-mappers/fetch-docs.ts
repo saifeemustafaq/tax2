@@ -50,7 +50,7 @@ export async function fetchFormDocuments(): Promise<
   const [passport, i20, w2, duration, visa, i94, ead, travelHistoryDoc, user] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
-    coll.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
+    coll.findOne({ userId, documentType: "w2" }, { sort: { w2Index: 1 } }) as Promise<StoredDocumentW2 | null>,
     coll.findOne({ userId, documentType: "duration" }) as Promise<StoredDocumentDuration | null>,
     coll.findOne({ userId, documentType: "visa" }) as Promise<StoredDocumentVisa | null>,
     coll.findOne({ userId, documentType: "i94" }) as Promise<StoredDocumentI94 | null>,

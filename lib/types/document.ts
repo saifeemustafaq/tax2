@@ -47,6 +47,7 @@ export type StoredDocumentW2 = {
   _id?: ObjectId;
   userId: ObjectId;
   documentType: "w2";
+  w2Index?: number; // 0-based: 0 = first, 1 = second, ... Legacy docs without this field are treated as index 0.
   data: W2Extraction;
   originalFilename?: string;
   createdAt: Date;

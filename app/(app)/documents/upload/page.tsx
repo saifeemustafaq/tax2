@@ -8,6 +8,7 @@ import {
   HiOutlineCheckCircle,
   HiOutlineExclamationCircle,
   HiOutlineInformationCircle,
+  HiOutlinePlusCircle,
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +21,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 type UploadStatus = "idle" | "uploading" | "processing" | "done" | "error";
 
-const DOCUMENT_TYPES = [
+// Static document types — W-2 is excluded here and handled dynamically as slots.
+const STATIC_DOCUMENT_TYPES = [
   {
     id: "passport",
     title: "Passport",
@@ -33,12 +35,7 @@ const DOCUMENT_TYPES = [
     description: "Certificate of Eligibility",
     required: true,
   },
-  {
-    id: "w2",
-    title: "W2",
-    description: "Wage and Tax Statement",
-    required: true,
-  },
+  // W-2 slots are inserted here dynamically (see buildCardList)
   {
     id: "travel-history",
     title: "Travel History",
@@ -66,11 +63,67 @@ const DOCUMENT_TYPES = [
   },
 ] as const;
 
-const REQUIRED_DOCUMENT_IDS = DOCUMENT_TYPES
-  .filter((d) => d.required)
-  .map((d) => d.id);
+type StaticDocumentId = (typeof STATIC_DOCUMENT_TYPES)[number]["id"];
 
-type DocumentId = (typeof DOCUMENT_TYPES)[number]["id"];
+// W-2 ordinal labels used when there are 2+ slots
+const W2_ORDINALS = ["First", "Second", "Third", "Fourth", "Fifth"];
+
+function getW2SlotId(index: number): string {
+  return index === 0 ? "w2" : `w2-${index}`;
+}
+
+function getW2IndexFromSlotId(slotId: string): number | null {
+  if (slotId === "w2") return 0;
+  const match = slotId.match(/^w2-(\d+)$/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+function isW2SlotId(slotId: string): boolean {
+  return getW2IndexFromSlotId(slotId) !== null;
+}
+
+function getW2SlotTitle(slotIndex: number, totalSlots: number): string {
+  if (totalSlots === 1) return "W2";
+  return `W2 (${W2_ORDINALS[slotIndex] ?? `#${slotIndex + 1}`})`;
+}
+
+type CardEntry =
+  | { kind: "static"; id: StaticDocumentId; title: string; description: string; infoHref?: string; required: boolean }
+  | { kind: "w2slot"; id: string; title: string; description: string; required: boolean; w2Index: number }
+  | { kind: "add-w2" };
+
+function buildCardList(w2SlotCount: number): CardEntry[] {
+  const entries: CardEntry[] = [];
+
+  // passport and i20 come first
+  for (const doc of STATIC_DOCUMENT_TYPES) {
+    if (doc.id === "travel-history" || doc.id === "visa" || doc.id === "i94" || doc.id === "ead") continue;
+    entries.push({ kind: "static", ...doc });
+  }
+
+  // W-2 slots
+  for (let i = 0; i < w2SlotCount; i++) {
+    entries.push({
+      kind: "w2slot",
+      id: getW2SlotId(i),
+      title: getW2SlotTitle(i, w2SlotCount),
+      description: "Wage and Tax Statement",
+      required: i === 0,
+      w2Index: i,
+    });
+  }
+
+  // Add W-2 button (shown as a special card)
+  entries.push({ kind: "add-w2" });
+
+  // Remaining static types
+  for (const doc of STATIC_DOCUMENT_TYPES) {
+    if (doc.id === "passport" || doc.id === "i20") continue;
+    entries.push({ kind: "static", ...doc });
+  }
+
+  return entries;
+}
 
 function DocumentUploadCard({
   id,
@@ -85,7 +138,7 @@ function DocumentUploadCard({
   uploadError,
   onFileChange,
 }: {
-  id: DocumentId;
+  id: string;
   title: string;
   description: string;
   infoHref?: string;
@@ -240,6 +293,26 @@ function DocumentUploadCard({
   );
 }
 
+function AddW2Card({ onClick }: { onClick: () => void }) {
+  return (
+    <Card
+      className="flex cursor-pointer flex-col border-dashed transition-colors hover:border-muted-foreground/40 hover:bg-muted/30"
+      onClick={onClick}
+    >
+      <CardHeader className="px-4 pb-1 pt-3">
+        <div className="flex justify-center">
+          <HiOutlinePlusCircle className="size-8 text-muted-foreground" />
+        </div>
+        <CardTitle className="text-center text-base text-muted-foreground">Add W-2</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-1 flex-col items-center gap-1 px-4 pb-3 pt-0 text-center">
+        <p className="text-sm text-muted-foreground">Upload another W-2</p>
+        <p className="text-xs text-muted-foreground">For multiple employers</p>
+      </CardContent>
+    </Card>
+  );
+}
+
 const SUPPORTED_IDS = new Set(SUPPORTED_DOCUMENT_TYPES);
 
 type UploadState = {
@@ -256,28 +329,39 @@ const initialUploadState: UploadState = {
 
 export default function DocumentsUploadPage() {
   const [aiAutoFill, setAiAutoFill] = useState(true);
-  const [files, setFiles] = useState<Partial<Record<DocumentId, File | null>>>(
-    {},
-  );
-  const [uploadState, setUploadState] = useState<
-    Partial<Record<DocumentId, UploadState>>
-  >({});
-  const [savedFilenames, setSavedFilenames] = useState<Partial<Record<DocumentId, string>>>({});
+  const [w2SlotCount, setW2SlotCount] = useState(1);
+  const [files, setFiles] = useState<Record<string, File | null>>({});
+  const [uploadState, setUploadState] = useState<Record<string, UploadState>>({});
+  const [savedFilenames, setSavedFilenames] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch("/api/documents")
       .then((res) => res.ok ? res.json() : null)
       .then((body) => {
         if (!body?.documents) return;
-        const names: Partial<Record<DocumentId, string>> = {};
-        const states: Partial<Record<DocumentId, UploadState>> = {};
-        const validIds = new Set(DOCUMENT_TYPES.map((d) => d.id));
-        for (const doc of body.documents as { documentType: string; originalFilename: string }[]) {
-          const docId = doc.documentType as DocumentId;
-          if (validIds.has(docId) && doc.originalFilename && !names[docId]) {
-            names[docId] = doc.originalFilename;
-            states[docId] = { status: "done", progress: 100, error: null };
+        const names: Record<string, string> = {};
+        const states: Record<string, UploadState> = {};
+        const staticIds = new Set(STATIC_DOCUMENT_TYPES.map((d) => d.id as string));
+
+        let maxW2Index = -1;
+
+        for (const doc of body.documents as { documentType: string; originalFilename: string; w2Index?: number }[]) {
+          if (doc.documentType === "w2") {
+            const idx = doc.w2Index ?? 0;
+            const slotId = getW2SlotId(idx);
+            if (doc.originalFilename && !names[slotId]) {
+              names[slotId] = doc.originalFilename;
+              states[slotId] = { status: "done", progress: 100, error: null };
+            }
+            if (idx > maxW2Index) maxW2Index = idx;
+          } else if (staticIds.has(doc.documentType) && doc.originalFilename && !names[doc.documentType]) {
+            names[doc.documentType] = doc.originalFilename;
+            states[doc.documentType] = { status: "done", progress: 100, error: null };
           }
+        }
+
+        if (maxW2Index >= 0) {
+          setW2SlotCount(maxW2Index + 1);
         }
         setSavedFilenames(names);
         setUploadState(states);
@@ -290,111 +374,101 @@ export default function DocumentsUploadPage() {
       setSavedFilenames({});
       setUploadState({});
       setFiles({});
+      setW2SlotCount(1);
     };
     window.addEventListener("documents:deleted", handleDeleted);
     return () => window.removeEventListener("documents:deleted", handleDeleted);
   }, []);
-  const progressIntervalRef = useRef<
-    Partial<Record<DocumentId, ReturnType<typeof setInterval>>>
-  >({});
+
+  const progressIntervalRef = useRef<Record<string, ReturnType<typeof setInterval>>>({});
   const [error, setError] = useState<string | null>(null);
   const [ssnDialogOpen, setSsnDialogOpen] = useState(false);
   const [w2SsnLast4, setW2SsnLast4] = useState<string | null>(null);
   const [i20SchoolName, setI20SchoolName] = useState<string | null>(null);
   const [travelHistoryEntryDate, setTravelHistoryEntryDate] = useState<string | null>(null);
 
-  const handleFileChange = useCallback((id: DocumentId, file: File | null) => {
-    const supported = SUPPORTED_IDS.has(
-      id as (typeof SUPPORTED_DOCUMENT_TYPES)[number],
-    );
+  const handleAddW2 = useCallback(() => {
+    const lastSlotId = getW2SlotId(w2SlotCount - 1);
+    if (uploadState[lastSlotId]?.status !== "done") {
+      toast.error(w2SlotCount === 1
+        ? "Please upload your first W-2 before adding another."
+        : "Please upload the previous W-2 first."
+      );
+      return;
+    }
+    setW2SlotCount((c) => Math.min(c + 1, W2_ORDINALS.length));
+  }, [w2SlotCount, uploadState]);
+
+  const handleFileChange = useCallback((id: string, file: File | null) => {
+    const w2Index = getW2IndexFromSlotId(id);
+    const isW2 = w2Index !== null;
+    // For W-2 slots, use "w2" as the document type sent to the API; for others use the id directly
+    const docTypeForApi = isW2 ? "w2" : id;
+    const supported = isW2 || SUPPORTED_IDS.has(id as (typeof SUPPORTED_DOCUMENT_TYPES)[number]);
 
     if (progressIntervalRef.current[id]) {
       clearInterval(progressIntervalRef.current[id]);
-      progressIntervalRef.current[id] = undefined;
+      delete progressIntervalRef.current[id];
     }
 
     setFiles((prev) => ({ ...prev, [id]: file }));
     setError(null);
 
     if (!file) {
-      setUploadState((prev) => ({
-        ...prev,
-        [id]: { ...initialUploadState },
-      }));
+      setUploadState((prev) => ({ ...prev, [id]: { ...initialUploadState } }));
       return;
     }
 
     if (!supported) {
-      setUploadState((prev) => ({
-        ...prev,
-        [id]: { status: "idle", progress: 0, error: null },
-      }));
+      setUploadState((prev) => ({ ...prev, [id]: { status: "idle", progress: 0, error: null } }));
       return;
     }
 
-    setUploadState((prev) => ({
-      ...prev,
-      [id]: { status: "uploading", progress: 0, error: null },
-    }));
+    setUploadState((prev) => ({ ...prev, [id]: { status: "uploading", progress: 0, error: null } }));
 
-      const MOCK_DURATION_MS = 6000;
-      const MOCK_STEPS = 48;
-      const stepMs = MOCK_DURATION_MS / MOCK_STEPS;
-      const progressCap = 85;
+    const MOCK_DURATION_MS = 6000;
+    const MOCK_STEPS = 48;
+    const stepMs = MOCK_DURATION_MS / MOCK_STEPS;
+    const progressCap = 85;
     let step = 0;
     const intervalId = setInterval(() => {
       step += 1;
-      const progress = Math.min(
-        Math.round((step / MOCK_STEPS) * progressCap),
-        progressCap,
-      );
+      const progress = Math.min(Math.round((step / MOCK_STEPS) * progressCap), progressCap);
       setUploadState((prev) => {
         const cur = prev[id];
-        if (!cur || cur.status === "done" || cur.status === "error")
-          return prev;
-        return {
-          ...prev,
-          [id]: {
-            ...cur,
-            status: progress >= 40 ? "processing" : "uploading",
-            progress,
-          },
-        };
+        if (!cur || cur.status === "done" || cur.status === "error") return prev;
+        return { ...prev, [id]: { ...cur, status: progress >= 40 ? "processing" : "uploading", progress } };
       });
-      if (
-        step >= MOCK_STEPS &&
-        progressIntervalRef.current[id] === intervalId
-      ) {
+      if (step >= MOCK_STEPS && progressIntervalRef.current[id] === intervalId) {
         clearInterval(intervalId);
-        progressIntervalRef.current[id] = undefined;
+        delete progressIntervalRef.current[id];
       }
     }, stepMs);
     progressIntervalRef.current[id] = intervalId;
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("documentType", id);
+    formData.append("documentType", docTypeForApi);
+    if (isW2) {
+      formData.append("w2Index", String(w2Index));
+    }
+
     fetch("/api/documents/upload", { method: "POST", body: formData })
       .then(async (res) => {
         if (progressIntervalRef.current[id]) {
           clearInterval(progressIntervalRef.current[id]);
-          progressIntervalRef.current[id] = undefined;
+          delete progressIntervalRef.current[id];
         }
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
-          const message =
-            typeof body?.error === "string"
-              ? body.error
-              : "Upload failed. Please try again.";
-          setUploadState((prev) => ({
-            ...prev,
-            [id]: { status: "error", progress: 0, error: message },
-          }));
+          const message = typeof body?.error === "string" ? body.error : "Upload failed. Please try again.";
+          setUploadState((prev) => ({ ...prev, [id]: { status: "error", progress: 0, error: message } }));
           toast.error(message);
           return;
         }
         const body = await res.json().catch(() => ({}));
-        if (id === "w2" && typeof body?.ssnLast4 === "string") {
+        // Capture SSN last4 from the first W-2 (index 0)
+        if (isW2 && w2Index === 0 && typeof body?.ssnLast4 === "string") {
           setW2SsnLast4(body.ssnLast4);
         }
         if (id === "i20" && typeof body?.schoolName === "string") {
@@ -403,48 +477,47 @@ export default function DocumentsUploadPage() {
         if (id === "travel-history" && typeof body?.entryDate === "string") {
           setTravelHistoryEntryDate(body.entryDate);
         }
-        setUploadState((prev) => ({
-          ...prev,
-          [id]: { status: "done", progress: 100, error: null },
-        }));
+        setUploadState((prev) => ({ ...prev, [id]: { status: "done", progress: 100, error: null } }));
         setSavedFilenames((prev) => ({ ...prev, [id]: file.name }));
+
+        // Retroactively update W-2 titles if we now have 2+ slots — titles are derived
+        // from w2SlotCount in buildCardList, so we just need the count to be right (already tracked).
         toast.success("Document saved.");
       })
       .catch(() => {
         if (progressIntervalRef.current[id]) {
           clearInterval(progressIntervalRef.current[id]);
-          progressIntervalRef.current[id] = undefined;
+          delete progressIntervalRef.current[id];
         }
         setUploadState((prev) => ({
           ...prev,
-          [id]: {
-            status: "error",
-            progress: 0,
-            error: "Upload failed. Please try again.",
-          },
+          [id]: { status: "error", progress: 0, error: "Upload failed. Please try again." },
         }));
         toast.error("Upload failed. Please try again.");
       });
   }, []);
 
-  const allRequiredUploaded = REQUIRED_DOCUMENT_IDS.every(
-    (id) => uploadState[id]?.status === "done",
-  );
+  // Required: all static required docs + the first W-2 slot
+  const allRequiredUploaded =
+    STATIC_DOCUMENT_TYPES.filter((d) => d.required).every((d) => uploadState[d.id]?.status === "done") &&
+    uploadState["w2"]?.status === "done";
 
   const handleContinue = useCallback(() => {
     setError(null);
-    const missing = REQUIRED_DOCUMENT_IDS.filter(
-      (id) => uploadState[id]?.status !== "done",
-    );
-    if (missing.length > 0) {
-      const names = missing.map(
-        (id) => DOCUMENT_TYPES.find((d) => d.id === id)!.title,
-      );
-      setError(`Please upload the following required documents: ${names.join(", ")}`);
+    const missingStatic = STATIC_DOCUMENT_TYPES.filter((d) => d.required && uploadState[d.id]?.status !== "done");
+    const missingW2 = uploadState["w2"]?.status !== "done";
+    const missingNames: string[] = [
+      ...missingStatic.map((d) => d.title),
+      ...(missingW2 ? ["W2"] : []),
+    ];
+    if (missingNames.length > 0) {
+      setError(`Please upload the following required documents: ${missingNames.join(", ")}`);
       return;
     }
     setSsnDialogOpen(true);
   }, [uploadState]);
+
+  const cardList = buildCardList(w2SlotCount);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -465,22 +538,26 @@ export default function DocumentsUploadPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {DOCUMENT_TYPES.map((doc) => {
-          const state = uploadState[doc.id] ?? initialUploadState;
+        {cardList.map((entry) => {
+          if (entry.kind === "add-w2") {
+            return <AddW2Card key="add-w2" onClick={handleAddW2} />;
+          }
+          const id = entry.id;
+          const state = uploadState[id] ?? initialUploadState;
           return (
             <DocumentUploadCard
-              key={doc.id}
-              id={doc.id}
-              title={doc.title}
-              description={doc.description}
-              infoHref={"infoHref" in doc ? doc.infoHref : undefined}
-              required={doc.required}
-              file={files[doc.id] ?? null}
-              savedFilename={savedFilenames[doc.id]}
+              key={id}
+              id={id}
+              title={entry.title}
+              description={entry.description}
+              infoHref={"infoHref" in entry ? entry.infoHref : undefined}
+              required={entry.required}
+              file={files[id] ?? null}
+              savedFilename={savedFilenames[id]}
               uploadStatus={state.status}
               uploadProgress={state.progress}
               uploadError={state.error}
-              onFileChange={(file) => handleFileChange(doc.id, file)}
+              onFileChange={(file) => handleFileChange(id, file)}
             />
           );
         })}

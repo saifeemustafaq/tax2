@@ -28,15 +28,17 @@ export async function GET() {
     const documents = await getDocumentsCollection();
     const userId = new ObjectId(payload.sub);
 
-    const [passport, w2] = await Promise.all([
+    const [passport, w2Docs] = await Promise.all([
       documents.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
-      documents.findOne({ userId, documentType: "w2" }) as Promise<StoredDocumentW2 | null>,
+      documents.find({ userId, documentType: "w2" }).toArray() as Promise<StoredDocumentW2[]>,
     ]);
 
     const eligibility: FormEligibility = {
       schedule_oi: isIndianCitizen(passport?.data ?? null),
-      ca_540nr: (w2?.data.state_local ?? []).some(
-        (sl) => sl.state.toUpperCase() === "CA" && parseNum(sl.state_wages) > 0
+      ca_540nr: w2Docs.some((w2) =>
+        (w2.data.state_local ?? []).some(
+          (sl) => sl.state.toUpperCase() === "CA" && parseNum(sl.state_wages) > 0
+        )
       ),
     };
 

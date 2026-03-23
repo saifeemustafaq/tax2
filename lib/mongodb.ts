@@ -58,6 +58,7 @@ export async function ensureDocumentsIndexes(): Promise<void> {
   try {
     await coll.createIndex({ userId: 1 });
     await coll.createIndex({ userId: 1, documentType: 1 });
+    await coll.createIndex({ userId: 1, documentType: 1, w2Index: 1 });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     if (!msg.includes("already exists") && !msg.includes("IndexOptionsConflict")) {

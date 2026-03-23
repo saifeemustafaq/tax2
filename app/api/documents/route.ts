@@ -9,6 +9,7 @@ export type DocumentListItem = {
   originalFilename: string;
   documentType: string;
   createdAt: string;
+  w2Index?: number;
 };
 
 export async function GET() {
@@ -27,16 +28,20 @@ export async function GET() {
     const documents = await getDocumentsCollection();
     const cursor = documents.find(
       { userId: new ObjectId(payload.sub) },
-      { projection: { originalFilename: 1, documentType: 1, createdAt: 1 }, sort: { createdAt: -1 } }
+      { projection: { originalFilename: 1, documentType: 1, createdAt: 1, w2Index: 1 }, sort: { createdAt: -1 } }
     );
     const list: DocumentListItem[] = [];
     for await (const doc of cursor) {
-      list.push({
+      const item: DocumentListItem = {
         id: doc._id!.toString(),
         originalFilename: doc.originalFilename ?? "",
         documentType: doc.documentType,
         createdAt: doc.createdAt instanceof Date ? doc.createdAt.toISOString() : String(doc.createdAt),
-      });
+      };
+      if (doc.documentType === "w2") {
+        item.w2Index = (doc as { w2Index?: number }).w2Index ?? 0;
+      }
+      list.push(item);
     }
     return NextResponse.json({ documents: list });
   } catch (err) {

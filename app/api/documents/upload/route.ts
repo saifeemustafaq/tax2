@@ -38,6 +38,8 @@ export async function POST(request: Request) {
     const formData = await request.formData();
     const file = formData.get("file");
     const documentType = formData.get("documentType");
+    const w2IndexRaw = formData.get("w2Index");
+    const w2Index = typeof w2IndexRaw === "string" ? Math.max(0, parseInt(w2IndexRaw, 10) || 0) : 0;
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json(
@@ -109,13 +111,34 @@ export async function POST(request: Request) {
             : ({
                 userId: new ObjectId(payload.sub),
                 documentType: "w2",
+                w2Index,
                 data: extracted as W2Extraction,
                 originalFilename: file.name,
                 createdAt: new Date(),
               } satisfies StoredDocumentW2);
 
-    const result = await documents.insertOne(storedDoc);
-    const id = result.insertedId.toString();
+    let id: string;
+    if (docType === "w2") {
+      const userId = new ObjectId(payload.sub);
+      const replaceResult = await documents.replaceOne(
+        { userId, documentType: "w2", w2Index },
+        storedDoc,
+        { upsert: true }
+      );
+      // upsertedId is set on insert; for a replace, look up the existing doc's _id
+      if (replaceResult.upsertedId) {
+        id = replaceResult.upsertedId.toString();
+      } else {
+        const existing = await documents.findOne(
+          { userId, documentType: "w2", w2Index },
+          { projection: { _id: 1 } }
+        );
+        id = existing?._id?.toString() ?? "";
+      }
+    } else {
+      const result = await documents.insertOne(storedDoc);
+      id = result.insertedId.toString();
+    }
 
     const responseBody: {
       document: { id: string; documentType: string; originalFilename: string; createdAt: string };
