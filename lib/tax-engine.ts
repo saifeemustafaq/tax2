@@ -6,9 +6,30 @@
  * Used by f1040nr.ts, f540nr.ts, and any future form mappers.
  */
 
-import type { PassportExtraction } from "@/extraction/prompts";
+import type { PassportExtraction, W2Extraction } from "@/extraction/prompts";
 import type { FormDocuments } from "./form-mappers/types";
 import { parseNum, taxRound } from "./form-mappers/types";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * String-valued keys of W2Extraction. Used to constrain sumField() so only
+ * summable scalar fields (wages, withholding, etc.) can be passed — not
+ * object or array fields like `employer`, `state_local`, or `box_12`.
+ */
+type W2StringField = {
+  [K in keyof W2Extraction]-?: W2Extraction[K] extends string ? K : never;
+}[keyof W2Extraction];
+
+/**
+ * Sums a single numeric string field across all W-2s and applies IRS rounding.
+ * Returns 0 when the array is empty (zero-W-2 case).
+ */
+function sumField(w2s: W2Extraction[], field: W2StringField): number {
+  return taxRound(w2s.reduce((acc, w) => acc + parseNum(w[field]), 0));
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -119,17 +140,18 @@ export function getBracketsForYear(taxYear: number): TaxBracket[] {
  * Single NRA filer flow.
  */
 export function compute1040NRTax(docs: FormDocuments): TaxComputation {
-  const { passport, w2 } = docs;
+  const { passport, w2, w2All } = docs;
 
+  // tax_year is an identity field — always taken from the primary W-2
   const taxYearNum = parseInt(w2?.tax_year ?? "2025", 10);
 
-  // Income components
-  const wages           = parseNum(w2?.wages_tips_other);
-  const ssTips          = parseNum(w2?.social_security_tips);
-  const depCare         = parseNum(w2?.dependent_care_benefits);
-  const allocatedTips   = parseNum(w2?.allocated_tips);
-  const otherIncome     = parseNum(w2?.nonqualified_plans); // Line 8 (Schedule 1)
-  const federalWithheld = parseNum(w2?.federal_income_tax_withheld);
+  // Income components — aggregated across ALL W-2s
+  const wages           = sumField(w2All, "wages_tips_other");
+  const ssTips          = sumField(w2All, "social_security_tips");
+  const depCare         = sumField(w2All, "dependent_care_benefits");
+  const allocatedTips   = sumField(w2All, "allocated_tips");
+  const otherIncome     = sumField(w2All, "nonqualified_plans"); // Line 8 (Schedule 1)
+  const federalWithheld = sumField(w2All, "federal_income_tax_withheld");
 
   const totalWages  = taxRound(wages + ssTips + depCare + allocatedTips);
   const totalIncome = taxRound(totalWages + otherIncome);
@@ -252,21 +274,27 @@ function parseCaSdi(box14: string | undefined | null): number {
  *     to excess withholding from multiple employers)
  */
 export function compute540NRTax(docs: FormDocuments): CA540NRComputation {
-  const { w2 } = docs;
+  const { w2All } = docs;
 
-  // Federal AGI from the 1040-NR computation
+  // Federal AGI from the 1040-NR computation (already aggregated across w2All)
   const { agi: federalAgi } = compute1040NRTax(docs);
 
-  // CA wages and income tax withheld from W-2 Box 15–17
-  const caEntry = w2?.state_local?.find(
-    (sl) => sl.state.toUpperCase() === "CA"
-  );
-  const caWages    = parseNum(caEntry?.state_wages);
-  const caWithheld = parseNum(caEntry?.state_income_tax);
+  // CA wages and income tax withheld — aggregate CA entries across ALL W-2s
+  let caWagesRaw = 0;
+  let caWithheldRaw = 0;
+  for (const w of w2All) {
+    for (const sl of w.state_local ?? []) {
+      if (sl.state.toUpperCase() === "CA") {
+        caWagesRaw    += parseNum(sl.state_wages);
+        caWithheldRaw += parseNum(sl.state_income_tax);
+      }
+    }
+  }
+  const caWages    = taxRound(caWagesRaw);
+  const caWithheld = taxRound(caWithheldRaw);
 
-  // CA SDI from W-2 Box 14 (informational; only excess SDI from multiple
-  // employers offsets income tax — shown on the form but excluded from balance)
-  const caSdi = parseCaSdi(w2?.box_14);
+  // CA SDI from Box 14 — aggregate across ALL W-2s
+  const caSdi = taxRound(w2All.reduce((sum, w) => sum + parseCaSdi(w.box_14), 0));
 
   // CA adjusted gross income (= CA wages for basic NRA, no adjustments)
   const caAdjustedGrossIncome = caWages;

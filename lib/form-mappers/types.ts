@@ -9,7 +9,8 @@ import type {
 export type FormDocuments = {
   passport: PassportExtraction | null;
   i20: I20Extraction | null;
-  w2: W2Extraction | null;
+  w2: W2Extraction | null;       // primary W-2 (index 0) — used for identity fields: address, tax_year, employer
+  w2All: W2Extraction[];         // all W-2s sorted by w2Index — used for income/withholding aggregation
   duration: DurationEntry[] | null;
   visa: VisaExtraction | null;
   i94: I94Extraction | null;

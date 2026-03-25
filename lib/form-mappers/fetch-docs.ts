@@ -47,10 +47,11 @@ export async function fetchFormDocuments(): Promise<
   const userId = new ObjectId(payload.sub);
 
   const usersColl = await getUserCollection();
-  const [passport, i20, w2, duration, visa, i94, ead, travelHistoryDoc, user] = await Promise.all([
+  const [passport, i20, w2, w2AllDocs, duration, visa, i94, ead, travelHistoryDoc, user] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
     coll.findOne({ userId, documentType: "w2" }, { sort: { w2Index: 1 } }) as Promise<StoredDocumentW2 | null>,
+    coll.find({ userId, documentType: "w2" }).sort({ w2Index: 1 }).toArray() as Promise<StoredDocumentW2[]>,
     coll.findOne({ userId, documentType: "duration" }) as Promise<StoredDocumentDuration | null>,
     coll.findOne({ userId, documentType: "visa" }) as Promise<StoredDocumentVisa | null>,
     coll.findOne({ userId, documentType: "i94" }) as Promise<StoredDocumentI94 | null>,
@@ -65,6 +66,7 @@ export async function fetchFormDocuments(): Promise<
       passport: passport?.data ?? null,
       i20: i20?.data ?? null,
       w2: w2?.data ? sanitizeW2(w2.data) : null,
+      w2All: w2AllDocs.map((d) => sanitizeW2(d.data)),
       duration: duration?.data.entries ?? null,
       visa: visa?.data ?? null,
       i94: i94?.data ?? null,
