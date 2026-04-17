@@ -3,7 +3,7 @@
  *
  * Pure module — no DB, no HTTP, no side effects.
  * Receives extracted document data and returns computed tax values.
- * Used by f1040nr.ts, f540nr.ts, and any future form mappers.
+ * Used by f1040nr.ts, f540nr.ts, f140nr.ts, and any future form mappers.
  */
 
 import type { PassportExtraction, W2Extraction } from "@/extraction/prompts";
@@ -195,6 +195,121 @@ export function compute1040NRTax(docs: FormDocuments): TaxComputation {
     overpayment,
     refund,
     amountOwed,
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Arizona 2024/2025 flat tax
+// ---------------------------------------------------------------------------
+
+// Arizona personal exemption credit for a single nonresident filer (prorated)
+const AZ_PERSONAL_EXEMPTION_CREDIT = 100;
+
+// ---------------------------------------------------------------------------
+// AZ 140NR computation type
+// ---------------------------------------------------------------------------
+
+export type AZ140NRComputation = {
+  federalAgi: number;
+  azWages: number;
+  azAdjustedGrossIncome: number;
+  azStandardDeduction: number;
+  azTaxableIncome: number;
+  azAllocationRatio: number;      // AZ income / federal AGI, capped at 1.0
+  azPersonalExemptionCredit: number; // $100 × allocation ratio
+  azTax: number;                  // 2.5% flat rate
+  azNetTax: number;               // after personal exemption credit
+  azWithheld: number;
+  azOverpayment: number;
+  azRefund: number;
+  azAmountOwed: number;
+};
+
+// ---------------------------------------------------------------------------
+// AZ 140NR top-level orchestrator
+// ---------------------------------------------------------------------------
+
+/**
+ * Computes all AZ Form 140NR tax values from extracted document data.
+ * Single NRA filer, nonresident flow.
+ *
+ * Key assumptions:
+ *   - AZ flat rate 2.5% applies to all taxable income (2024+)
+ *   - AZ AGI = AZ wages from W-2 Box 15/16 (no AZ-specific adjustments)
+ *   - Standard deduction: $14,600 single (2024) — NRA eligibility TBD; included
+ *     per plan specification and subject to legal review
+ *   - Personal exemption credit: $100 × allocation ratio (nonresident proration)
+ *   - Allocation ratio: AZ wages / federal AGI, capped at 1.0
+ */
+export function computeAZ140NRTax(docs: FormDocuments): AZ140NRComputation {
+  const { w2All } = docs;
+
+  // Aggregate AZ wages and AZ income tax withheld across all W-2s
+  let azWagesRaw = 0;
+  let azWithheldRaw = 0;
+  for (const w of w2All) {
+    for (const sl of w.state_local ?? []) {
+      if (sl.state.toUpperCase() === "AZ") {
+        azWagesRaw    += parseNum(sl.state_wages);
+        azWithheldRaw += parseNum(sl.state_income_tax);
+      }
+    }
+  }
+  const azWages    = taxRound(azWagesRaw);
+  const azWithheld = taxRound(azWithheldRaw);
+
+  // Federal AGI from the 1040-NR computation (aggregated across all W-2s)
+  const { agi: federalAgi } = compute1040NRTax(docs);
+
+  // AZ adjusted gross income — for a nonresident with only W-2 wages,
+  // AZ AGI equals AZ wages (no AZ-specific additions or subtractions)
+  const azAdjustedGrossIncome = azWages;
+
+  // Allocation ratio (AZ income / federal AGI), used to prorate the
+  // personal exemption credit for nonresidents; capped at 1.0
+  const azAllocationRatio =
+    federalAgi > 0
+      ? Math.min(1.0, azWages / federalAgi)
+      : azWages > 0 ? 1.0 : 0;
+
+  // Arizona standard deduction — single filer 2024: $14,600, but nonresidents
+  // must prorate it by the AZ income ratio (AZ gross / federal AGI).
+  // Unlike federal 1040-NR (which bars most NRAs from the SD entirely), AZ
+  // allows the deduction but apportions it to AZ-source income only.
+  const azStandardDeduction = taxRound(14600 * azAllocationRatio);
+
+  // AZ taxable income: AZ AGI minus standard deduction
+  const azTaxableIncome = taxRound(Math.max(0, azAdjustedGrossIncome - azStandardDeduction));
+
+  // AZ tax: flat 2.5% rate (effective 2023+, no brackets)
+  const azTax = taxRound(azTaxableIncome * 0.025);
+
+  // Personal exemption credit: $100 × allocation ratio (nonresident proration)
+  const azPersonalExemptionCredit = taxRound(AZ_PERSONAL_EXEMPTION_CREDIT * azAllocationRatio);
+
+  // Net AZ tax after personal exemption credit (not less than 0)
+  const azNetTax = taxRound(Math.max(0, azTax - azPersonalExemptionCredit));
+
+  // Payments and balance
+  const balance      = azWithheld - azNetTax;
+  const azOverpayment = balance > 0 ? taxRound(balance) : 0;
+  const azRefund      = azOverpayment;
+  const azAmountOwed  = balance < 0 ? taxRound(Math.abs(balance)) : 0;
+
+  return {
+    federalAgi,
+    azWages,
+    azAdjustedGrossIncome,
+    azStandardDeduction,
+    azTaxableIncome,
+    azAllocationRatio,
+    azPersonalExemptionCredit,
+    azTax,
+    azNetTax,
+    azWithheld,
+    azOverpayment,
+    azRefund,
+    azAmountOwed,
   };
 }
 

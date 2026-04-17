@@ -5,6 +5,7 @@ import { mapToF1040NR } from "@/lib/form-mappers/f1040nr";
 import { mapToF8843 } from "@/lib/form-mappers/f8843";
 import { mapToF1040NRO } from "@/lib/form-mappers/f1040nro";
 import { mapToF540NR } from "@/lib/form-mappers/f540nr";
+import { mapToF140NR } from "@/lib/form-mappers/f140nr";
 
 export type FormFillDef = {
   formId: string;
@@ -43,6 +44,13 @@ const FORM_REGISTRY: FormFillDef[] = [
     pdfPath: "public/forms/empty/540nr.pdf",
     filledFilename: "540nr_filled.pdf",
     mapper: mapToF540NR,
+    requiredDocTypes: ["passport", "w2"],
+  },
+  {
+    formId: "f140nr",
+    pdfPath: "public/forms/empty/az140nr.pdf",
+    filledFilename: "az140nr_filled.pdf",
+    mapper: mapToF140NR,
     requiredDocTypes: ["passport", "w2"],
   },
 ];

@@ -1,6 +1,7 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import type { UserDocument } from "@/lib/types/user";
 import type { StoredDocument } from "@/lib/types/document";
+import type { BankDetail } from "@/lib/types/bank-detail";
 
 const uri = process.env.MONGODB_URI;
 
@@ -49,8 +50,14 @@ export async function getDocumentsCollection() {
   return db.collection<StoredDocument>("documents");
 }
 
+export async function getBankDetailsCollection() {
+  const db = await getDb();
+  return db.collection<BankDetail>("bankDetails");
+}
+
 let indexCreated = false;
 let documentsIndexCreated = false;
+let bankDetailsIndexCreated = false;
 
 export async function ensureDocumentsIndexes(): Promise<void> {
   if (documentsIndexCreated) return;
@@ -80,4 +87,18 @@ export async function ensureUserIndexes(): Promise<void> {
     }
   }
   indexCreated = true;
+}
+
+export async function ensureBankDetailsIndexes(): Promise<void> {
+  if (bankDetailsIndexCreated) return;
+  const coll = await getBankDetailsCollection();
+  try {
+    await coll.createIndex({ userId: 1 });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (!msg.includes("already exists") && !msg.includes("IndexOptionsConflict")) {
+      throw err;
+    }
+  }
+  bankDetailsIndexCreated = true;
 }

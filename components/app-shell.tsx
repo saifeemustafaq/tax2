@@ -46,6 +46,7 @@ import {
   HiOutlineLogout,
   HiOutlineClipboardList,
   HiOutlineTrash,
+  HiOutlineLibrary,
 } from "react-icons/hi"
 import {
   AlertDialog,
@@ -370,6 +371,29 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 </SidebarGroupContent>
               </CollapsibleContent>
             </Collapsible>
+          </SidebarGroup>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === "/bank-details"}
+                    className="text-base font-medium"
+                  >
+                    <Link
+                      href="/bank-details"
+                      aria-current={
+                        pathname === "/bank-details" ? "page" : undefined
+                      }
+                    >
+                      <HiOutlineLibrary />
+                      <span>Bank Details</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooterWithUser />

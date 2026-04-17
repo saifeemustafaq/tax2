@@ -47,8 +47,9 @@ No API route file is needed; `POST /api/forms/f1040nro/fill` is handled by the d
    - `mapper`: the function from step 3.
    - `requiredDocTypes` (optional): array of document types that are typically needed for this form (e.g. `["passport", "w2"]`). Not enforced yet; can be used later for validation or UI hints.
 
-5. **Expose in the UI**  
-   In `app/(app)/forms/page.tsx`, add an entry to the `FORMS` array with `id`, `fillApiId` (same as `formId` in the registry, e.g. `"f1040nr"`), `title`, `subtitle`, `description`, `emptyFile`, `filledFilename`, and optional `visibleWhen` for eligibility-based visibility.
+5. **Expose in the UI**
+   - **Federal forms**: In `app/(app)/forms/page.tsx`, add an entry to the `FEDERAL_FORMS` array with `id`, `fillApiId`, `title`, `subtitle`, `description`, `emptyFile`, `filledFilename`, and optional `visibleWhen: "schedule_oi"` for eligibility-based visibility.
+   - **State forms**: State form cards are rendered **dynamically** from `eligibility.detectedStates` — no static entry needed. To expose a new state form, set `implemented: true` and assign a `formId` in `lib/state-tax-config.ts`. The forms page will automatically render a full card (with View, Download Completed, Download Empty) for any detected state where `implemented: true`. States with `implemented: false` show a "Coming Soon" card automatically.
 
 No new API route is needed; the dynamic route handles all registered forms.
 
@@ -80,7 +81,8 @@ No new API route is needed; the dynamic route handles all registered forms.
 | Dynamic fill route | `app/api/forms/[formId]/fill/route.ts` |
 | Form mappers | `lib/form-mappers/f<id>.ts` |
 | Field manifests | `scripts/output/<form>.json` |
-| Forms UI config | `app/(app)/forms/page.tsx` (`FORMS` array) |
+| Federal forms UI config | `app/(app)/forms/page.tsx` (`FEDERAL_FORMS` array) |
+| State forms UI config | `lib/state-tax-config.ts` (`STATE_TAX_MAP` — set `implemented: true` + `formId`) |
 
 ## Required documents per form (optional)
 

@@ -7,6 +7,7 @@ import {
   HiOutlineDocumentDownload,
 } from "react-icons/hi";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -30,10 +31,10 @@ type FormDef = {
   description: string;
   emptyFile: string;
   filledFilename: string;
-  visibleWhen?: keyof FormEligibility;
+  visibleWhen?: "schedule_oi";
 };
 
-const FORMS: FormDef[] = [
+const FEDERAL_FORMS: FormDef[] = [
   {
     id: "8843",
     fillApiId: "f8843",
@@ -65,17 +66,6 @@ const FORMS: FormDef[] = [
     filledFilename: "schedule_oi_filled.pdf",
     visibleWhen: "schedule_oi",
   },
-  {
-    id: "540nr",
-    fillApiId: "f540nr",
-    title: "Form 540NR",
-    subtitle: "California Nonresident or Part-Year Resident",
-    description:
-      "California state income tax return for nonresidents or part-year residents who earned California-source income.",
-    emptyFile: "540nr.pdf",
-    filledFilename: "540nr_filled.pdf",
-    visibleWhen: "ca_540nr",
-  },
 ];
 
 export default function FormsPage() {
@@ -93,12 +83,25 @@ export default function FormsPage() {
 
   const visibleForms = useMemo(() => {
     if (!eligibility) {
-      return FORMS.filter((f) => !f.visibleWhen);
+      return FEDERAL_FORMS.filter((f) => !f.visibleWhen);
     }
-    return FORMS.filter(
+    return FEDERAL_FORMS.filter(
       (f) => !f.visibleWhen || eligibility[f.visibleWhen]
     );
   }, [eligibility]);
+
+  const incomeTaxStateForms = useMemo(
+    () => (eligibility?.detectedStates ?? []).filter((s) => s.hasIncomeTax),
+    [eligibility]
+  );
+
+  const noTaxStateNames = useMemo(
+    () =>
+      (eligibility?.detectedStates ?? [])
+        .filter((s) => !s.hasIncomeTax)
+        .map((s) => s.stateName),
+    [eligibility]
+  );
 
   const openViewer = useCallback((form: FormDef) => {
     setViewerForm({
@@ -137,75 +140,242 @@ export default function FormsPage() {
     }
   }, []);
 
-  const gridCols =
+  const federalGridCols =
     visibleForms.length <= 3
       ? "sm:grid-cols-2 lg:grid-cols-3"
       : "sm:grid-cols-2 lg:grid-cols-4";
 
+  const stateGridCols =
+    incomeTaxStateForms.length <= 3
+      ? "sm:grid-cols-2 lg:grid-cols-3"
+      : "sm:grid-cols-2 lg:grid-cols-4";
+
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-        Tax Forms
-      </h1>
-      <p className="text-sm text-muted-foreground">
-        View, download blank forms, or download completed forms pre-filled with
-        your uploaded document data.
-      </p>
-
-      <div className={`grid gap-6 ${gridCols}`}>
-        {visibleForms.map((form) => (
-          <Card key={form.id} className="flex flex-col">
-            <CardHeader>
-              <CardTitle className="text-lg">{form.title}</CardTitle>
-              <CardDescription className="text-xs font-medium uppercase tracking-wide text-muted-foreground/70">
-                {form.subtitle}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex flex-1 flex-col gap-4">
-              <p className="text-sm text-muted-foreground">
-                {form.description}
-              </p>
-
-              <Separator />
-
-              <div className="mt-auto flex flex-col gap-2">
-                <Button
-                  variant="default"
-                  className="w-full justify-start gap-2"
-                  onClick={() => openViewer(form)}
-                >
-                  <HiOutlineEye className="size-4" />
-                  View {form.title}
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full justify-start gap-2"
-                  disabled={downloading === form.id}
-                  onClick={() => downloadFilled(form)}
-                >
-                  <HiOutlineDocumentDownload className="size-4" />
-                  {downloading === form.id
-                    ? "Generating…"
-                    : "Download Completed"}
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start gap-2 text-muted-foreground"
-                  asChild
-                >
-                  <a
-                    href={`/forms/empty/${form.emptyFile}`}
-                    download={form.emptyFile}
-                  >
-                    <HiOutlineDownload className="size-4" />
-                    Download Empty Form
-                  </a>
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+    <div className="mx-auto max-w-5xl space-y-8">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          Tax Forms
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          View, download blank forms, or download completed forms pre-filled with
+          your uploaded document data.
+        </p>
       </div>
+
+      {/* Federal Forms */}
+      <div className="space-y-4">
+        <h2 className="text-base font-semibold text-foreground">Federal Forms</h2>
+        <div className={`grid gap-6 ${federalGridCols}`}>
+          {visibleForms.map((form) => (
+            <Card key={form.id} className="flex flex-col">
+              <CardHeader>
+                <CardTitle className="text-lg">{form.title}</CardTitle>
+                <CardDescription className="text-xs font-medium uppercase tracking-wide text-muted-foreground/70">
+                  {form.subtitle}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-1 flex-col gap-4">
+                <p className="text-sm text-muted-foreground">
+                  {form.description}
+                </p>
+
+                <Separator />
+
+                <div className="mt-auto flex flex-col gap-2">
+                  <Button
+                    variant="default"
+                    className="w-full justify-start gap-2"
+                    onClick={() => openViewer(form)}
+                  >
+                    <HiOutlineEye className="size-4" />
+                    View {form.title}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start gap-2"
+                    disabled={downloading === form.id}
+                    onClick={() => downloadFilled(form)}
+                  >
+                    <HiOutlineDocumentDownload className="size-4" />
+                    {downloading === form.id
+                      ? "Generating…"
+                      : "Download Completed"}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-2 text-muted-foreground"
+                    asChild
+                  >
+                    <a
+                      href={`/forms/empty/${form.emptyFile}`}
+                      download={form.emptyFile}
+                    >
+                      <HiOutlineDownload className="size-4" />
+                      Download Empty Form
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* State Forms */}
+      {incomeTaxStateForms.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-base font-semibold text-foreground">State Forms</h2>
+          <div className={`grid gap-6 ${stateGridCols}`}>
+            {incomeTaxStateForms.map((state) => {
+              const stateFormId = `state-${state.stateCode}`;
+              const title = state.nonresidentForm ?? state.stateName;
+              const subtitle = `${state.stateName} Nonresident Income Tax Return`;
+
+              if (state.implemented && state.formId && state.emptyFile && state.filledFilename) {
+                const stateForm: FormDef = {
+                  id: stateFormId,
+                  fillApiId: state.formId,
+                  title,
+                  subtitle,
+                  description: `State income tax return for ${state.stateName}. Auto-filled with your W-2 and passport data.`,
+                  emptyFile: state.emptyFile,
+                  filledFilename: state.filledFilename,
+                };
+                return (
+                  <Card key={stateFormId} className="flex flex-col">
+                    <CardHeader>
+                      <CardTitle className="text-lg">{title}</CardTitle>
+                      <CardDescription className="text-xs font-medium uppercase tracking-wide text-muted-foreground/70">
+                        {subtitle}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-1 flex-col gap-4">
+                      <p className="text-sm text-muted-foreground">
+                        {stateForm.description}
+                      </p>
+
+                      <Separator />
+
+                      <div className="mt-auto flex flex-col gap-2">
+                        <Button
+                          variant="default"
+                          className="w-full justify-start gap-2"
+                          onClick={() => openViewer(stateForm)}
+                        >
+                          <HiOutlineEye className="size-4" />
+                          View {title}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start gap-2"
+                          disabled={downloading === stateFormId}
+                          onClick={() => downloadFilled(stateForm)}
+                        >
+                          <HiOutlineDocumentDownload className="size-4" />
+                          {downloading === stateFormId
+                            ? "Generating…"
+                            : "Download Completed"}
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          className="w-full justify-start gap-2 text-muted-foreground"
+                          asChild
+                        >
+                          <a
+                            href={`/forms/empty/${stateForm.emptyFile}`}
+                            download={stateForm.emptyFile}
+                          >
+                            <HiOutlineDownload className="size-4" />
+                            Download Empty Form
+                          </a>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              }
+
+              // Coming Soon card
+              return (
+                <Card key={stateFormId} className="flex flex-col opacity-70">
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="space-y-1">
+                        <CardTitle className="text-lg">{title}</CardTitle>
+                        <CardDescription className="text-xs font-medium uppercase tracking-wide text-muted-foreground/70">
+                          {subtitle}
+                        </CardDescription>
+                      </div>
+                      <Badge variant="secondary" className="shrink-0 text-xs">
+                        Coming Soon
+                      </Badge>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="flex flex-1 flex-col gap-4">
+                    <p className="text-sm text-muted-foreground">
+                      State income tax return for {state.stateName}. Auto-fill support coming soon.
+                    </p>
+
+                    <Separator />
+
+                    <div className="mt-auto flex flex-col gap-2">
+                      <Button
+                        variant="default"
+                        className="w-full justify-start gap-2"
+                        disabled
+                      >
+                        <HiOutlineEye className="size-4" />
+                        View {title}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start gap-2"
+                        disabled
+                      >
+                        <HiOutlineDocumentDownload className="size-4" />
+                        Download Completed
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start gap-2 text-muted-foreground"
+                        disabled
+                      >
+                        <HiOutlineDownload className="size-4" />
+                        Download Empty Form
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+
+          {/* No-income-tax state info note */}
+          {noTaxStateNames.length > 0 && (
+            <p className="text-sm text-muted-foreground">
+              Income detected in{" "}
+              {noTaxStateNames.length === 1
+                ? noTaxStateNames[0]
+                : `${noTaxStateNames.slice(0, -1).join(", ")} and ${noTaxStateNames[noTaxStateNames.length - 1]}`}
+              {" "}— no state income tax filing required.
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* No-income-tax note when no income-tax states were detected */}
+      {incomeTaxStateForms.length === 0 && noTaxStateNames.length > 0 && (
+        <div className="space-y-2">
+          <h2 className="text-base font-semibold text-foreground">State Forms</h2>
+          <p className="text-sm text-muted-foreground">
+            Income detected in{" "}
+            {noTaxStateNames.length === 1
+              ? noTaxStateNames[0]
+              : `${noTaxStateNames.slice(0, -1).join(", ")} and ${noTaxStateNames[noTaxStateNames.length - 1]}`}
+            {" "}&mdash; no state income tax filing required.
+          </p>
+        </div>
+      )}
 
       <FormViewerModal
         form={viewerForm}
