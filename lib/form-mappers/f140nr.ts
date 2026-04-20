@@ -240,6 +240,14 @@ export function mapToF140NR(docs: FormDocuments): Record<string, unknown> {
   if (c.azOverpayment) v["86"] = amt(c.azOverpayment);
   if (c.azRefund)      v["87"] = amt(c.azRefund);
 
+  // Direct deposit — routing number, account type, account number
+  if (c.azRefund && docs.bankDetail) {
+    v["Routing Number"] = docs.bankDetail.routingNumber;
+    v["Account Number"] = docs.bankDetail.accountNumber;
+    // "Refund" radio: Choice1 = Checking, Choice2 = Savings
+    v["Refund"] = docs.bankDetail.accountType === "checking" ? "Choice1" : "Choice2";
+  }
+
   // -------------------------------------------------------------------------
   // Page 2 — Signature block
   // -------------------------------------------------------------------------

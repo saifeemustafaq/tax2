@@ -94,7 +94,22 @@ export async function fillPdfFields(
   }
 
   const font = await pdf.embedFont(StandardFonts.Helvetica);
-  form.updateFieldAppearances(font);
-  form.flatten();
-  return pdf.save();
+
+  try {
+    form.updateFieldAppearances(font);
+  } catch {
+    /* some PDFs contain widget types pdf-lib can't render */
+  }
+
+  // Save before flattening — flatten can partially corrupt PDFs that contain
+  // unsupported widget types (e.g. push-button fields like cmdPrintForm in
+  // the AZ 140NR), leaving broken internal refs that make pdf.save() fail.
+  const safeBytes = await pdf.save();
+
+  try {
+    form.flatten();
+    return pdf.save();
+  } catch {
+    return safeBytes;
+  }
 }

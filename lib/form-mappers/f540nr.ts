@@ -29,8 +29,11 @@ import { compute540NRTax } from "@/lib/tax-engine";
  *   1030     Personal exemption count (Line 7)
  *
  * Page 2 (2xxx): Income
- *   2001     Federal AGI
- *   2002     CA wages
+ *   2001     Page header: taxpayer name (repeats pages 2-6, top=46 x=90 w=131)
+ *   2002     Page header: SSN/ITIN    (repeats pages 2-6, top=46 x=306 w=73)
+ *   2003     Line 11: Exemption amount (top=70, x=457, w=116)
+ *   2004     Line 12: Total CA wages / W-2 Box 16 (top=106, x=277, w=116)
+ *   2005     Line 13: Federal AGI (top=130, x=435, w=116)
  *   2028     CA adjusted gross income
  *   2036     CA taxable income
  *
@@ -119,8 +122,16 @@ export function mapToF540NR(docs: FormDocuments): Record<string, unknown> {
   // Page 2 — Income
   // -------------------------------------------------------------------------
 
-  if (c.federalAgi)            v["540NR_form_2001"] = amt(c.federalAgi);
-  if (c.caWages)               v["540NR_form_2002"] = amt(c.caWages);
+  // Page 2-6 repeating header: taxpayer name and SSN
+  const headerName = [passport?.given_names, passport?.surname]
+    .filter(Boolean)
+    .join(" ");
+  if (headerName) v["540NR_form_2001"] = headerName;
+  v["540NR_form_2002"] = docs.ssn ?? "";
+
+  // Income fields (correct field IDs per layout JSON)
+  if (c.federalAgi)            v["540NR_form_2005"] = amt(c.federalAgi);
+  if (c.caWages)               v["540NR_form_2004"] = amt(c.caWages);
   if (c.caAdjustedGrossIncome) v["540NR_form_2028"] = amt(c.caAdjustedGrossIncome);
   if (c.caTaxableIncome)       v["540NR_form_2036"] = amt(c.caTaxableIncome);
 
@@ -167,6 +178,19 @@ export function mapToF540NR(docs: FormDocuments): Record<string, unknown> {
   if (c.caOverpayment) v["540NR_form_5005"] = amt(c.caOverpayment);
   if (c.caRefund)      v["540NR_form_5006"] = amt(c.caRefund);
   if (c.caAmountOwed)  v["540NR_form_5007"] = amt(c.caAmountOwed);
+
+  // Direct deposit — routing number, account type, account number
+  // 5009 = routing number, 5011 = account number
+  // 5010A CB = checking, 5010B CB = savings
+  if (c.caRefund && docs.bankDetail) {
+    v["540NR_form_5009"] = docs.bankDetail.routingNumber;
+    v["540NR_form_5011"] = docs.bankDetail.accountNumber;
+    if (docs.bankDetail.accountType === "checking") {
+      v["540NR_form_5010A CB"] = true;
+    } else {
+      v["540NR_form_5010B CB"] = true;
+    }
+  }
 
   // -------------------------------------------------------------------------
   // Page 6 — Signature block

@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { ObjectId } from "mongodb";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
-import { getDocumentsCollection, ensureDocumentsIndexes, getUserCollection } from "@/lib/mongodb";
+import { getDocumentsCollection, ensureDocumentsIndexes, getUserCollection, getBankDetailsCollection, ensureBankDetailsIndexes } from "@/lib/mongodb";
 import type {
   StoredDocumentPassport,
   StoredDocumentI20,
@@ -42,12 +42,13 @@ export async function fetchFormDocuments(): Promise<
   const payload = await verifyToken(token);
   if (!payload) return { ok: false, status: 401, error: "Unauthorized" };
 
-  await ensureDocumentsIndexes();
+  await Promise.all([ensureDocumentsIndexes(), ensureBankDetailsIndexes()]);
   const coll = await getDocumentsCollection();
   const userId = new ObjectId(payload.sub);
 
   const usersColl = await getUserCollection();
-  const [passport, i20, w2, w2AllDocs, duration, visa, i94, ead, travelHistoryDoc, user] = await Promise.all([
+  const bankColl = await getBankDetailsCollection();
+  const [passport, i20, w2, w2AllDocs, duration, visa, i94, ead, travelHistoryDoc, user, defaultBank] = await Promise.all([
     coll.findOne({ userId, documentType: "passport" }) as Promise<StoredDocumentPassport | null>,
     coll.findOne({ userId, documentType: "i20" }) as Promise<StoredDocumentI20 | null>,
     coll.findOne({ userId, documentType: "w2" }, { sort: { w2Index: 1 } }) as Promise<StoredDocumentW2 | null>,
@@ -58,6 +59,7 @@ export async function fetchFormDocuments(): Promise<
     coll.findOne({ userId, documentType: "ead" }) as Promise<StoredDocumentEAD | null>,
     coll.findOne({ userId, documentType: "travel-history" }) as Promise<StoredDocumentTravelHistory | null>,
     usersColl.findOne({ _id: userId }),
+    bankColl.findOne({ userId, isDefault: true }),
   ]);
 
   return {
@@ -83,6 +85,13 @@ export async function fetchFormDocuments(): Promise<
       institutionAddress: user?.institutionAddress ?? null,
       institutionPhone: user?.institutionPhone ?? null,
       visaHistory: user?.visaHistory ?? null,
+      bankDetail: defaultBank
+        ? {
+            routingNumber: defaultBank.routingNumber,
+            accountNumber: defaultBank.accountNumber,
+            accountType: defaultBank.accountType,
+          }
+        : null,
     },
   };
 }

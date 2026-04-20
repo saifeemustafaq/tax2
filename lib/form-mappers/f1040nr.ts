@@ -28,6 +28,8 @@ const P2 = "topmostSubform[0].Page2[0]";
  *   Tax & Credits (Page 2): f2_01=11b AGI, f2_02=12 deductions, f2_06=14 total deductions,
  *     f2_07=15 taxable income
  *   Payments (Page 2): Line25_ReadOrder[0].f2_21=25a withheld, f2_24=25d subtotal, f2_35=33 total payments
+ *   Direct deposit (Page 2): c2_5=35b routing/account enable, f2_38=35b routing,
+ *     c2_6[0]=checking, c2_6[1]=savings, f2_39=35d account number
  */
 export function mapToF1040NR(
   docs: FormDocuments
@@ -140,6 +142,18 @@ export function mapToF1040NR(
 
   // Line 35a: Refund (f2_37)
   if (c.refund) v[`${P2}.f2_37[0]`] = amt(c.refund);
+
+  // Lines 35b-35d: Direct deposit — routing number, account type, account number
+  if (c.refund && docs.bankDetail) {
+    v[`${P2}.c2_5[0]`] = true; // Check "routing/account" box to enable direct deposit
+    v[`${P2}.RoutingNo[0].f2_38[0]`] = docs.bankDetail.routingNumber;
+    v[`${P2}.AccountNo[0].f2_39[0]`] = docs.bankDetail.accountNumber;
+    if (docs.bankDetail.accountType === "checking") {
+      v[`${P2}.c2_6[0]`] = true;
+    } else {
+      v[`${P2}.c2_6[1]`] = true;
+    }
+  }
 
   // Line 36: Amount owed (f2_41)
   if (c.amountOwed) v[`${P2}.f2_41[0]`] = amt(c.amountOwed);

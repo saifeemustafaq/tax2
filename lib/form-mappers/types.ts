@@ -6,6 +6,12 @@ import type {
   EadExtraction,
 } from "@/lib/types/document";
 
+export type BankDetailForForm = {
+  routingNumber: string;
+  accountNumber: string;
+  accountType: "checking" | "savings";
+};
+
 export type FormDocuments = {
   passport: PassportExtraction | null;
   i20: I20Extraction | null;
@@ -23,6 +29,7 @@ export type FormDocuments = {
   institutionAddress: string | null;
   institutionPhone: string | null;
   visaHistory: Record<string, string> | null;
+  bankDetail: BankDetailForForm | null;
 };
 
 const MONTHS = [
