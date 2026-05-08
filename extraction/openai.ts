@@ -5,6 +5,8 @@ import {
   type SupportedDocumentType,
 } from "@/extraction/prompts";
 import { sanitizeW2, type W2Extraction } from "@/extraction/prompts/forms/w2";
+import { ExtractionError } from "@/extraction/errors";
+import { fileToBase64Images } from "@/extraction/pdf-to-images";
 
 const DEFAULT_MODEL = "gpt-4o-mini";
 
@@ -15,55 +17,22 @@ function getClient(): OpenAI {
       "OPENAI_API_KEY is not set. Document extraction requires an OpenAI API key.",
     );
   }
-  return new OpenAI({ apiKey: key, maxRetries: 3, timeout: 60_000 });
+  return new OpenAI({
+    apiKey: key,
+    baseURL: process.env.OPENAI_BASE_URL?.trim() || undefined,
+    maxRetries: 3,
+    timeout: 120_000, // Increased from 60s: vision processing is slower for multi-page docs
+  });
 }
 
 function getModel(): string {
   return process.env.OPENAI_EXTRACTION_MODEL?.trim() || DEFAULT_MODEL;
 }
 
-export async function uploadFile(
-  file: File | Blob | Buffer,
-  filename: string,
-  mimeType?: string,
-): Promise<string> {
-  const client = getClient();
-  const uploadable =
-    file instanceof Buffer
-      ? new File([new Uint8Array(file)], filename, {
-          type: mimeType ?? "application/octet-stream",
-        })
-      : file instanceof Blob && !(file instanceof File)
-        ? new File([file], filename, {
-            type: (mimeType ?? file.type) || "application/octet-stream",
-          })
-        : file;
-  const created = await client.files.create({
-    file: uploadable as File,
-    purpose: "user_data",
-  });
-  return created.id;
-}
-
-export class ExtractionError extends Error {
-  constructor(
-    message: string,
-    public readonly code:
-      | "missing_key"
-      | "unsupported_type"
-      | "parse"
-      | "validation"
-      | "api",
-  ) {
-    super(message);
-    this.name = "ExtractionError";
-  }
-}
-
 export async function extractDocument(
   documentType: string,
   file: File | Blob | Buffer,
-  filename?: string,
+  _filename?: string,
 ): Promise<unknown> {
   if (!isSupportedDocumentType(documentType)) {
     throw new ExtractionError(
@@ -88,52 +57,62 @@ export async function extractDocument(
   const client = getClient();
   const model = getModel();
 
-  const name = filename ?? (file instanceof File ? file.name : "document");
+  const mimeHint =
+    file instanceof File
+      ? file.type
+      : file instanceof Blob
+        ? file.type
+        : undefined;
 
-  let fileId: string;
+  let images: Awaited<ReturnType<typeof fileToBase64Images>>;
   try {
-    fileId = await uploadFile(
-      file,
-      name,
-      file instanceof Blob ? file.type : undefined,
-    );
+    images = await fileToBase64Images(file, mimeHint);
   } catch (err) {
-    // Wrap connection / network errors with a user-friendly code so the route
-    // returns 502 (retryable) instead of 500 (unexpected server error).
-    if (err instanceof Error && !("code" in err && (err as ExtractionError).code)) {
-      throw new ExtractionError(
-        "Could not reach the extraction service. Check your network and try again.",
-        "api",
-      );
-    }
-    throw err;
+    if (err instanceof ExtractionError) throw err;
+    throw new ExtractionError(
+      "Could not reach the extraction service. Check your network and try again.",
+      "api",
+    );
   }
 
-  const prompt = config.prompt;
-  const jsonSchema = config.jsonSchema;
-
-  const response = await client.responses.create({
-    model,
-    input: [
-      {
-        role: "user",
-        content: [
-          { type: "input_file", file_id: fileId },
-          { type: "input_text", text: prompt },
-        ],
+  const content: OpenAI.Chat.ChatCompletionContentPart[] = [
+    ...images.map((img) => ({
+      type: "image_url" as const,
+      image_url: {
+        url: `data:${img.mimeType};base64,${img.base64}`,
+        detail: "high" as const,
       },
-    ],
-    text: {
-      format: {
+    })),
+    { type: "text" as const, text: config.prompt },
+  ];
+
+  let response: OpenAI.Chat.ChatCompletion;
+  try {
+    response = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content }],
+      response_format: {
         type: "json_schema",
-        name: `extract_${documentType}`,
-        schema: jsonSchema as Record<string, unknown>,
-        strict: true,
+        json_schema: {
+          name: `extract_${documentType}`,
+          schema: config.jsonSchema as Record<string, unknown>,
+          strict: true,
+        },
       },
-    },
-  });
+      // max_tokens is a ceiling, not an expectation. Actual output ranges from
+      // ~200 tokens (travel-history) to ~1500 tokens (I-20). 4096 provides safe
+      // headroom for all document types without risking truncation.
+      max_tokens: 4096,
+    });
+  } catch (err) {
+    if (err instanceof ExtractionError) throw err;
+    throw new ExtractionError(
+      "Could not reach the extraction service. Check your network and try again.",
+      "api",
+    );
+  }
 
-  const outputText = response.output_text?.trim();
+  const outputText = response.choices[0]?.message?.content?.trim();
   if (!outputText) {
     throw new ExtractionError("No output text in API response.", "api");
   }
@@ -160,4 +139,6 @@ export async function extractDocument(
   return result.data;
 }
 
+// Re-export ExtractionError so existing callers importing from this module are unaffected
+export { ExtractionError };
 export type { SupportedDocumentType };
