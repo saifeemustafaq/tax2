@@ -9,6 +9,13 @@ export interface UserDocument {
   contactNumber: string;
   address: string;
   hashedPassword: string;
+  ssn?: string;
+  f1VisaEntryDate?: string;
+  institutionName?: string;
+  programDirectorName?: string;
+  institutionAddress?: string;
+  institutionPhone?: string;
+  visaHistory?: Record<string, string>;
   createdAt?: Date;
 }
 

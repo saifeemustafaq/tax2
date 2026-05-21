@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { verifyToken, COOKIE_NAME } from "@/lib/jwt";
 
-const PROTECTED_PREFIXES = ["/documents", "/duration"];
+const PROTECTED_PREFIXES = ["/documents", "/duration", "/summary"];
 const PROTECTED_EXACT = ["/"];
 const PUBLIC_PATHS = ["/login", "/register"];
 

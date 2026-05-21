@@ -26,7 +26,7 @@ export async function GET() {
     if (!payload) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    const users = getUserCollection();
+    const users = await getUserCollection();
     const user = await users.findOne({ _id: new ObjectId(payload.sub) });
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

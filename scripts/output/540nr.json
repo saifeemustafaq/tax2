@@ -1,0 +1,1391 @@
+{
+  "pdf": "/Users/msaifee/Desktop/Cursor/tax2/public/forms/empty/540nr.pdf",
+  "fieldCount": 169,
+  "fields": [
+    {
+      "name": "540NR_form_1001 CB",
+      "fieldName": "Amended return checkbox",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1002",
+      "fieldName": "Tax year",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1003",
+      "fieldName": "Taxpayer first name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1004",
+      "fieldName": "Taxpayer middle initial",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1005",
+      "fieldName": "Taxpayer last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1006",
+      "fieldName": "Taxpayer suffix (top=108 left=385 w=43 — NOT SSN)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1007",
+      "fieldName": "Taxpayer SSN / ITIN (top=108 left=432 w=108)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1008",
+      "fieldName": "Spouse / RDP first name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1009",
+      "fieldName": "Spouse / RDP middle initial",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1010",
+      "fieldName": "Spouse / RDP last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1011",
+      "fieldName": "Spouse / RDP suffix",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1012",
+      "fieldName": "Spouse / RDP SSN / ITIN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1013",
+      "fieldName": "Additional information (top=169 left=36 w=426 — NOT city)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1014",
+      "fieldName": "PBA code (top=169 left=466 w=73 — NOT state)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1015",
+      "fieldName": "Street address (mailing) (top=198 left=36 w=348)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1016",
+      "fieldName": "Apt / Ste / Room (top=198 left=388 w=73)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1017",
+      "fieldName": "Unknown (top=198 right area — verify before use)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1018",
+      "fieldName": "City (top=228 left=36 w=361)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1019",
+      "fieldName": "State (top=228 left=401 w=25)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1020",
+      "fieldName": "ZIP code (top=228 left=430 w=110)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1021",
+      "fieldName": "Foreign country (if non-US address) (top=258 left=36 w=213)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1022",
+      "fieldName": "Foreign province / state / county",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1023",
+      "fieldName": "Foreign postal code",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1024",
+      "fieldName": "Date of birth (MM/DD/YYYY) (top=297 left=74 w=97)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1025",
+      "fieldName": "Foreign country name (citizenship)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1026",
+      "fieldName": "Foreign TIN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1027",
+      "fieldName": "Daytime telephone number",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1030",
+      "fieldName": "Line 7 — Personal exemption count",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1032",
+      "fieldName": "Line 9 — Senior exemption count",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1031",
+      "fieldName": "Line 8 — Blind exemption count",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1034",
+      "fieldName": "Line 10 — Dependent count (eligible for exemption credit)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1035",
+      "fieldName": "Line 10 — Dependent exemption credit amount",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1036",
+      "fieldName": "Line 11 — Dependent exemption credit (prorated)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1037",
+      "fieldName": "Exemption subtotal (lines 7–10)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1038",
+      "fieldName": "Dependent 1 — First name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1039",
+      "fieldName": "Dependent 1 — Last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1040",
+      "fieldName": "Dependent 1 — SSN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1041",
+      "fieldName": "Dependent 1 — Relationship",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1042",
+      "fieldName": "Dependent 2 — First name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1043",
+      "fieldName": "Dependent 2 — Last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1044",
+      "fieldName": "Dependent 2 — SSN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1046",
+      "fieldName": "Dependent 3 — First name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1047",
+      "fieldName": "Dependent 3 — Last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1045",
+      "fieldName": "Dependent 2 — Relationship",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1048",
+      "fieldName": "Dependent 3 — SSN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1050",
+      "fieldName": "Dependent 4 — First name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1051",
+      "fieldName": "Dependent 4 — Last name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1049",
+      "fieldName": "Dependent 3 — Relationship",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1052",
+      "fieldName": "Dependent 4 — SSN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1053",
+      "fieldName": "Dependent 4 — Relationship",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1028 CB",
+      "fieldName": "Head of household checkbox (with qualifying person)",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1033 CB",
+      "fieldName": "Qualifying surviving spouse / RDP checkbox",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_1029 RB",
+      "fieldName": "Filing status radio (Single / MFJ / MFS / HOH / QSS)",
+      "kind": "radio",
+      "value": null,
+      "readOnly": false,
+      "required": false,
+      "options": [
+        "Line 1 . Single.",
+        "Line 2 . Married or R D P filing jointly (even if only one spouse or R D P had income). See instructions.",
+        "Line 3 . Married or R D P filing separately.",
+        "Line 4 . Head of household (with qualifying person). See instructions.",
+        "Line 5 . Qualifying surviving spouse or R D P."
+      ],
+      "selected": null,
+      "groups": [
+        "Line 1 . Single.",
+        "Line 2 . Married or R D P filing jointly (even if only one spouse or R D P had income). See instructions.",
+        "Line 3 . Married or R D P filing separately.",
+        "Line 4 . Head of household (with qualifying person). See instructions.",
+        "Line 5 . Qualifying surviving spouse or R D P."
+      ]
+    },
+    {
+      "name": "540NR_form_2003",
+      "fieldName": "Line 13a — CA addition: interest income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2004",
+      "fieldName": "Line 13b — CA addition: dividend income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2005",
+      "fieldName": "Line 13c — CA addition: business income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2006",
+      "fieldName": "Line 13d — CA addition: capital gains",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2007",
+      "fieldName": "Line 13e — CA addition: IRA distributions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2008",
+      "fieldName": "Line 13f — CA addition: pensions / annuities",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2009",
+      "fieldName": "Line 13g — CA addition: rental real estate",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2010",
+      "fieldName": "Line 13h — CA addition: farm income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2011",
+      "fieldName": "Line 13 total — Total CA income additions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2016",
+      "fieldName": "Line 15a — CA subtraction: interest income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2017",
+      "fieldName": "Line 15b — CA subtraction: dividend income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2018",
+      "fieldName": "Line 15c — CA subtraction: business income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2019",
+      "fieldName": "Line 15d — CA subtraction: capital gains",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2020",
+      "fieldName": "Line 15e — CA subtraction: IRA distributions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2021",
+      "fieldName": "Line 15f — CA subtraction: pensions / annuities",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2022",
+      "fieldName": "Line 15g — CA subtraction: rental real estate",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2023",
+      "fieldName": "Line 15h — CA subtraction: farm income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2024",
+      "fieldName": "Line 15i — CA subtraction: Social Security",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2025",
+      "fieldName": "Line 15 total — Total CA income subtractions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2028",
+      "fieldName": "Line 17 — CA adjusted gross income (fed AGI + adds − subs)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2029",
+      "fieldName": "Line 18 — Standard deduction or itemized deductions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2030",
+      "fieldName": "Line 19 — CA itemized deduction worksheet amount",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2031",
+      "fieldName": "Line 20 — Enter larger of Line 18 or Line 19",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2032",
+      "fieldName": "Line 21 — CA AGI minus deductions",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2033",
+      "fieldName": "Line 22 — Exemption allowance from exemption worksheet",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2034",
+      "fieldName": "Line 23 — Subtract Line 22 from Line 21",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2035",
+      "fieldName": "Line 24 — Enter tax from CA Tax Table (reference)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2036",
+      "fieldName": "Line 32 — CA taxable income",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2012 CB",
+      "fieldName": "CA adjustment checkbox A",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2014 CB",
+      "fieldName": "CA adjustment checkbox C",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2013 CB",
+      "fieldName": "CA adjustment checkbox B",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2015 CB",
+      "fieldName": "CA adjustment checkbox D",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2026 CB",
+      "fieldName": "CA subtraction checkbox A",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2027 CB",
+      "fieldName": "CA subtraction checkbox B",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3001",
+      "fieldName": "Line 31 — left col (w=127, not dollar amount — do not fill)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3002",
+      "fieldName": "Line 31 — narrow code col (w=26 — do not fill)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3004",
+      "fieldName": "Line 32 — left col (w=127, not dollar amount — do not fill)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3005",
+      "fieldName": "Line 32 — narrow code col (w=26 — do not fill)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2002",
+      "fieldName": "CA wages (W-2 Box 15, Column D CA source income)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_2001",
+      "fieldName": "Line 12 — Federal AGI (from 1040-NR line 11)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3003",
+      "fieldName": "Line 31 — CA tax amount (right col, top=69, x=437, w=113)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3006",
+      "fieldName": "Line 36 — Alternative minimum tax (AMT) from Schedule P",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3007",
+      "fieldName": "Line 37 — Other taxes from Schedule P",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3008",
+      "fieldName": "Line 38 — Tax from recapture of credits",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3009",
+      "fieldName": "Line 39 — Additional tax (FTB 3840)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3010",
+      "fieldName": "Line 40 — Total tax (sum of lines above)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3022",
+      "fieldName": "Line 62 — Net CA tax after all credits (total tax summary)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3024",
+      "fieldName": "Line 63 — Underpayment penalty (from FTB 5805 or 5805F)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3025",
+      "fieldName": "Line 64 — Total tax plus underpayment penalty",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3026",
+      "fieldName": "Line 65 — CA income tax withheld (for transfer to page 4)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3027",
+      "fieldName": "Line 66 — 2025 CA estimated tax payments",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3028",
+      "fieldName": "Line 67 — Other payments / credits",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3015",
+      "fieldName": "Line 48 — Nonrefundable renter's credit",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3016",
+      "fieldName": "Line 49 — Other nonrefundable credits (code ___)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3017",
+      "fieldName": "Line 50 — Credit from Schedule P",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3018",
+      "fieldName": "Line 51 — Joint custody head of household credit",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3019",
+      "fieldName": "Line 52 — Dependent parent credit",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3020",
+      "fieldName": "Line 53 — Senior head of household credit",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3021",
+      "fieldName": "Line 54 — Total credits (sum of lines 48–53)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3011",
+      "fieldName": "Proration — CA source income (numerator)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3012",
+      "fieldName": "Proration — Total income / federal AGI (denominator)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3013",
+      "fieldName": "Proration ratio (CA income ÷ total income, 4 decimals)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3014",
+      "fieldName": "Prorated exemption credit amount",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3023 CB",
+      "fieldName": "Underpayment of estimated tax checkbox (FTB 5805)",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_3029",
+      "fieldName": "Line 92 — Final net CA tax (after all credits and adjustments)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4007",
+      "fieldName": "Line 75 — 2025 CA estimated tax (payment 1)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4008",
+      "fieldName": "Line 76 — 2025 CA estimated tax (payment 2)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4009",
+      "fieldName": "Line 77 — 2025 CA estimated tax (payment 3)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4010",
+      "fieldName": "Line 78 — 2025 CA estimated tax (payment 4)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4006",
+      "fieldName": "Line 74 — CA income tax withheld (real estate)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4005",
+      "fieldName": "Line 73 — CA income tax withheld (1099-R / 1099-MISC)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4004",
+      "fieldName": "CA SDI withheld (W-2 Box 14 — excess SDI from multiple employers)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4003",
+      "fieldName": "Line 71 — CA income tax withheld (W-2 Box 17)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4011",
+      "fieldName": "Line 79 — Withholding from Form 593 (real estate withholding)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4012",
+      "fieldName": "Line 80 — Withholding from S-Corp / Partnership",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4013",
+      "fieldName": "Line 81 — Other CA withholding",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4014",
+      "fieldName": "Line 82 — Credit from joint return (separate filing)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4016",
+      "fieldName": "Line 84 — Nonresident withholding credit (FTB 3840)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4015",
+      "fieldName": "Line 83 — Amount paid with extension (FTB 3519)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4017",
+      "fieldName": "Line 85 — Credit for prior-year AMT",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4018",
+      "fieldName": "Line 86 — Credits from Schedule P",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4019",
+      "fieldName": "Line 87 — Other refundable credits",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4020",
+      "fieldName": "Line 88 — Subtotal",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4021",
+      "fieldName": "Line 89 — Amount paid with original return (amended return only)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_4022",
+      "fieldName": "Line 90 — Total payments (sum of all lines above)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5011",
+      "fieldName": "Use-tax section mid-page field (top=310, NOT net CA tax — do not confuse with 5001)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5015",
+      "fieldName": "Total payments after adjustment",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5002",
+      "fieldName": "Total payments transferred from page 4 (top=118)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5006",
+      "fieldName": "Line 94 — Refund amount",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5005",
+      "fieldName": "Line 93 — Overpayment (if total payments > net CA tax)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5007",
+      "fieldName": "Line 95 — Amount applied to 2026 estimated tax",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5009",
+      "fieldName": "Line 96 — Amount you owe (if net CA tax > total payments)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5008",
+      "fieldName": "Use tax (CA Board of Equalization)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5012",
+      "fieldName": "Line 97 — Underpayment of estimated tax penalty",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5013",
+      "fieldName": "Line 98 — Total amount owed (line 96 + 97)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5001",
+      "fieldName": "Net CA tax transferred from page 3 (top=82, first right-col field)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5003 CB",
+      "fieldName": "Refund type checkbox A",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5004 CB",
+      "fieldName": "Refund type checkbox B",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5016 CB",
+      "fieldName": "Use tax checkbox",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5017 RB",
+      "fieldName": "Bank routing / direct deposit — Yes / No",
+      "kind": "radio",
+      "value": null,
+      "readOnly": false,
+      "required": false,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "selected": null,
+      "groups": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "name": "540NR_form_6001",
+      "fieldName": "Narrow mid-page field (top=142 left=269 w=80 — NOT taxpayer name)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6002",
+      "fieldName": "Taxpayer name (wide, top=178 left=97 w=354)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6009",
+      "fieldName": "Paid preparer PTIN",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6006",
+      "fieldName": "Spouse / RDP occupation",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6005",
+      "fieldName": "Date signed (spouse / RDP)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6003",
+      "fieldName": "Date signed (top=178 left=463 w=111)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6007",
+      "fieldName": "Paid preparer's name",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6010",
+      "fieldName": "Paid preparer firm name / address",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6004",
+      "fieldName": "Spouse / RDP name (signature line)",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6008 RB",
+      "fieldName": "Paid preparer — Yes / No",
+      "kind": "radio",
+      "value": null,
+      "readOnly": false,
+      "required": false,
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "selected": null,
+      "groups": [
+        "Yes",
+        "No"
+      ]
+    },
+    {
+      "name": "540NR_form_6003b",
+      "fieldName": "Taxpayer email address",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_6003c",
+      "fieldName": "Taxpayer daytime phone number",
+      "kind": "text",
+      "value": "",
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5010A CB",
+      "fieldName": "Interest / penalty checkbox A",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5014A CB",
+      "fieldName": "Voluntary contribution checkbox A",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5010B CB",
+      "fieldName": "Interest / penalty checkbox B",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    },
+    {
+      "name": "540NR_form_5014B CB",
+      "fieldName": "Voluntary contribution checkbox B",
+      "kind": "checkbox",
+      "value": false,
+      "readOnly": false,
+      "required": false
+    }
+  ]
+}

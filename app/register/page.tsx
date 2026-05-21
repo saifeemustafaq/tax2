@@ -25,7 +25,7 @@ const registerSchema = z
     lastName: z.string().min(1, "Last name is required"),
     contactNumber: z.string().min(1, "Contact number is required"),
     address: z.string().min(1, "Address is required"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
+    password: z.string().min(1, "Password is required"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {

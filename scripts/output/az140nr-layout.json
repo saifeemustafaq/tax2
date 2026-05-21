@@ -1,0 +1,3792 @@
+[
+  {
+    "name": "Check Box82F",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 53,
+    "y": 725,
+    "yFromTop": 55,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "FY_Beg",
+    "kind": "text",
+    "page": 1,
+    "x": 301,
+    "y": 723,
+    "yFromTop": 58,
+    "width": 48,
+    "height": 11
+  },
+  {
+    "name": "FY_End",
+    "kind": "text",
+    "page": 1,
+    "x": 457,
+    "y": 723,
+    "yFromTop": 58,
+    "width": 48,
+    "height": 12
+  },
+  {
+    "name": "FY_End Year",
+    "kind": "text",
+    "page": 1,
+    "x": 528,
+    "y": 723,
+    "yFromTop": 58,
+    "width": 25,
+    "height": 12
+  },
+  {
+    "name": "1a",
+    "kind": "text",
+    "page": 1,
+    "x": 51,
+    "y": 695,
+    "yFromTop": 84,
+    "width": 196,
+    "height": 14
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 1,
+    "x": 474,
+    "y": 695,
+    "yFromTop": 84,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 1,
+    "x": 288,
+    "y": 694,
+    "yFromTop": 85,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1d",
+    "kind": "text",
+    "page": 1,
+    "x": 50,
+    "y": 671,
+    "yFromTop": 108,
+    "width": 198,
+    "height": 14
+  },
+  {
+    "name": "1e",
+    "kind": "text",
+    "page": 1,
+    "x": 288,
+    "y": 670,
+    "yFromTop": 108,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1f",
+    "kind": "text",
+    "page": 1,
+    "x": 474,
+    "y": 670,
+    "yFromTop": 108,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "2a",
+    "kind": "text",
+    "page": 1,
+    "x": 51,
+    "y": 647,
+    "yFromTop": 131,
+    "width": 265,
+    "height": 14
+  },
+  {
+    "name": "2b",
+    "kind": "text",
+    "page": 1,
+    "x": 346,
+    "y": 647,
+    "yFromTop": 131,
+    "width": 83,
+    "height": 14
+  },
+  {
+    "name": "2c",
+    "kind": "text",
+    "page": 1,
+    "x": 448,
+    "y": 647,
+    "yFromTop": 132,
+    "width": 113,
+    "height": 13
+  },
+  {
+    "name": "City, Town, Post Office",
+    "kind": "text",
+    "page": 1,
+    "x": 52,
+    "y": 623,
+    "yFromTop": 155,
+    "width": 152,
+    "height": 14
+  },
+  {
+    "name": "State",
+    "kind": "text",
+    "page": 1,
+    "x": 210,
+    "y": 623,
+    "yFromTop": 155,
+    "width": 26,
+    "height": 14
+  },
+  {
+    "name": "ZIP Code",
+    "kind": "text",
+    "page": 1,
+    "x": 307,
+    "y": 624,
+    "yFromTop": 155,
+    "width": 47,
+    "height": 14
+  },
+  {
+    "name": "Last Names 4 years",
+    "kind": "text",
+    "page": 1,
+    "x": 399,
+    "y": 623,
+    "yFromTop": 156,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "Filing Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 72,
+    "y": 610,
+    "yFromTop": 171,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "4a",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 198,
+    "y": 610,
+    "yFromTop": 171,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "Filing Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 73,
+    "y": 598,
+    "yFromTop": 183,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "Head of Household",
+    "kind": "text",
+    "page": 1,
+    "x": 90,
+    "y": 587,
+    "yFromTop": 191,
+    "width": 250,
+    "height": 14
+  },
+  {
+    "name": "Filing Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 73,
+    "y": 574,
+    "yFromTop": 207,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "Filing Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 72,
+    "y": 561,
+    "yFromTop": 219,
+    "width": 12,
+    "height": 12
+  },
+  {
+    "name": "8",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 538,
+    "yFromTop": 241,
+    "width": 16,
+    "height": 13
+  },
+  {
+    "name": "9",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 526,
+    "yFromTop": 253,
+    "width": 16,
+    "height": 13
+  },
+  {
+    "name": "10a",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 514,
+    "yFromTop": 266,
+    "width": 16,
+    "height": 13
+  },
+  {
+    "name": "10b",
+    "kind": "text",
+    "page": 1,
+    "x": 238,
+    "y": 514,
+    "yFromTop": 266,
+    "width": 17,
+    "height": 13
+  },
+  {
+    "name": "Res Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 203,
+    "y": 498,
+    "yFromTop": 282,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "Res Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 273,
+    "y": 498,
+    "yFromTop": 282,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "Res Status",
+    "kind": "radiogroup",
+    "page": 1,
+    "x": 396,
+    "y": 498,
+    "yFromTop": 282,
+    "width": 12,
+    "height": 12
+  },
+  {
+    "name": "10a_10b check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 422,
+    "y": 484,
+    "yFromTop": 297,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10c First",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 433,
+    "yFromTop": 347,
+    "width": 86,
+    "height": 13
+  },
+  {
+    "name": "10c Last",
+    "kind": "text",
+    "page": 1,
+    "x": 159,
+    "y": 433,
+    "yFromTop": 347,
+    "width": 106,
+    "height": 13
+  },
+  {
+    "name": "10c SSN",
+    "kind": "text",
+    "page": 1,
+    "x": 268,
+    "y": 433,
+    "yFromTop": 347,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10c Relationship",
+    "kind": "text",
+    "page": 1,
+    "x": 347,
+    "y": 432,
+    "yFromTop": 347,
+    "width": 56,
+    "height": 13
+  },
+  {
+    "name": "10c Mo in Home",
+    "kind": "text",
+    "page": 1,
+    "x": 415,
+    "y": 433,
+    "yFromTop": 347,
+    "width": 31,
+    "height": 13
+  },
+  {
+    "name": "10c_10a check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 458,
+    "y": 434,
+    "yFromTop": 347,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10c_10b check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 496,
+    "y": 434,
+    "yFromTop": 347,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10c educ",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 538,
+    "y": 434,
+    "yFromTop": 347,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10d First",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 421,
+    "yFromTop": 359,
+    "width": 86,
+    "height": 13
+  },
+  {
+    "name": "10d Last",
+    "kind": "text",
+    "page": 1,
+    "x": 159,
+    "y": 420,
+    "yFromTop": 359,
+    "width": 106,
+    "height": 13
+  },
+  {
+    "name": "10d SSN",
+    "kind": "text",
+    "page": 1,
+    "x": 268,
+    "y": 420,
+    "yFromTop": 359,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10d Relationship",
+    "kind": "text",
+    "page": 1,
+    "x": 347,
+    "y": 421,
+    "yFromTop": 359,
+    "width": 56,
+    "height": 13
+  },
+  {
+    "name": "10d Mo in Home",
+    "kind": "text",
+    "page": 1,
+    "x": 415,
+    "y": 421,
+    "yFromTop": 359,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10d_10a check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 458,
+    "y": 422,
+    "yFromTop": 359,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10d_10b check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 496,
+    "y": 422,
+    "yFromTop": 359,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10d educ",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 538,
+    "y": 422,
+    "yFromTop": 359,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10e First",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 408,
+    "yFromTop": 371,
+    "width": 86,
+    "height": 13
+  },
+  {
+    "name": "10e Last",
+    "kind": "text",
+    "page": 1,
+    "x": 159,
+    "y": 409,
+    "yFromTop": 371,
+    "width": 106,
+    "height": 13
+  },
+  {
+    "name": "10e SSN",
+    "kind": "text",
+    "page": 1,
+    "x": 268,
+    "y": 408,
+    "yFromTop": 371,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10e Relationship",
+    "kind": "text",
+    "page": 1,
+    "x": 347,
+    "y": 408,
+    "yFromTop": 371,
+    "width": 56,
+    "height": 13
+  },
+  {
+    "name": "10e Mo in Home",
+    "kind": "text",
+    "page": 1,
+    "x": 415,
+    "y": 409,
+    "yFromTop": 371,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10e_10a check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 458,
+    "y": 410,
+    "yFromTop": 371,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10e_10b check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 496,
+    "y": 410,
+    "yFromTop": 371,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10e educ",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 538,
+    "y": 410,
+    "yFromTop": 371,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10f_10a check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 458,
+    "y": 398,
+    "yFromTop": 382,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10f educ",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 538,
+    "y": 398,
+    "yFromTop": 382,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10f Relationship",
+    "kind": "text",
+    "page": 1,
+    "x": 347,
+    "y": 396,
+    "yFromTop": 383,
+    "width": 56,
+    "height": 13
+  },
+  {
+    "name": "10f Mo in Home",
+    "kind": "text",
+    "page": 1,
+    "x": 415,
+    "y": 396,
+    "yFromTop": 383,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10f_10b check box",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 496,
+    "y": 398,
+    "yFromTop": 383,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10f First",
+    "kind": "text",
+    "page": 1,
+    "x": 72,
+    "y": 396,
+    "yFromTop": 384,
+    "width": 86,
+    "height": 13
+  },
+  {
+    "name": "10f Last",
+    "kind": "text",
+    "page": 1,
+    "x": 159,
+    "y": 396,
+    "yFromTop": 384,
+    "width": 106,
+    "height": 13
+  },
+  {
+    "name": "10f SSN",
+    "kind": "text",
+    "page": 1,
+    "x": 268,
+    "y": 396,
+    "yFromTop": 384,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "14",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 374,
+    "y": 373,
+    "yFromTop": 407,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "15Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 360,
+    "yFromTop": 419,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "15State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 360,
+    "yFromTop": 419,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "16Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 347,
+    "yFromTop": 432,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "16State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 348,
+    "yFromTop": 432,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "17Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 336,
+    "yFromTop": 443,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "17State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 336,
+    "yFromTop": 443,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "18Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 324,
+    "yFromTop": 455,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "18State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 324,
+    "yFromTop": 455,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "19Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 312,
+    "yFromTop": 467,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "19State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 312,
+    "yFromTop": 467,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "20Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 300,
+    "yFromTop": 479,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "20State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 300,
+    "yFromTop": 479,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "21Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 288,
+    "yFromTop": 491,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "21State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 288,
+    "yFromTop": 491,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "22Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 276,
+    "yFromTop": 503,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "22State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 276,
+    "yFromTop": 503,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "23Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 264,
+    "yFromTop": 515,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "23State",
+    "kind": "text",
+    "page": 1,
+    "x": 491,
+    "y": 264,
+    "yFromTop": 515,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "24Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 252,
+    "yFromTop": 527,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "24State",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 252,
+    "yFromTop": 527,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "25Fed",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 240,
+    "yFromTop": 539,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "26",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 228,
+    "yFromTop": 551,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "27",
+    "kind": "text",
+    "page": 1,
+    "x": 501,
+    "y": 216,
+    "yFromTop": 563,
+    "width": 61,
+    "height": 13
+  },
+  {
+    "name": "28",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 204,
+    "yFromTop": 575,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "28S",
+    "kind": "checkbox",
+    "page": 1,
+    "x": 166,
+    "y": 205,
+    "yFromTop": 576,
+    "width": 12,
+    "height": 11
+  },
+  {
+    "name": "29",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 192,
+    "yFromTop": 587,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "30",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 180,
+    "yFromTop": 599,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "31",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 168,
+    "yFromTop": 611,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "32",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 156,
+    "yFromTop": 623,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "33",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 144,
+    "yFromTop": 635,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "34",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 132,
+    "yFromTop": 647,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "35",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 120,
+    "yFromTop": 659,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "36",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 108,
+    "yFromTop": 671,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "37",
+    "kind": "text",
+    "page": 1,
+    "x": 404,
+    "y": 95,
+    "yFromTop": 684,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "38",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 84,
+    "yFromTop": 695,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "39",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 72,
+    "yFromTop": 707,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "40",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 60,
+    "yFromTop": 719,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "41",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 48,
+    "yFromTop": 731,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "42",
+    "kind": "text",
+    "page": 1,
+    "x": 490,
+    "y": 36,
+    "yFromTop": 743,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 2,
+    "x": 45,
+    "y": 730,
+    "yFromTop": 49,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 2,
+    "x": 405,
+    "y": 730,
+    "yFromTop": 49,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "43",
+    "kind": "text",
+    "page": 2,
+    "x": 498,
+    "y": 718,
+    "yFromTop": 61,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "44",
+    "kind": "text",
+    "page": 2,
+    "x": 498,
+    "y": 706,
+    "yFromTop": 73,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "45",
+    "kind": "text",
+    "page": 2,
+    "x": 498,
+    "y": 694,
+    "yFromTop": 85,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "46",
+    "kind": "text",
+    "page": 2,
+    "x": 498,
+    "y": 682,
+    "yFromTop": 97,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "47",
+    "kind": "text",
+    "page": 2,
+    "x": 417,
+    "y": 670,
+    "yFromTop": 109,
+    "width": 61,
+    "height": 13
+  },
+  {
+    "name": "48",
+    "kind": "text",
+    "page": 2,
+    "x": 417,
+    "y": 658,
+    "yFromTop": 121,
+    "width": 61,
+    "height": 13
+  },
+  {
+    "name": "49E",
+    "kind": "text",
+    "page": 2,
+    "x": 220,
+    "y": 646,
+    "yFromTop": 132,
+    "width": 25,
+    "height": 14
+  },
+  {
+    "name": "49",
+    "kind": "text",
+    "page": 2,
+    "x": 418,
+    "y": 646,
+    "yFromTop": 133,
+    "width": 60,
+    "height": 13
+  },
+  {
+    "name": "50",
+    "kind": "text",
+    "page": 2,
+    "x": 418,
+    "y": 634,
+    "yFromTop": 145,
+    "width": 60,
+    "height": 13
+  },
+  {
+    "name": "51",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 622,
+    "yFromTop": 157,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "52",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 610,
+    "yFromTop": 169,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "53",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 598,
+    "yFromTop": 181,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "Itemized/Standard",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 415,
+    "y": 598,
+    "yFromTop": 182,
+    "width": 10,
+    "height": 11
+  },
+  {
+    "name": "Itemized/Standard",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 346,
+    "y": 598,
+    "yFromTop": 183,
+    "width": 10,
+    "height": 11
+  },
+  {
+    "name": "54",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 585,
+    "yFromTop": 194,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "54C",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 306,
+    "y": 585,
+    "yFromTop": 195,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "55",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 574,
+    "yFromTop": 205,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "56",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 562,
+    "yFromTop": 217,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "57",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 549,
+    "yFromTop": 230,
+    "width": 67,
+    "height": 13
+  },
+  {
+    "name": "58",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 537,
+    "yFromTop": 242,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "59",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 525,
+    "yFromTop": 254,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "60",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 513,
+    "yFromTop": 266,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "61",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 501,
+    "yFromTop": 278,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "62",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 489,
+    "yFromTop": 290,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "63a",
+    "kind": "text",
+    "page": 2,
+    "x": 198,
+    "y": 478,
+    "yFromTop": 301,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "63b",
+    "kind": "text",
+    "page": 2,
+    "x": 344,
+    "y": 478,
+    "yFromTop": 301,
+    "width": 64,
+    "height": 13
+  },
+  {
+    "name": "63c",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 477,
+    "yFromTop": 302,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "64",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 465,
+    "yFromTop": 314,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "65",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 453,
+    "yFromTop": 326,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "65_2",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 407,
+    "y": 455,
+    "yFromTop": 327,
+    "width": 10,
+    "height": 10
+  },
+  {
+    "name": "65_3",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 448,
+    "y": 455,
+    "yFromTop": 327,
+    "width": 9,
+    "height": 10
+  },
+  {
+    "name": "65_1",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 364,
+    "y": 454,
+    "yFromTop": 328,
+    "width": 10,
+    "height": 10
+  },
+  {
+    "name": "66",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 441,
+    "yFromTop": 338,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "67",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 429,
+    "yFromTop": 350,
+    "width": 67,
+    "height": 13
+  },
+  {
+    "name": "68",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 417,
+    "yFromTop": 362,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "69",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 405,
+    "yFromTop": 374,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "70",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 393,
+    "yFromTop": 386,
+    "width": 67,
+    "height": 13
+  },
+  {
+    "name": "71",
+    "kind": "text",
+    "page": 2,
+    "x": 295,
+    "y": 382,
+    "yFromTop": 397,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "72",
+    "kind": "text",
+    "page": 2,
+    "x": 425,
+    "y": 381,
+    "yFromTop": 398,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "74",
+    "kind": "text",
+    "page": 2,
+    "x": 296,
+    "y": 370,
+    "yFromTop": 409,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "73",
+    "kind": "text",
+    "page": 2,
+    "x": 159,
+    "y": 370,
+    "yFromTop": 410,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "75",
+    "kind": "text",
+    "page": 2,
+    "x": 425,
+    "y": 369,
+    "yFromTop": 410,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "76",
+    "kind": "text",
+    "page": 2,
+    "x": 159,
+    "y": 358,
+    "yFromTop": 421,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "77",
+    "kind": "text",
+    "page": 2,
+    "x": 295,
+    "y": 358,
+    "yFromTop": 421,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "78",
+    "kind": "text",
+    "page": 2,
+    "x": 425,
+    "y": 357,
+    "yFromTop": 422,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "79",
+    "kind": "text",
+    "page": 2,
+    "x": 159,
+    "y": 345,
+    "yFromTop": 434,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "80",
+    "kind": "text",
+    "page": 2,
+    "x": 295,
+    "y": 345,
+    "yFromTop": 434,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "81",
+    "kind": "text",
+    "page": 2,
+    "x": 425,
+    "y": 345,
+    "yFromTop": 434,
+    "width": 36,
+    "height": 13
+  },
+  {
+    "name": "Political Party",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 413,
+    "y": 333,
+    "yFromTop": 447,
+    "width": 10,
+    "height": 11
+  },
+  {
+    "name": "Political Party",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 285,
+    "y": 333,
+    "yFromTop": 448,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "Political Party",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 350,
+    "y": 333,
+    "yFromTop": 448,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "83",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 321,
+    "yFromTop": 458,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "84_1",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 76,
+    "y": 309,
+    "yFromTop": 471,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "84_2",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 158,
+    "y": 309,
+    "yFromTop": 472,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "84_3",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 252,
+    "y": 308,
+    "yFromTop": 472,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "85",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 297,
+    "yFromTop": 483,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "86",
+    "kind": "text",
+    "page": 2,
+    "x": 496,
+    "y": 284,
+    "yFromTop": 495,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "86A",
+    "kind": "checkbox",
+    "page": 2,
+    "x": 463,
+    "y": 274,
+    "yFromTop": 507,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "Refund",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 87,
+    "y": 263,
+    "yFromTop": 520,
+    "width": 10,
+    "height": 9
+  },
+  {
+    "name": "Routing Number",
+    "kind": "text",
+    "page": 2,
+    "x": 152,
+    "y": 254,
+    "yFromTop": 525,
+    "width": 103,
+    "height": 13
+  },
+  {
+    "name": "Account Number",
+    "kind": "text",
+    "page": 2,
+    "x": 270,
+    "y": 254,
+    "yFromTop": 525,
+    "width": 194,
+    "height": 13
+  },
+  {
+    "name": "Refund",
+    "kind": "radiogroup",
+    "page": 2,
+    "x": 87,
+    "y": 254,
+    "yFromTop": 529,
+    "width": 10,
+    "height": 9
+  },
+  {
+    "name": "87",
+    "kind": "text",
+    "page": 2,
+    "x": 497,
+    "y": 235,
+    "yFromTop": 544,
+    "width": 66,
+    "height": 13
+  },
+  {
+    "name": "88",
+    "kind": "text",
+    "page": 2,
+    "x": 404,
+    "y": 178,
+    "yFromTop": 598,
+    "width": 150,
+    "height": 16
+  },
+  {
+    "name": "89",
+    "kind": "text",
+    "page": 2,
+    "x": 404,
+    "y": 148,
+    "yFromTop": 627,
+    "width": 150,
+    "height": 16
+  },
+  {
+    "name": "90",
+    "kind": "text",
+    "page": 2,
+    "x": 326,
+    "y": 121,
+    "yFromTop": 654,
+    "width": 228,
+    "height": 16
+  },
+  {
+    "name": "91",
+    "kind": "text",
+    "page": 2,
+    "x": 65,
+    "y": 97,
+    "yFromTop": 679,
+    "width": 253,
+    "height": 16
+  },
+  {
+    "name": "92",
+    "kind": "text",
+    "page": 2,
+    "x": 426,
+    "y": 97,
+    "yFromTop": 679,
+    "width": 130,
+    "height": 16
+  },
+  {
+    "name": "93",
+    "kind": "text",
+    "page": 2,
+    "x": 67,
+    "y": 75,
+    "yFromTop": 701,
+    "width": 141,
+    "height": 16
+  },
+  {
+    "name": "94",
+    "kind": "text",
+    "page": 2,
+    "x": 214,
+    "y": 74,
+    "yFromTop": 701,
+    "width": 27,
+    "height": 17
+  },
+  {
+    "name": "95",
+    "kind": "text",
+    "page": 2,
+    "x": 266,
+    "y": 74,
+    "yFromTop": 701,
+    "width": 58,
+    "height": 16
+  },
+  {
+    "name": "96",
+    "kind": "text",
+    "page": 2,
+    "x": 426,
+    "y": 75,
+    "yFromTop": 701,
+    "width": 130,
+    "height": 16
+  },
+  {
+    "name": "cmdPrintForm",
+    "kind": "button",
+    "page": 2,
+    "x": 364,
+    "y": 16,
+    "yFromTop": 759,
+    "width": 72,
+    "height": 18
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 3,
+    "x": 38,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 3,
+    "x": 405,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "3_1c",
+    "kind": "text",
+    "page": 3,
+    "x": 467,
+    "y": 346,
+    "yFromTop": 433,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_2c",
+    "kind": "text",
+    "page": 3,
+    "x": 467,
+    "y": 330,
+    "yFromTop": 449,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_3c",
+    "kind": "text",
+    "page": 3,
+    "x": 467,
+    "y": 312,
+    "yFromTop": 467,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_4c",
+    "kind": "text",
+    "page": 3,
+    "x": 466,
+    "y": 295,
+    "yFromTop": 484,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_5c",
+    "kind": "text",
+    "page": 3,
+    "x": 466,
+    "y": 271,
+    "yFromTop": 508,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_6c",
+    "kind": "text",
+    "page": 3,
+    "x": 466,
+    "y": 248,
+    "yFromTop": 531,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_7c",
+    "kind": "text",
+    "page": 3,
+    "x": 466,
+    "y": 231,
+    "yFromTop": 548,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "3_8c",
+    "kind": "text",
+    "page": 3,
+    "x": 478,
+    "y": 214,
+    "yFromTop": 565,
+    "width": 61,
+    "height": 13
+  },
+  {
+    "name": "3_9c",
+    "kind": "text",
+    "page": 3,
+    "x": 467,
+    "y": 197,
+    "yFromTop": 582,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 4,
+    "x": 38,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 4,
+    "x": 405,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "10g Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 538,
+    "yFromTop": 241,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10g SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 214,
+    "y": 538,
+    "yFromTop": 241,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10g First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 538,
+    "yFromTop": 242,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10g Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 380,
+    "y": 536,
+    "yFromTop": 243,
+    "width": 29,
+    "height": 13
+  },
+  {
+    "name": "10g Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 293,
+    "y": 536,
+    "yFromTop": 244,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10g_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 536,
+    "yFromTop": 244,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10g_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 537,
+    "yFromTop": 244,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10g educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 536,
+    "yFromTop": 245,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10h SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 214,
+    "y": 526,
+    "yFromTop": 253,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10h First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 525,
+    "yFromTop": 254,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10h Last",
+    "kind": "text",
+    "page": 4,
+    "x": 132,
+    "y": 526,
+    "yFromTop": 254,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10h_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 446,
+    "y": 525,
+    "yFromTop": 255,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10h_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 525,
+    "yFromTop": 255,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10h Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 291,
+    "y": 523,
+    "yFromTop": 256,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10h Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 381,
+    "y": 524,
+    "yFromTop": 256,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10h educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 523,
+    "yFromTop": 257,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10i Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 513,
+    "yFromTop": 266,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10i SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 513,
+    "yFromTop": 266,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10i First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 515,
+    "yFromTop": 267,
+    "width": 69,
+    "height": 10
+  },
+  {
+    "name": "10i Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 381,
+    "y": 512,
+    "yFromTop": 267,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10i_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 513,
+    "yFromTop": 267,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10i_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 514,
+    "yFromTop": 267,
+    "width": 10,
+    "height": 11
+  },
+  {
+    "name": "10i Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 291,
+    "y": 511,
+    "yFromTop": 268,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10i educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 511,
+    "yFromTop": 269,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10j Last",
+    "kind": "text",
+    "page": 4,
+    "x": 135,
+    "y": 502,
+    "yFromTop": 277,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10j First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 502,
+    "yFromTop": 278,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "10j SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 501,
+    "yFromTop": 278,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10j Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 381,
+    "y": 502,
+    "yFromTop": 278,
+    "width": 30,
+    "height": 13
+  },
+  {
+    "name": "10j_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 501,
+    "yFromTop": 279,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10j Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 291,
+    "y": 500,
+    "yFromTop": 280,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10j_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 446,
+    "y": 500,
+    "yFromTop": 280,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10j educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 499,
+    "yFromTop": 281,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10k Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 490,
+    "yFromTop": 289,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10k First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 490,
+    "yFromTop": 291,
+    "width": 69,
+    "height": 11
+  },
+  {
+    "name": "10k SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 214,
+    "y": 489,
+    "yFromTop": 291,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10k_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 489,
+    "yFromTop": 291,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10k_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 489,
+    "yFromTop": 291,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10k Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 379,
+    "y": 489,
+    "yFromTop": 292,
+    "width": 32,
+    "height": 11
+  },
+  {
+    "name": "10k educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 488,
+    "yFromTop": 292,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10k Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 292,
+    "y": 487,
+    "yFromTop": 293,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10l First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 478,
+    "yFromTop": 302,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10l SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 213,
+    "y": 476,
+    "yFromTop": 303,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10l Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 293,
+    "y": 476,
+    "yFromTop": 303,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10l_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 478,
+    "yFromTop": 303,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10l Last",
+    "kind": "text",
+    "page": 4,
+    "x": 135,
+    "y": 476,
+    "yFromTop": 304,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10l Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 380,
+    "y": 476,
+    "yFromTop": 304,
+    "width": 31,
+    "height": 13
+  },
+  {
+    "name": "10l_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 477,
+    "yFromTop": 304,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10l educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 476,
+    "yFromTop": 304,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10m First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 465,
+    "yFromTop": 314,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10m SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 466,
+    "yFromTop": 314,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10m Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 292,
+    "y": 464,
+    "yFromTop": 315,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10m_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 465,
+    "yFromTop": 315,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10m educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 465,
+    "yFromTop": 315,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10m Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 380,
+    "y": 464,
+    "yFromTop": 316,
+    "width": 31,
+    "height": 13
+  },
+  {
+    "name": "10m Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 463,
+    "yFromTop": 317,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10m_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 463,
+    "yFromTop": 317,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10n SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 216,
+    "y": 454,
+    "yFromTop": 326,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10n Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 291,
+    "y": 453,
+    "yFromTop": 326,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10n educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 453,
+    "yFromTop": 327,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10n First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 452,
+    "yFromTop": 328,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10n Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 381,
+    "y": 451,
+    "yFromTop": 328,
+    "width": 31,
+    "height": 13
+  },
+  {
+    "name": "10n_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 446,
+    "y": 453,
+    "yFromTop": 328,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10n Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 450,
+    "yFromTop": 329,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10n_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 451,
+    "yFromTop": 330,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10o Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 381,
+    "y": 441,
+    "yFromTop": 338,
+    "width": 32,
+    "height": 13
+  },
+  {
+    "name": "10o SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 440,
+    "yFromTop": 339,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10o educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 441,
+    "yFromTop": 339,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10o Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 293,
+    "y": 439,
+    "yFromTop": 340,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10o First",
+    "kind": "text",
+    "page": 4,
+    "x": 64,
+    "y": 439,
+    "yFromTop": 341,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10o Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 439,
+    "yFromTop": 341,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10o_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 440,
+    "yFromTop": 341,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10o_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 440,
+    "yFromTop": 341,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10p Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 384,
+    "y": 428,
+    "yFromTop": 351,
+    "width": 28,
+    "height": 13
+  },
+  {
+    "name": "10p First",
+    "kind": "text",
+    "page": 4,
+    "x": 64,
+    "y": 427,
+    "yFromTop": 352,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10p Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 428,
+    "yFromTop": 352,
+    "width": 81,
+    "height": 12
+  },
+  {
+    "name": "10p SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 213,
+    "y": 427,
+    "yFromTop": 352,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10p Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 294,
+    "y": 427,
+    "yFromTop": 352,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10p educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 429,
+    "yFromTop": 352,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "10p_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 447,
+    "y": 428,
+    "yFromTop": 353,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10p_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 427,
+    "yFromTop": 353,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10q Last",
+    "kind": "text",
+    "page": 4,
+    "x": 134,
+    "y": 415,
+    "yFromTop": 364,
+    "width": 79,
+    "height": 13
+  },
+  {
+    "name": "10q First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 414,
+    "yFromTop": 365,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "10q SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 213,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "10q Relationship",
+    "kind": "text",
+    "page": 4,
+    "x": 293,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 65,
+    "height": 13
+  },
+  {
+    "name": "10q Mo in Home",
+    "kind": "text",
+    "page": 4,
+    "x": 383,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 32,
+    "height": 13
+  },
+  {
+    "name": "10q_10a check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 446,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10q_10b check box",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 484,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10q educ",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 535,
+    "y": 415,
+    "yFromTop": 365,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_1 First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 319,
+    "yFromTop": 461,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_1 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 217,
+    "y": 318,
+    "yFromTop": 461,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c1_1",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 319,
+    "yFromTop": 461,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "1 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 320,
+    "yFromTop": 461,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_1 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 318,
+    "yFromTop": 462,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "c2_1",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 318,
+    "yFromTop": 462,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "3_2 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 307,
+    "yFromTop": 472,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_2 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 133,
+    "y": 307,
+    "yFromTop": 472,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "c1_2",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 308,
+    "yFromTop": 472,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "3_2 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 217,
+    "y": 306,
+    "yFromTop": 473,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c2_2",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 343,
+    "y": 307,
+    "yFromTop": 473,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "2 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 308,
+    "yFromTop": 473,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_3 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 295,
+    "yFromTop": 484,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_3 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 134,
+    "y": 295,
+    "yFromTop": 484,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "3_3 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 216,
+    "y": 294,
+    "yFromTop": 485,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c1_3",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 295,
+    "yFromTop": 486,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c2_3",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 295,
+    "yFromTop": 486,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "3 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 295,
+    "yFromTop": 486,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_4 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 135,
+    "y": 283,
+    "yFromTop": 496,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "3_4 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 284,
+    "yFromTop": 496,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "3_4 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 283,
+    "yFromTop": 497,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "c2_4",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 284,
+    "yFromTop": 497,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c1_4",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 282,
+    "yFromTop": 498,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "4 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 283,
+    "yFromTop": 498,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_5 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 216,
+    "y": 272,
+    "yFromTop": 507,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "3_5 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 136,
+    "y": 272,
+    "yFromTop": 508,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "c1_5",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 272,
+    "yFromTop": 508,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c2_5",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 272,
+    "yFromTop": 508,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "5 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 271,
+    "yFromTop": 509,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_5 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 270,
+    "yFromTop": 510,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_6 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 136,
+    "y": 259,
+    "yFromTop": 520,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "3_6 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 260,
+    "yFromTop": 520,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c2_6",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 260,
+    "yFromTop": 520,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c1_6",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 260,
+    "yFromTop": 521,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "6 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 259,
+    "yFromTop": 521,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_6 First",
+    "kind": "text",
+    "page": 4,
+    "x": 64,
+    "y": 257,
+    "yFromTop": 523,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_7 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 216,
+    "y": 247,
+    "yFromTop": 532,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "3_7 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 247,
+    "yFromTop": 533,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_7 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 137,
+    "y": 247,
+    "yFromTop": 533,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "c2_7",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 248,
+    "yFromTop": 533,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c1_7",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 247,
+    "yFromTop": 534,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "7 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 247,
+    "yFromTop": 534,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_8 First",
+    "kind": "text",
+    "page": 4,
+    "x": 63,
+    "y": 236,
+    "yFromTop": 544,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_8 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 138,
+    "y": 235,
+    "yFromTop": 544,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "3_8 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 235,
+    "yFromTop": 544,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c1_8",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 235,
+    "yFromTop": 545,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c2_8",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 235,
+    "yFromTop": 546,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "8 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 234,
+    "yFromTop": 546,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "3_9 First",
+    "kind": "text",
+    "page": 4,
+    "x": 64,
+    "y": 226,
+    "yFromTop": 554,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_9 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 136,
+    "y": 224,
+    "yFromTop": 555,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "3_9 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 224,
+    "yFromTop": 555,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "c1_9",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 223,
+    "yFromTop": 557,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "9 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 222,
+    "yFromTop": 558,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "c2_9",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 221,
+    "yFromTop": 559,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "3_10 First",
+    "kind": "text",
+    "page": 4,
+    "x": 62,
+    "y": 212,
+    "yFromTop": 567,
+    "width": 69,
+    "height": 13
+  },
+  {
+    "name": "3_10 SSN",
+    "kind": "text",
+    "page": 4,
+    "x": 215,
+    "y": 212,
+    "yFromTop": 568,
+    "width": 77,
+    "height": 13
+  },
+  {
+    "name": "3_10 Last",
+    "kind": "text",
+    "page": 4,
+    "x": 135,
+    "y": 210,
+    "yFromTop": 569,
+    "width": 78,
+    "height": 13
+  },
+  {
+    "name": "c1_10",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 305,
+    "y": 210,
+    "yFromTop": 571,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "c2_10",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 342,
+    "y": 209,
+    "yFromTop": 571,
+    "width": 11,
+    "height": 11
+  },
+  {
+    "name": "10 child",
+    "kind": "checkbox",
+    "page": 4,
+    "x": 403,
+    "y": 210,
+    "yFromTop": 571,
+    "width": 11,
+    "height": 12
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 5,
+    "x": 44,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 5,
+    "x": 405,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "5A",
+    "kind": "text",
+    "page": 5,
+    "x": 481,
+    "y": 589,
+    "yFromTop": 190,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5B",
+    "kind": "text",
+    "page": 5,
+    "x": 481,
+    "y": 577,
+    "yFromTop": 202,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5C",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 565,
+    "yFromTop": 214,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5D",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 552,
+    "yFromTop": 228,
+    "width": 71,
+    "height": 12
+  },
+  {
+    "name": "5E",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 540,
+    "yFromTop": 240,
+    "width": 71,
+    "height": 12
+  },
+  {
+    "name": "5Fa",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 521,
+    "yFromTop": 259,
+    "width": 71,
+    "height": 12
+  },
+  {
+    "name": "5Fb",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 500,
+    "yFromTop": 279,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5Ga",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 472,
+    "yFromTop": 307,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5Gb",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 442,
+    "yFromTop": 337,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5Gc",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 413,
+    "yFromTop": 366,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5H",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 373,
+    "yFromTop": 406,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5I",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 360,
+    "yFromTop": 419,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5J",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 347,
+    "yFromTop": 432,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5K",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 335,
+    "yFromTop": 444,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5L",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 325,
+    "yFromTop": 456,
+    "width": 71,
+    "height": 11
+  },
+  {
+    "name": "5M",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 312,
+    "yFromTop": 467,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5N",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 300,
+    "yFromTop": 479,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5O",
+    "kind": "text",
+    "page": 5,
+    "x": 483,
+    "y": 288,
+    "yFromTop": 491,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "5P",
+    "kind": "text",
+    "page": 5,
+    "x": 482,
+    "y": 276,
+    "yFromTop": 503,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "1b",
+    "kind": "text",
+    "page": 6,
+    "x": 44,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 142,
+    "height": 13
+  },
+  {
+    "name": "1c",
+    "kind": "text",
+    "page": 6,
+    "x": 405,
+    "y": 731,
+    "yFromTop": 48,
+    "width": 90,
+    "height": 13
+  },
+  {
+    "name": "6A",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 583,
+    "yFromTop": 196,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6B",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 571,
+    "yFromTop": 208,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6C",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 558,
+    "yFromTop": 221,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6D",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 546,
+    "yFromTop": 233,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6E",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 534,
+    "yFromTop": 245,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6F",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 523,
+    "yFromTop": 256,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6G",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 511,
+    "yFromTop": 268,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6H",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 469,
+    "yFromTop": 310,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6I",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 457,
+    "yFromTop": 322,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6J",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 446,
+    "yFromTop": 334,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6K",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 385,
+    "yFromTop": 394,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6L",
+    "kind": "text",
+    "page": 6,
+    "x": 484,
+    "y": 346,
+    "yFromTop": 433,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6M",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 333,
+    "yFromTop": 446,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6N",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 314,
+    "yFromTop": 465,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6O",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 301,
+    "yFromTop": 478,
+    "width": 71,
+    "height": 13
+  },
+  {
+    "name": "6P",
+    "kind": "text",
+    "page": 6,
+    "x": 482,
+    "y": 289,
+    "yFromTop": 490,
+    "width": 72,
+    "height": 13
+  },
+  {
+    "name": "6Q",
+    "kind": "text",
+    "page": 6,
+    "x": 483,
+    "y": 277,
+    "yFromTop": 502,
+    "width": 71,
+    "height": 13
+  }
+]
